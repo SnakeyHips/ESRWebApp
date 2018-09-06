@@ -1,0 +1,43 @@
+<template>
+    <div>
+        <h1>Employees</h1>
+        <p>This component demonstrates fetching data from the server.</p>
+		<p>
+			<button class="btn btn-primary" v-on:click="createEmployee">Create New Employee</button>
+		</p>
+        <table v-if="mount" class="table">
+            <thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Role</th>
+					<th>Skill</th>
+					<th>Address</th>
+					<th>Number</th>
+					<th>Contract Hours</th>
+					<th>Work Pattern</th>
+				</tr>
+            </thead>
+            <tbody>
+				<tr v-for="employee in employees">
+					<td>{{ employee.id }}</td>
+					<td>{{ employee.name }}</td>
+					<td>{{ employee.role }}</td>
+					<td>{{ employee.skill }}</td>
+					<td>{{ employee.address }}</td>
+					<td>{{ employee.number }}</td>
+					<td>{{ employee.contractHours }}</td>
+					<td>{{ employee.workPattern }}</td>
+					<td>
+					<td>
+						<button class="btn btn-default" v-on:click="editEmployee(employee.id)">Edit</button>
+						<button class="btn btn-default" v-on:click="deleteEmployee(employee.id)">Delete</button>
+					</td>
+				</tr>
+            </tbody>
+        </table>
+        <p v-else><em>Loading...</em></p>
+    </div>
+</template>
+
+<script src="./fetchemployee.ts"></script>

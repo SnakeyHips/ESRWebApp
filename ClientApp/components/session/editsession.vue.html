@@ -1,0 +1,45 @@
+﻿<template>
+	<div>
+		<h1>Edit Session</h1>
+		<form v-on:submit.prevent="editSession">
+			<div class="form-group">
+				<label for="edit-date">Date</label>
+				<input class="form-control" id="edit-date" v-model="session.date" disabled />
+			</div>
+			<div class="form-group">
+				<label for="edit-type">Type</label>
+				<input class="form-control" id="edit-type" v-model="session.type" disabled />
+			</div>
+			<div class="form-group">
+				<label for="edit-site">Site</label>
+				<input class="form-control" id="edit-site" v-model="session.site" disabled />
+			</div>
+			<div class="form-group">
+				<label for="edit-time">Clinic Time</label>
+				<input class="form-control" type="time" id="edit-time" v-model="session.time" disabled />
+			</div>
+			<div class="form-group">
+				<label for="edit-lod">LOD</label>
+				<input type="number" step=".1" class="form-control" id="edit-lOD" v-model="session.lod" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-chairs">Chairs</label>
+				<input type="number" class="form-control" id="edit-chairs" v-model="session.chairs" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-occ">OCC</label>
+				<input type="number" class="form-control" id="edit-oCC" v-model="session.occ" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-estimate">Estimate</label>
+				<input type="number" class="form-control" id="edit-estimate" v-model="session.estimate" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Edit</button>
+			<router-link to="/fetchsession">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+	</div>
+</template>
+
+<script src="./editsession.ts"></script>

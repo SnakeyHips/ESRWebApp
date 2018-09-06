@@ -1,0 +1,75 @@
+﻿<template>
+	<div>
+		<h1>Roster Session</h1>
+		<h2>{{ session.day }} - {{ session.date }} - {{ session.site }}</h2>
+		<form v-on:submit.prevent="rosterSession">
+			<div class="form-group row">
+				<div class="col-md-6">
+					<label for="roster-time">Clinic Time</label>
+					<input class="form-control" id="roster-time" type="time" v-model="session.time" disabled />
+				</div>
+				<div class="col-md-6">
+					<label for="roster-type">Type</label>
+					<input class="form-control" id="roster-type" v-model="session.type" disabled />
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-md-6">
+					<label for="roster-lod">LOD</label>
+					<input class="form-control" id="roster-lod" v-model="session.lod" required />
+				</div>
+				<div class="col-md-6">
+					<label for="roster-chairs">Chairs</label>
+					<input class="form-control" id="roster-chairs" v-model="session.chairs" disabled />
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-md-6">
+					<label for="roster-occ">OCC</label>
+					<input class="form-control" id="roster-occ" v-model="session.occ" required />
+				</div>
+				<div class="col-md-6">
+					<label for="roster-estimate">Estimate</label>
+					<input class="form-control" id="roster-estimate" v-model="session.estimate" required />
+				</div>
+			</div>
+			<h3 class="text-center">Roster</h3>
+			<div class="row">
+				<h4 class="col-sm-2 text-center"></h4>
+				<h4 class="col-sm-2 text-center">Staff Name</h4>
+				<h4 class="col-sm-2 text-center">LOD</h4>
+				<h4 class="col-sm-2 text-center">Unsocial</h4>
+				<h4 class="col-sm-2 text-center">OT</h4>
+				<h4 class="col-sm-2 text-center"></h4>
+			</div>
+			<div class="row">
+				<h4 class="col-sm-2">Supervisor</h4>
+			</div>
+			<div class="row">
+				<div class="col-sm-2">
+				</div>
+				<div class="col-sm-2">
+					<input class="form-control" id="roster-sv1Id" v-model="session.sV1Id" required />
+				</div>
+				<div class="col-sm-2">
+					<input class="form-control" id="roster-sv1lod" v-model="session.sV1LOD" required />
+				</div>
+				<div class="col-sm-2">
+					<input class="form-control" id="roster-sv1UNS" v-model="session.sV1UNS" required />
+				</div>
+				<div class="col-sm-2">
+					<input class="form-control" id="roster-sv1OT" v-model="session.sV1OT" required />
+				</div>
+				<div class="col-sm-2">
+					<button class="btn btn-default">Clear</button>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Update</button>
+			<router-link to="/fetchsession">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+	</div>
+</template>
+
+<script src="./rostersession.ts"></script>

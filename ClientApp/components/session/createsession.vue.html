@@ -1,0 +1,45 @@
+﻿<template>
+	<div>
+		<h1>Create Session</h1>
+		<form v-on:submit.prevent="createSession">
+			<div class="form-group">
+				<label for="create-date">Date</label>
+				<input class="form-control" type="date" id="create-date" v-model="session.date" required />
+			</div>
+			<div class="form-group">
+				<label for="create-type">Type</label>
+				<input class="form-control" id="create-type" v-model="session.type" required />
+			</div>
+			<div class="form-group">
+				<label for="create-site">Site</label>
+				<input class="form-control" id="create-site" v-model="session.site" required />
+			</div>
+			<div class="form-group">
+				<label for="create-time">Clinic Time</label>
+				<input class="form-control" type="time" id="create-time" v-model="session.time" required />
+			</div>
+			<div class="form-group">
+				<label for="create-lod">LOD</label>
+				<input type="number" step=".1" class="form-control" id="create-lOD" v-model="session.lod" required />
+			</div>
+			<div class="form-group">
+				<label for="create-chairs">Chairs</label>
+				<input type="number" class="form-control" id="create-chairs" v-model="session.chairs" required />
+			</div>
+			<div class="form-group">
+				<label for="create-occ">OCC</label>
+				<input type="number" class="form-control" id="create-oCC" v-model="session.occ" required />
+			</div>
+			<div class="form-group">
+				<label for="create-estimate">Estimate</label>
+				<input type="number" class="form-control" id="create-estimate" v-model="session.estimate" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Create</button>
+			<router-link to="/fetchsession">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+	</div>
+</template>
+
+<script src="./createsession.ts"></script>

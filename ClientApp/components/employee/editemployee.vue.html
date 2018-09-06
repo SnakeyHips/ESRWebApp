@@ -1,0 +1,46 @@
+﻿<template>
+	<div>
+		<h1>Edit Employee</h1>
+		<form v-on:submit.prevent="editEmployee" v-if="mount">
+			<div class="form-group">
+				<label for="edit-id">Id</label>
+				<input type="number" class="form-control" id="edit-id" v-model="employee.id" disabled />
+			</div>
+			<div class="form-group">
+				<label for="edit-name">Name</label>
+				<input class="form-control" id="edit-name" v-model="employee.name" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-role">Role</label>
+				<input class="form-control" id="edit-role" v-model="employee.role" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-skill">Skill</label>
+				<input class="form-control" id="edit-skill" v-model="employee.skill" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-address">Address</label>
+				<input class="form-control" id="edit-address" v-model="employee.address" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-number">Number</label>
+				<input class="form-control" id="edit-number" v-model="employee.number" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-contractHours">Contract Hours</label>
+				<input class="form-control" id="edit-contracthours" v-model="employee.contractHours" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-workPattern">Work Pattern</label>
+				<input class="form-control" id="edit-workpattern" v-model="employee.workPattern" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Edit</button>
+			<router-link to="/fetchemployee">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+		<p v-else><em>Loading...</em></p>
+	</div>
+</template>
+
+<script src="./editemployee.ts"></script>
