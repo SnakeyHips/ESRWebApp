@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using ERSWebApp.Models;
 using Dapper;
@@ -72,12 +73,12 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        public int CreateRoster(int id, double appointed, double absence, double lowrateu, double highrateu, double overtime, double week)
+        public static int CreateRoster(int id, double appointed, double absence, double lowrateu, double highrateu, double overtime, double week)
         {
             string query = "INSERT INTO RosterTable " +
                 "(Week, EmployeeId, EmployeeName, Role, ContractHours, AppointedHours, AbsenceHours, LowRateUHours, HighRateUHours, OvertimeHours)" +
                 " VALUES (@Week, @Id, @Name, @Role, @ContractHours, @Appointed, @Absence, @Lowrateu, @Highrateu, @Overtime);";
-            Employee employee = EmployeeController.GetById(id);
+            Employee employee = EmployeeController.GetByIdStatic(id);
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
@@ -176,7 +177,7 @@ namespace ERSWebApp.Controllers
             return -1;
         }
 
-        public int UpdateAbsence(int id, double absence, double week)
+        public static int UpdateAbsence(int id, double absence, double week)
         {
             if (id != 0)
             {
@@ -371,37 +372,37 @@ namespace ERSWebApp.Controllers
         [Route("Update")]
         public int Update()
         {
-            Session Before;
-            Session After;
+            Session before;
+            Session after;
             using (StreamReader sr = new StreamReader(Request.Body))
             {
                 List<Session> sessions = JsonConvert.DeserializeObject<List<Session>>(sr.ReadToEnd());
-                Before = sessions[0];
-                After = sessions[1];
+                before = sessions[0];
+                after = sessions[1];
             }
-            switch (After.Holiday)
+            switch (after.Holiday)
             {
                 case 0:
-                    UpdateRoster(Before, After);
+                    UpdateRoster(before, after);
                     System.Diagnostics.Debug.WriteLine("normal");
                     break;
                 case 1:
-                    UpdateRosterLowRate(Before, After);
+                    UpdateRosterLowRate(before, after);
                     System.Diagnostics.Debug.WriteLine("lowrate");
                     break;
                 case 2:
-                    UpdateRosterHighRate(Before, After);
+                    UpdateRosterHighRate(before, after);
                     System.Diagnostics.Debug.WriteLine("highrate");
                     break;
             }
-            return SessionController.UpdateStaff(After);
+            return SessionController.UpdateStaff(after);
         }
 
         public void UpdateRoster(Session Before, Session After)
         {
 
             After.StaffCount = 0;
-            double Week = EmployeeController.GetWeek(After.Date);
+            double Week = GetWeek(After.Date);
             //First check if there is a selected item
             if (After.SV1Id != 0)
             {
@@ -456,7 +457,7 @@ namespace ERSWebApp.Controllers
         public void UpdateRosterLowRate(Session Before, Session After)
         {
             After.StaffCount = 0;
-            double Week = EmployeeController.GetWeek(After.Date);
+            double Week = GetWeek(After.Date);
             //First check if there is a selected item
             if (After.SV1Id != 0)
             {
@@ -504,7 +505,7 @@ namespace ERSWebApp.Controllers
         public void UpdateRosterHighRate(Session Before, Session After)
         {
             After.StaffCount = 0;
-            double Week = EmployeeController.GetWeek(After.Date);
+            double Week = GetWeek(After.Date);
             //First check if there is a selected item
             if (After.SV1Id != 0)
             {
@@ -547,6 +548,15 @@ namespace ERSWebApp.Controllers
                 //Remove staff's appointed hours
                 UpdateHoursHighRate(Before.SV1Id, -Before.SV1LOD, -Before.SV1OT, Week);
             }
+        }
+
+        public static double GetWeek(string stringdate)
+        {
+            DateTime date = DateTime.Parse(stringdate);
+            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+            Calendar cal = dfi.Calendar;
+            return double.Parse(cal.GetWeekOfYear(date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek).ToString()
+                + "." + date.Year.ToString());
         }
     }
 }
