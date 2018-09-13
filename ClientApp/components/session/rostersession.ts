@@ -134,6 +134,10 @@ export default class RosterSessionComponent extends Vue {
 	}
 	
 	employees: Employee[] = [];
+	svs: Employee[] = [];
+	dris: Employee[] = [];
+	rns: Employee[] = [];
+	ccas: Employee[] = [];
 
 	mounted() {
 		//Get session first
@@ -145,15 +149,47 @@ export default class RosterSessionComponent extends Vue {
 				if (this.after.holiday > 0) {
 					this.holiday = true;
 				}
+				//then get available 
+				this.getAvailable();
 			});
+	}
 
-		//Get available employees after
-		fetch('api/Employee/GetAvailable?dayofweek=' + this.after.day)
+	getAvailable() {
+		fetch('api/Employee/GetAvailable?date=' + this.before.date)
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
-				this.mount = true;
+				this.filterRoles();
 			});
+	}
+
+	filterRoles() {
+		for (var i = 0; i < this.employees.length; i++) {
+			switch (this.employees[i].role) {
+				case "SV":
+					this.svs.push(this.employees[i]);
+					break;
+				case "DRI":
+					this.dris.push(this.employees[i]);
+					break;
+				case "RN":
+					this.rns.push(this.employees[i]);
+					break;
+				case "CCA":
+					this.ccas.push(this.employees[i]);
+					break;
+			}
+		}
+		this.mount = true;
+	}
+
+
+
+	clearSV1() {
+		console.log(this.after.sV1Id);
+		console.log(this.after.sV1Name);
+		//var select = (document.getElementById("roster-sv1Id")) as HTMLSelectElement;
+		//select.selectedIndex = -1;
 	}
 
 	rosterSession() {
@@ -172,5 +208,42 @@ export default class RosterSessionComponent extends Vue {
 					this.$router.push('/fetchsession');
 				}
 			})
+	}
+
+	//Set name methods
+	setSV1(name: string) {
+		this.after.sV1Name = name;
+	}
+
+	setDRI1(name: string) {
+		this.after.drI1Name = name;
+	}
+
+	setDRI2(name: string) {
+		this.after.drI2Name = name;
+	}
+
+	setRN1(name: string) {
+		this.after.rN1Name = name;
+	}
+
+	setRN2(name: string) {
+		this.after.rN2Name = name;
+	}
+
+	setRN3(name: string) {
+		this.after.rN3Name = name;
+	}
+
+	setCCA1(name: string) {
+		this.after.ccA1Name = name;
+	}
+
+	setCCA2(name: string) {
+		this.after.ccA2Name = name;
+	}
+
+	setCCA3(name: string) {
+		this.after.ccA3Name = name;
 	}
 }
