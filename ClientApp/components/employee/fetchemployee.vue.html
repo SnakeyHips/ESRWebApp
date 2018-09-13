@@ -1,12 +1,13 @@
 <template>
-    <div>
-        <h1>Employees</h1>
-        <p>This component demonstrates fetching data from the server.</p>
-		<p>
-			<button class="btn btn-primary" v-on:click="createEmployee">Create New Employee</button>
-		</p>
-        <table v-if="mount" class="table">
-            <thead>
+	<div>
+		<h1>Employees</h1>
+		<div class="form-group">
+			<label for="date">Select date:</label>
+			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadEmployees(date)" />
+		</div>
+		<button class="btn btn-primary" v-on:click="createEmployee">Create New Employee</button>
+		<table v-if="mount" class="table">
+			<thead>
 				<tr>
 					<th>Id</th>
 					<th>Name</th>
@@ -16,9 +17,10 @@
 					<th>Number</th>
 					<th>Contract Hours</th>
 					<th>Work Pattern</th>
+					<th>Status</th>
 				</tr>
-            </thead>
-            <tbody>
+			</thead>
+			<tbody>
 				<tr v-for="employee in employees">
 					<td>{{ employee.id }}</td>
 					<td>{{ employee.name }}</td>
@@ -28,16 +30,17 @@
 					<td>{{ employee.number }}</td>
 					<td>{{ employee.contractHours }}</td>
 					<td>{{ employee.workPattern }}</td>
+					<td>{{ employee.status }}</td>
 					<td>
 					<td>
 						<button class="btn btn-default" v-on:click="editEmployee(employee.id)">Edit</button>
 						<button class="btn btn-default" v-on:click="deleteEmployee(employee.id)">Delete</button>
 					</td>
 				</tr>
-            </tbody>
-        </table>
-        <p v-else><em>Loading...</em></p>
-    </div>
+			</tbody>
+		</table>
+		<p v-else><em>Loading...</em></p>
+	</div>
 </template>
 
 <script src="./fetchemployee.ts"></script>
