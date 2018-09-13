@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,16 +7,15 @@ using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Newtonsoft.Json;
-using System.Globalization;
 
 namespace ERSWebApp.Controllers
 {
     [Route("api/[controller]")]
     public class EmployeeController : Controller
     {
-        [HttpGet]
+        [HttpGet("{date}")]
         [Route("GetEmployees")]
-        public List<Employee> GetEmployees()
+        public List<Employee> GetEmployees(string date)
         {
             string query = "SELECT * FROM EmployeeTable;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -24,7 +23,9 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return new List<Employee>(conn.Query<Employee>(query).ToList());
+                    List<Employee> employees = conn.Query<Employee>(query).ToList();
+                    GetStatuses(employees, AbsenceController.GetAbsencesStatic(date));
+                    return employees;
                 }
                 catch (Exception ex)
                 {
@@ -69,7 +70,12 @@ namespace ERSWebApp.Controllers
 
         [HttpGet("{id}")]
         [Route("GetById")]
-        public static Employee GetById(int id)
+        public Employee GetById(int id)
+        {
+            return GetByIdStatic(id);
+        }
+
+        public static Employee GetByIdStatic(int id)
         {
             string query = "SELECT * FROM EmployeeTable WHERE Id=@Id;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -147,14 +153,15 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{dayofweek}")]
+        [HttpGet("{date}")]
         [Route("GetAvailable")]
-        public List<Employee> GetAvailable(string dayofweek)
+        public List<Employee> GetAvailable(string date)
         {
-            List<Employee> available = GetEmployees();
+            List<Employee> available = GetEmployees(date);
+            DateTime datetime = DateTime.Parse(date);
             foreach (Employee e in available)
-            { 
-                if (e.Status == "Okay" && e.WorkPattern.Contains(dayofweek.Substring(0, 3)))
+            {
+                if (e.Status == "Okay" && e.WorkPattern.Contains(datetime.DayOfWeek.ToString().Substring(0, 3)))
                 {
                     available.Add(e);
                 }
@@ -162,15 +169,21 @@ namespace ERSWebApp.Controllers
             return available;
         }
 
-        [HttpGet("{stringdate}")]
-        [Route("GetWeek")]
-        public static double GetWeek(string stringdate)
+        public static void GetStatuses(List<Employee> employees, List<Absence> absences)
         {
-            DateTime date = DateTime.Parse(stringdate);
-            DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
-            Calendar cal = dfi.Calendar;
-            return double.Parse(cal.GetWeekOfYear(date, dfi.CalendarWeekRule, dfi.FirstDayOfWeek).ToString()
-                + "." + date.Year.ToString());
+            for (int i = 0; i < employees.Count; i++)
+            {
+                string status = "Okay";
+                for (int j = 0; j < absences.Count; j++)
+                {
+                    if (absences[j].StaffId == employees[i].Id)
+                    {
+                        status = absences[j].Type;
+                        break;
+                    }
+                }
+                employees[i].Status = status;
+            }
         }
 
         //public void EmployeeCSV()
