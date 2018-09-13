@@ -184,21 +184,51 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	rosterSession() {
-		let sessions: Session[] = [];
-		sessions.push(this.before);
-		sessions.push(this.after);
-		fetch('api/Roster/Update', {
-			method: 'PUT',
-			body: JSON.stringify(sessions)
-		})
-			.then(response => response.json() as Promise<number>)
-			.then(data => {
-				if (data < 1) {
-					alert("Failed to create update Roster");
-				} else {
-					this.$router.push('/fetchsession');
-				}
+		if (!this.checkDuplicates()) {
+			let sessions: Session[] = [];
+			sessions.push(this.before);
+			sessions.push(this.after);
+			fetch('api/Roster/Update', {
+				method: 'PUT',
+				body: JSON.stringify(sessions)
 			})
+				.then(response => response.json() as Promise<number>)
+				.then(data => {
+					if (data < 1) {
+						alert("Failed to create update Roster");
+					} else {
+						this.$router.push('/fetchsession');
+					}
+				})
+		}
+	}
+
+	//Check for duplicates selected
+	checkDuplicates() {
+		let duplicate: boolean = false;
+		if (this.after.drI1Id === this.after.drI2Id) {
+			alert("Duplicate driver 1 and 2 found.");
+			duplicate = true;
+		} else if (this.after.rN1Id === this.after.rN2Id) {
+			alert("Duplicate RN 1 and 2 found.");
+			duplicate = true;
+		} else if (this.after.rN1Id === this.after.rN3Id) {
+			alert("Duplicate RN 1 and 3 found.");
+			duplicate = true;
+		} else if (this.after.rN2Id === this.after.rN3Id) {
+			alert("Duplicate RN 2 and 3 found.");
+			duplicate = true;
+		} else if (this.after.ccA1Id === this.after.ccA2Id) {
+			alert("Duplicate CCA 1 and 2 found.");
+			duplicate = true;
+		} else if (this.after.ccA1Id === this.after.ccA3Id) {
+			alert("Duplicate CCA 1 and 3 found.");
+			duplicate = true;
+		} else if (this.after.ccA2Id === this.after.ccA3Id) {
+			alert("Duplicate CCA 2 and 3 found.");
+			duplicate = true;
+		}
+		return duplicate;
 	}
 
 	//Set name methods
