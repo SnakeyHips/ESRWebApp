@@ -1,4 +1,4 @@
-﻿import Vue from 'vue';
+import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Session } from '../../models/session';
 import { Employee } from '../../models/employee';
@@ -7,7 +7,9 @@ import { Employee } from '../../models/employee';
 export default class RosterSessionComponent extends Vue {
 
 	mount: boolean = false;
-	session: Session = {
+	holiday: boolean = false;
+
+	before: Session = {
 		id: 0,
 		date: "",
 		day: "",
@@ -69,7 +71,7 @@ export default class RosterSessionComponent extends Vue {
 		state: 0
 	}
 
-	before: Session = {
+	after: Session = {
 		id: 0,
 		date: "",
 		day: "",
@@ -138,12 +140,15 @@ export default class RosterSessionComponent extends Vue {
 		fetch('api/Session/GetById?id=' + this.$route.params.id)
 			.then(respone => respone.json() as Promise<Session>)
 			.then(data => {
-				this.session = data;
 				this.before = JSON.parse(JSON.stringify(data));
+				this.after = data;
+				if (this.after.holiday > 0) {
+					this.holiday = true;
+				}
 			});
 
 		//Get available employees after
-		fetch('api/Employee/GetAvailable?dayofweek=' + this.session.day)
+		fetch('api/Employee/GetAvailable?dayofweek=' + this.after.day)
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
@@ -154,7 +159,7 @@ export default class RosterSessionComponent extends Vue {
 	rosterSession() {
 		let sessions: Session[] = [];
 		sessions.push(this.before);
-		sessions.push(this.session);
+		sessions.push(this.after);
 		fetch('api/Roster/Update', {
 			method: 'PUT',
 			body: JSON.stringify(sessions)
