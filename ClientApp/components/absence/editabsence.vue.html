@@ -1,0 +1,38 @@
+<template>
+	<div>
+		<h1>Edit Absence</h1>
+		<form v-on:submit.prevent="editAbsence" v-if="mount">
+			<div class="form-group">
+				<label for="edit-staffId">Staff Id</label>
+				<input type="number" class="form-control" id="edit-staffid" v-model="after.staffId" disabled />
+			</div>
+			<div class="form-group">
+				<label for="edit-staffName">Staff Name</label>
+				<input class="form-control" id="edit-staffname" v-model="after.staffName" disabled />
+			</div>
+			<div class="form-group">
+				<label for="edit-type">Type</label>
+				<input class="form-control" id="edit-type" v-model="after.type" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-startDate">Start Date</label>
+				<input class="form-control" id="edit-startDate" v-model="after.startDate" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-endDate">End Date</label>
+				<input class="form-control" id="edit-endDate" v-model="after.endDate" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-hours">Hours</label>
+				<input class="form-control" id="edit-hours" v-model="after.hours" type="number" step=".01" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Edit</button>
+			<router-link to="/fetchabsence">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+		<p v-else><em>Loading...</em></p>
+	</div>
+</template>
+
+<script src="./editabsence.ts"></script>
