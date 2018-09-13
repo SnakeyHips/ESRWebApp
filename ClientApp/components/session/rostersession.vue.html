@@ -55,7 +55,7 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-sV1lod" v-model="after.sV1LOD" required />
+						<input class="form-control" id="roster-sV1LOD" v-model="after.sV1LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-sV1UNS" v-model="after.sV1UNS" required />
@@ -79,7 +79,7 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI1lod" v-model="after.drI1LOD" required />
+						<input class="form-control" id="roster-drI1LOD" v-model="after.drI1LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-drI1UNS" v-model="after.drI1UNS" required />
@@ -88,7 +88,7 @@
 						<input class="form-control" id="roster-drI1OT" v-model="after.drI1OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearDRI1">Clear</button>
 					</div>
 				</div>
 				<div class="row">
@@ -100,7 +100,7 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI2lod" v-model="after.drI2LOD" required />
+						<input class="form-control" id="roster-drI2LOD" v-model="after.drI2LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-drI2UNS" v-model="after.drI2UNS" required />
@@ -109,7 +109,7 @@
 						<input class="form-control" id="roster-drI2OT" v-model="after.drI2OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearDRI2">Clear</button>
 					</div>
 				</div>
 				<div class="row">
@@ -124,7 +124,7 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN1lod" v-model="after.rN1LOD" required />
+						<input class="form-control" id="roster-rN1LOD" v-model="after.rN1LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-rN1UNS" v-model="after.rN1UNS" required />
@@ -133,7 +133,7 @@
 						<input class="form-control" id="roster-rN1OT" v-model="after.rN1OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearRN1">Clear</button>
 						</div>
 					</div>
 					<div class="row">
@@ -145,7 +145,7 @@
 							</select>
 						</div>
 						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN2lod" v-model="after.rN2LOD" required />
+							<input class="form-control" id="roster-rN2LOD" v-model="after.rN2LOD" required />
 						</div>
 						<div class="col-sm-2">
 							<input class="form-control" id="roster-rN2UNS" v-model="after.rN2UNS" required />
@@ -154,7 +154,7 @@
 							<input class="form-control" id="roster-rN2OT" v-model="after.rN2OT" required />
 						</div>
 						<div class="col-sm-2">
-							<button class="btn btn-default">Clear</button>
+							<button class="btn btn-default" type="button" v-on:click="clearRN2">Clear</button>
 						</div>
 					</div>
 					<div class="row">
@@ -166,7 +166,7 @@
 							</select>
 						</div>
 						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN3lod" v-model="after.rN3LOD" required />
+							<input class="form-control" id="roster-rN3LOD" v-model="after.rN3LOD" required />
 						</div>
 						<div class="col-sm-2">
 							<input class="form-control" id="roster-rN3UNS" v-model="after.rN3UNS" required />
@@ -175,7 +175,7 @@
 							<input class="form-control" id="roster-rN3OT" v-model="after.rN3OT" required />
 						</div>
 						<div class="col-sm-2">
-							<button class="btn btn-default">Clear</button>
+							<button class="btn btn-default" type="button" v-on:click="clearRN3">Clear</button>
 						</div>
 					</div>
 					<div class="row">
@@ -190,7 +190,7 @@
 							</select>
 						</div>
 						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA1lod" v-model="after.ccA1LOD" required />
+							<input class="form-control" id="roster-ccA1LOD" v-model="after.ccA1LOD" required />
 						</div>
 						<div class="col-sm-2">
 							<input class="form-control" id="roster-ccA1UNS" v-model="after.ccA1UNS" required />
@@ -199,7 +199,7 @@
 							<input class="form-control" id="roster-ccA1OT" v-model="after.ccA1OT" required />
 						</div>
 						<div class="col-sm-2">
-							<button class="btn btn-default">Clear</button>
+							<button class="btn btn-default" type="button" v-on:click="clearCCA1">Clear</button>
 						</div>
 					</div>
 					<div class="row">
@@ -211,7 +211,7 @@
 							</select>
 						</div>
 						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA2lod" v-model="after.ccA2LOD" required />
+							<input class="form-control" id="roster-ccA2LOD" v-model="after.ccA2LOD" required />
 						</div>
 						<div class="col-sm-2">
 							<input class="form-control" id="roster-ccA2UNS" v-model="after.ccA2UNS" required />
@@ -220,7 +220,7 @@
 							<input class="form-control" id="roster-ccA2OT" v-model="after.ccA2OT" required />
 						</div>
 						<div class="col-sm-2">
-							<button class="btn btn-default">Clear</button>
+							<button class="btn btn-default" type="button" v-on:click="clearCCA2">Clear</button>
 						</div>
 					</div>
 					<div class="row">
@@ -232,7 +232,7 @@
 							</select>
 						</div>
 						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA3lod" v-model="after.ccA3LOD" required />
+							<input class="form-control" id="roster-ccA3LOD" v-model="after.ccA3LOD" required />
 						</div>
 						<div class="col-sm-2">
 							<input class="form-control" id="roster-ccA3UNS" v-model="after.ccA3UNS" required />
@@ -241,7 +241,7 @@
 							<input class="form-control" id="roster-ccA3OT" v-model="after.ccA3OT" required />
 						</div>
 						<div class="col-sm-2">
-							<button class="btn btn-default">Clear</button>
+							<button class="btn btn-default" type="button" v-on:click="clearCCA3">Clear</button>
 						</div>
 					</div>
 				</div>
@@ -266,7 +266,7 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-sV1lod" v-model="after.sV1LOD" required />
+						<input class="form-control" id="roster-sV1LOD" v-model="after.sV1LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-sV1OT" v-model="after.sV1OT" required />
@@ -289,13 +289,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI1lod" v-model="after.drI1LOD" required />
+						<input class="form-control" id="roster-drI1LOD" v-model="after.drI1LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-drI1OT" v-model="after.drI1OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearDRI1">Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
@@ -309,13 +309,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI2lod" v-model="after.drI2LOD" required />
+						<input class="form-control" id="roster-drI2LOD" v-model="after.drI2LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-drI2OT" v-model="after.drI2OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearDRI2">>Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
@@ -332,13 +332,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN1lod" v-model="after.rN1LOD" required />
+						<input class="form-control" id="roster-rN1LOD" v-model="after.rN1LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-rN1OT" v-model="after.rN1OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearRN1">Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
@@ -352,13 +352,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN2lod" v-model="after.rN2LOD" required />
+						<input class="form-control" id="roster-rN2LOD" v-model="after.rN2LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-rN2OT" v-model="after.rN2OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearRN2">Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
@@ -372,13 +372,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN3lod" v-model="after.rN3LOD" required />
+						<input class="form-control" id="roster-rN3LOD" v-model="after.rN3LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-rN3OT" v-model="after.rN3OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearRN3">Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
@@ -395,13 +395,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA1lod" v-model="after.ccA1LOD" required />
+						<input class="form-control" id="roster-ccA1LOD" v-model="after.ccA1LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-ccA1OT" v-model="after.ccA1OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearCCA1">Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
@@ -415,13 +415,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA2lod" v-model="after.ccA2LOD" required />
+						<input class="form-control" id="roster-ccA2LOD" v-model="after.ccA2LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-ccA2OT" v-model="after.ccA2OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearCCA2">Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
@@ -435,13 +435,13 @@
 						</select>
 					</div>
 					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA3lod" v-model="after.ccA3LOD" required />
+						<input class="form-control" id="roster-ccA3LOD" v-model="after.ccA3LOD" required />
 					</div>
 					<div class="col-sm-2">
 						<input class="form-control" id="roster-ccA3OT" v-model="after.ccA3OT" required />
 					</div>
 					<div class="col-sm-2">
-						<button class="btn btn-default">Clear</button>
+						<button class="btn btn-default" type="button" v-on:click="clearCCA3">Clear</button>
 					</div>
 					<div class="col-sm-2">
 					</div>
