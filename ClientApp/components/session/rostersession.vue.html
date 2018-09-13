@@ -1,74 +1,110 @@
-﻿<template>
+<template>
 	<div>
 		<h1>Roster Session</h1>
 		<h2>{{ session.day }} - {{ session.date }} - {{ session.site }}</h2>
-		<form v-on:submit.prevent="rosterSession">
+		<form v-on:submit.prevent="rosterSession" v-if="mount">
 			<div class="form-group row">
 				<div class="col-md-6">
 					<label for="roster-time">Clinic Time</label>
-					<input class="form-control" id="roster-time" type="time" v-model="session.time" disabled />
+					<input class="form-control" id="roster-time" type="time" v-model="after.time" disabled />
 				</div>
 				<div class="col-md-6">
 					<label for="roster-type">Type</label>
-					<input class="form-control" id="roster-type" v-model="session.type" disabled />
+					<input class="form-control" id="roster-type" v-model="after.type" disabled />
 				</div>
 			</div>
 			<div class="form-group row">
 				<div class="col-md-6">
 					<label for="roster-lod">LOD</label>
-					<input class="form-control" id="roster-lod" v-model="session.lod" required />
+					<input class="form-control" id="roster-lod" v-model="after.lod" required />
 				</div>
 				<div class="col-md-6">
 					<label for="roster-chairs">Chairs</label>
-					<input class="form-control" id="roster-chairs" v-model="session.chairs" disabled />
+					<input class="form-control" id="roster-chairs" v-model="after.chairs" disabled />
 				</div>
 			</div>
 			<div class="form-group row">
 				<div class="col-md-6">
 					<label for="roster-occ">OCC</label>
-					<input class="form-control" id="roster-occ" v-model="session.occ" required />
+					<input class="form-control" id="roster-occ" v-model="after.occ" required />
 				</div>
 				<div class="col-md-6">
 					<label for="roster-estimate">Estimate</label>
-					<input class="form-control" id="roster-estimate" v-model="session.estimate" required />
+					<input class="form-control" id="roster-estimate" v-model="after.estimate" required />
 				</div>
 			</div>
 			<h3 class="text-center">Roster</h3>
-			<div class="row">
-				<h4 class="col-sm-2 text-center"></h4>
-				<h4 class="col-sm-2 text-center">Staff Name</h4>
-				<h4 class="col-sm-2 text-center">LOD</h4>
-				<h4 class="col-sm-2 text-center">Unsocial</h4>
-				<h4 class="col-sm-2 text-center">OT</h4>
-				<h4 class="col-sm-2 text-center"></h4>
+			<div v-if="!holiday">
+				<div class="row">
+					<h4 class="col-sm-2 text-center"></h4>
+					<h4 class="col-sm-2 text-center">Staff Name</h4>
+					<h4 class="col-sm-2 text-center">LOD</h4>
+					<h4 class="col-sm-2 text-center">Unsocial</h4>
+					<h4 class="col-sm-2 text-center">OT</h4>
+					<h4 class="col-sm-2 text-center"></h4>
+				</div>
+				<div class="row">
+					<h4 class="col-sm-2">Supervisor</h4>
+				</div>
+				<div class="row">
+					<div class="col-sm-2">
+					</div>
+					<div class="col-sm-2">
+						<input class="form-control" id="roster-sv1Id" v-model="after.sV1Id" required />
+					</div>
+					<div class="col-sm-2">
+						<input class="form-control" id="roster-sv1lod" v-model="after.sV1LOD" required />
+					</div>
+					<div class="col-sm-2">
+						<input class="form-control" id="roster-sv1UNS" v-model="after.sV1UNS" required />
+					</div>
+					<div class="col-sm-2">
+						<input class="form-control" id="roster-sv1OT" v-model="after.sV1OT" required />
+					</div>
+					<div class="col-sm-2">
+						<button class="btn btn-default">Clear</button>
+					</div>
+				</div>
 			</div>
-			<div class="row">
-				<h4 class="col-sm-2">Supervisor</h4>
-			</div>
-			<div class="row">
-				<div class="col-sm-2">
+			<div v-if="holiday">
+				<div class="row">
+					<h4 class="col-sm-2 text-center"></h4>
+					<h4 class="col-sm-2 text-center">Staff Name</h4>
+					<h4 class="col-sm-2 text-center">LOD</h4>
+					<h4 class="col-sm-2 text-center">OT</h4>
+					<h4 class="col-sm-2 text-center"></h4>
+					<h4 class="col-sm-2 text-center"></h4>
 				</div>
-				<div class="col-sm-2">
-					<input class="form-control" id="roster-sv1Id" v-model="session.sV1Id" required />
+				<div class="row">
+					<h4 class="col-sm-2">Supervisor</h4>
 				</div>
-				<div class="col-sm-2">
-					<input class="form-control" id="roster-sv1lod" v-model="session.sV1LOD" required />
-				</div>
-				<div class="col-sm-2">
-					<input class="form-control" id="roster-sv1UNS" v-model="session.sV1UNS" required />
-				</div>
-				<div class="col-sm-2">
-					<input class="form-control" id="roster-sv1OT" v-model="session.sV1OT" required />
-				</div>
-				<div class="col-sm-2">
-					<button class="btn btn-default">Clear</button>
+				<div class="row">
+					<div class="col-sm-2">
+					</div>
+					<div class="col-sm-2">
+						<input class="form-control" id="roster-sv1Id" v-model="after.sV1Id" required />
+					</div>
+					<div class="col-sm-2">
+						<input class="form-control" id="roster-sv1lod" v-model="after.sV1LOD" required />
+					</div>
+					<div class="col-sm-2">
+						<input class="form-control" id="roster-sv1OT" v-model="after.sV1OT" required />
+					</div>
+					<div class="col-sm-2">
+						<button class="btn btn-default">Clear</button>
+					</div>
+					<div class="col-sm-2">
+					</div>
 				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">Update</button>
 			<router-link to="/fetchsession">
 				<a class="btn btn-default">Cancel</a>
 			</router-link>
+			<div v-if="holiday">
+			</div>
 		</form>
+		<p v-else><em>Loading...</em></p>
 	</div>
 </template>
 
