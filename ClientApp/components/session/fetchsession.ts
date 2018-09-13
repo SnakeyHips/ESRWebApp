@@ -5,14 +5,17 @@ import { Session } from '../../models/session';
 @Component
 export default class FetchSessionComponent extends Vue {
 	sessions: Session[] = [];
-	mount: boolean = false;
+	date: string = "";
+	mount: boolean = true;
 
 	mounted() {
-		this.loadSessions();
+		this.date = new Date().toISOString().slice(0, 10);
+		this.loadSessions(this.date);
 	}
 
-	loadSessions() {
-		fetch('api/Session/GetSessions')
+	loadSessions(date: string) {
+		this.mount = false;
+		fetch('api/Session/GetSessions?date=' + date)
 			.then(response => response.json() as Promise<Session[]>)
 			.then(data => {
 				this.sessions = data;
@@ -43,7 +46,7 @@ export default class FetchSessionComponent extends Vue {
 					if (data < 1) {
 						alert("Failed to delete Session. Please make sure you are still connected.");
 					} else {
-						this.loadSessions();
+						this.loadSessions(this.date);
 					}
 				})
 		}
