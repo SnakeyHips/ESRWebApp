@@ -13,6 +13,9 @@ const routes = [
 		{ path: '/createsession', component: require('./components/session/createsession.vue.html').default },
 		{ path: '/editsession/:id', component: require('./components/session/editsession.vue.html').default },
 		{ path: '/rostersession/:id', component: require('./components/session/rostersession.vue.html').default },
+		{ path: '/fetchabsence', component: require('./components/absence/fetchabsence.vue.html').default },
+		{ path: '/createabsence', component: require('./components/absence/createabsence.vue.html').default },
+		{ path: '/editabsence/:id', component: require('./components/absence/editabsence.vue.html').default },
 ];
 
 new Vue({
