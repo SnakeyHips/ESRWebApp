@@ -5,14 +5,16 @@ import { Employee } from '../../models/employee';
 @Component
 export default class FetchEmployeeComponent extends Vue {
 	employees: Employee[] = [];
+	date: string = "";
 	mount: boolean = false;
 
 	mounted() {
-		this.loadEmployees();
+		this.date = new Date().toISOString().slice(0, 10);
+		this.loadEmployees(this.date);
 	}
 
-	loadEmployees() {
-		fetch('api/Employee/GetEmployees')
+	loadEmployees(date: string) {
+		fetch('api/Employee/GetEmployees?date=' + date)
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
@@ -39,7 +41,7 @@ export default class FetchEmployeeComponent extends Vue {
 					if (data < 1) {
 						alert("Failed to delete employee. Please make sure you are still connected.");
 					} else {
-						this.loadEmployees();
+						this.loadEmployees(this.date);
 					}
 				})
 		}
