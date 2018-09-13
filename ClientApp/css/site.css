@@ -4,3 +4,17 @@
         padding-top: 50px;
     }
 }
+
+/* do print stlye here */
+@media print {
+	body {
+	}
+
+	.col-sm-9{
+		width: 100%;
+	}
+
+	.btn {
+		display: none;
+	}
+} 
