@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,17 +14,17 @@ namespace ERSWebApp.Controllers
     public class SessionController : Controller
     {
 
-        [HttpGet]
+        [HttpGet("{date}")]
         [Route("GetSessions")]
-        public List<Session> GetSessions()
+        public List<Session> GetSessions(string date)
         {
-            string query = "SELECT * FROM SessionTable;";
+            string query = "SELECT * FROM SessionTable WHERE Date=@Date;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
                 {
                     conn.Open();
-                    return new List<Session>(conn.Query<Session>(query).ToList());
+                    return conn.Query<Session>(query, new { date }).ToList();
                 }
                 catch (Exception ex)
                 {
@@ -234,6 +234,26 @@ namespace ERSWebApp.Controllers
             }
         }
 
+        [HttpGet("{type}")]
+        [Route("GetSites")]
+        public List<Site> GetSites(string type)
+        {
+            string query = "SELECT * FROM SiteTable WHERE Type=@Type;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<Site>(query, new { type }).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<Site>();
+                }
+            }
+        }
+
         //Method for checking if selected date is weekend/holiday
         public int CheckHoliday(string date, string day)
         {
@@ -258,5 +278,37 @@ namespace ERSWebApp.Controllers
             //}
             return holiday;
         }
+
+        //Method for sites csv to table
+        //public static int AddSites()
+        //{
+        //    List<Site> sites = new List<Site>();
+        //    StreamReader file = new StreamReader("C:\\Source\\ERSWebApp\\ESRWebApp\\Sites.csv");
+        //    string line;
+        //    while ((line = file.ReadLine()) != null)
+        //    {
+        //        string[] array = line.Split(',');
+        //        sites.Add(new Site()
+        //        {
+        //            Name = array[0],
+        //            Type = array[1],
+        //            Times = array[2]
+        //        });
+        //    }
+        //    string query = "INSERT INTO SiteTable (Name, Type, Times)" +
+        //            "VALUES (@Name, @Type, @Times);";
+        //    using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+        //    {
+        //        try
+        //        {
+        //            conn.Open();
+        //            return conn.Execute(query, sites);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            return -1;
+        //        }
+        //    }
+        //}
     }
 }
