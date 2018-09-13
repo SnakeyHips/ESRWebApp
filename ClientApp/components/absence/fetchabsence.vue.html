@@ -1,0 +1,40 @@
+<template>
+	<div>
+		<h1>Absences</h1>
+		<div class="form-group">
+			<label for="date">Select date:</label>
+			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadAbsences(date)" />
+		</div>
+		<button class="btn btn-primary" v-on:click="createAbsence">Create New Absence</button>
+		<table v-if="mount" class="table">
+			<thead>
+				<tr>
+					<th>Staff Id</th>
+					<th>Staff Name</th>
+					<th>Type</th>
+					<th>Start Date</th>
+					<th>End Date</th>
+					<th>Hours</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="absence in absences">
+					<td>{{ absence.staffId }}</td>
+					<td>{{ absence.staffName }}</td>
+					<td>{{ absence.type }}</td>
+					<td>{{ absence.startDate }}</td>
+					<td>{{ absence.endDate }}</td>
+					<td>{{ absence.hours }}</td>
+					<td>
+					<td>
+						<button class="btn btn-default" v-on:click="editAbsence(absence.id)">Edit</button>
+						<button class="btn btn-default" v-on:click="deleteAbsence(absence.id)">Delete</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p v-else><em>Loading...</em></p>
+	</div>
+</template>
+
+<script src="./fetchabsence.ts"></script>
