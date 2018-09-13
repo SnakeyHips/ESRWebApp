@@ -1,31 +1,32 @@
 <template>
-    <div>
-        <h1>Sessions</h1>
-        <p>This component demonstrates fetching data from the server.</p>
-		<p>
-			<button class="btn btn-primary" v-on:click="createSession">Create New Session</button>
-		</p>
-        <table v-if="mount" class="table">
-            <thead>
+	<div>
+		<h1>Sessions</h1>
+		<div class="form-group">
+			<label for="date">Select date:</label>
+			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadSessions(date)" />
+		</div>
+		<button class="btn btn-primary" v-on:click="createSession">Create New Session</button>
+		<table v-if="mount" class="table">
+			<thead>
 				<tr>
 					<th>Date</th>
-					<th>Site</th>
-					<th>Time</th>
-					<th>LOD</th>
 					<th>Type</th>
+					<th>Site</th>
+					<th>Clinic Time</th>
+					<th>LOD</th>
 					<th>Chairs</th>
 					<th>OCC</th>
 					<th>Estimate</th>
 					<th>StaffCount</th>
 				</tr>
-            </thead>
-            <tbody>
+			</thead>
+			<tbody>
 				<tr v-for="session in sessions">
 					<td>{{ session.date }}</td>
+					<td>{{ session.type }}</td>
 					<td>{{ session.site }}</td>
 					<td>{{ session.time }}</td>
 					<td>{{ session.lod }}</td>
-					<td>{{ session.type }}</td>
 					<td>{{ session.chairs }}</td>
 					<td>{{ session.occ }}</td>
 					<td>{{ session.estimate }}</td>
@@ -37,10 +38,10 @@
 						<button class="btn btn-default" v-on:click="deleteSession(session.id)">Delete</button>
 					</td>
 				</tr>
-            </tbody>
-        </table>
-        <p v-else><em>Loading...</em></p>
-    </div>
+			</tbody>
+		</table>
+		<p v-else><em>Loading...</em></p>
+	</div>
 </template>
 
 <script src="./fetchsession.ts"></script>
