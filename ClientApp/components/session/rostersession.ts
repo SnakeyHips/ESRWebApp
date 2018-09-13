@@ -272,117 +272,162 @@ export default class RosterSessionComponent extends Vue {
 	clearSV1() {
 		var select = (document.getElementById("roster-sV1Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.sV1Id = 0;
+		this.after.sV1Name = "";
 		var lod = (document.getElementById("roster-sV1LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.sV1LOD = 0;
 		var ot = (document.getElementById("roster-sV1OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.sV1OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-sV1UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.sV1UNS = 0;
 		}
 	}
 
 	clearDRI1() {
 		var select = (document.getElementById("roster-drI1Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.drI1Id = 0;
+		this.after.drI1Name = "";
 		var lod = (document.getElementById("roster-drI1LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.drI1LOD = 0;
 		var ot = (document.getElementById("roster-drI1OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.drI1OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-drI1UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.drI1UNS = 0;
 		}
 	}
 
 	clearDRI2() {
 		var select = (document.getElementById("roster-drI2Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.drI2Id = 0;
+		this.after.drI2Name = "";
 		var lod = (document.getElementById("roster-drI2LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.drI2LOD = 0;
 		var ot = (document.getElementById("roster-drI2OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.drI2OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-drI2UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.drI2UNS = 0;
 		}
 	}
 
 	clearRN1() {
 		var select = (document.getElementById("roster-rN1Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.rN1Id = 0;
+		this.after.rN1Name = "";
 		var lod = (document.getElementById("roster-rN1LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.rN1LOD = 0;
 		var ot = (document.getElementById("roster-rN1OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.rN1OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-rN1UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.rN1UNS = 0;
 		}
 	}
 
 	clearRN2() {
 		var select = (document.getElementById("roster-rN2Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.rN2Id = 0;
+		this.after.rN2Name = "";
 		var lod = (document.getElementById("roster-rN2LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.rN2LOD = 0;
 		var ot = (document.getElementById("roster-rN2OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.rN2OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-rN2UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.rN2UNS = 0;
 		}
 	}
 
 	clearRN3() {
 		var select = (document.getElementById("roster-rN3Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.rN3Id = 0;
+		this.after.rN3Name = "";
 		var lod = (document.getElementById("roster-rN3LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.rN3LOD = 0;
 		var ot = (document.getElementById("roster-rN3OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.rN3OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-rN3UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.rN3UNS = 0;
 		}
 	}
 
 	clearCCA1() {
 		var select = (document.getElementById("roster-ccA1Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.ccA1Id = 0;
+		this.after.ccA1Name = "";
 		var lod = (document.getElementById("roster-ccA1LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.ccA1LOD = 0;
 		var ot = (document.getElementById("roster-ccA1OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.ccA1OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-ccA1UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.ccA1UNS = 0;
 		}
 	}
 
 	clearCCA2() {
 		var select = (document.getElementById("roster-ccA2Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.ccA2Id = 0;
+		this.after.ccA2Name = "";
 		var lod = (document.getElementById("roster-ccA2LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.ccA2LOD = 0;
 		var ot = (document.getElementById("roster-ccA2OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.ccA2OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-ccA2UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.ccA2UNS = 0;
 		}
 	}
 
 	clearCCA3() {
 		var select = (document.getElementById("roster-ccA3Id")) as HTMLSelectElement;
 		select.selectedIndex = -1;
+		this.after.ccA3Id = 0;
+		this.after.ccA3Name = "";
 		var lod = (document.getElementById("roster-ccA3LOD")) as HTMLSelectElement;
 		lod.value = "0";
+		this.after.ccA3LOD = 0;
 		var ot = (document.getElementById("roster-ccA3OT")) as HTMLSelectElement;
 		ot.value = "0";
+		this.after.ccA3OT = 0;
 		if (this.after.holiday == 0) {
 			var uns = (document.getElementById("roster-ccA3UNS")) as HTMLSelectElement;
 			uns.value = "0";
+			this.after.ccA3UNS = 0;
 		}
 	}
 }
