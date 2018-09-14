@@ -34,9 +34,24 @@
 				<label for="create-contractHours">Contract Hours</label>
 				<input class="form-control" id="create-contractHours" v-model="employee.contractHours" required />
 			</div>
-			<div class="form-group">
+						<div class="form-group">
 				<label for="create-workPattern">Work Pattern</label>
-				<input class="form-control" id="create-workPattern" v-model="employee.workPattern" required />
+				<div class="row">
+					<label for="Mon">Mon:</label>
+					<input id="Mon" type="checkbox" value="Mon" v-model="workpattern" />
+					<label for="Tue">Tue:</label>
+					<input id="Tue" type="checkbox" value="Tue" v-model="workpattern" />
+					<label for="Web">Wed:</label>
+					<input id="Wed" type="checkbox" value="Wed" v-model="workpattern" />
+					<label for="Thu">Thu:</label>
+					<input id="Thu" type="checkbox" value="Thu" v-model="workpattern" />
+					<label for="Fri">Fri:</label>
+					<input id="Fri" type="checkbox" value="Fri" v-model="workpattern" />
+					<label for="Sat">Sat:</label>
+					<input id="Sat" type="checkbox" value="Sat" v-model="workpattern" />
+					<label for="Sun">Sun:</label>
+					<input id="Sun" type="checkbox" value="Sun" v-model="workpattern" />
+				</div>
 			</div>
 			<button type="submit" class="btn btn-primary">Create</button>
 			<router-link to="/fetchemployee">
