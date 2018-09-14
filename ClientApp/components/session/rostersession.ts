@@ -206,27 +206,53 @@ export default class RosterSessionComponent extends Vue {
 	//Check for duplicates selected
 	checkDuplicates() {
 		let duplicate: boolean = false;
-		if (this.after.drI1Id === this.after.drI2Id) {
-			alert("Duplicate driver 1 and 2 found.");
-			duplicate = true;
-		} else if (this.after.rN1Id === this.after.rN2Id) {
-			alert("Duplicate RN 1 and 2 found.");
-			duplicate = true;
-		} else if (this.after.rN1Id === this.after.rN3Id) {
-			alert("Duplicate RN 1 and 3 found.");
-			duplicate = true;
-		} else if (this.after.rN2Id === this.after.rN3Id) {
-			alert("Duplicate RN 2 and 3 found.");
-			duplicate = true;
-		} else if (this.after.ccA1Id === this.after.ccA2Id) {
-			alert("Duplicate CCA 1 and 2 found.");
-			duplicate = true;
-		} else if (this.after.ccA1Id === this.after.ccA3Id) {
-			alert("Duplicate CCA 1 and 3 found.");
-			duplicate = true;
-		} else if (this.after.ccA2Id === this.after.ccA3Id) {
-			alert("Duplicate CCA 2 and 3 found.");
-			duplicate = true;
+		if (this.after.drI1Id > 0) {
+			if (this.after.drI2Id > 0) {
+				if (this.after.drI1Id === this.after.drI2Id) {
+					alert("Duplicate driver 1 and 2 found.");
+					duplicate = true;
+				}
+			}
+		}
+		if (this.after.rN1Id > 0) {
+			if (this.after.rN2Id > 0) {
+				if (this.after.rN1Id === this.after.rN2Id) {
+					alert("Duplicate RN 1 and 2 found.");
+					duplicate = true;
+				}
+			}
+			if (this.after.rN3Id > 0) {
+				if (this.after.rN1Id === this.after.rN3Id) {
+					alert("Duplicate RN 1 and 3 found.");
+					duplicate = true;
+				}
+			}
+		}
+		if (this.after.rN2Id > 0) {
+			if (this.after.rN2Id === this.after.rN3Id) {
+				alert("Duplicate RN 2 and 3 found.");
+				duplicate = true;
+			}
+		}
+		if (this.after.ccA1Id > 0) {
+			if (this.after.ccA2Id > 0) {
+				if (this.after.ccA1Id === this.after.ccA2Id) {
+					alert("Duplicate CCA 1 and 2 found.");
+					duplicate = true;
+				}
+			}
+			if (this.after.ccA3Id > 0) {
+				if (this.after.ccA1Id === this.after.ccA3Id) {
+					alert("Duplicate CCA 1 and 3 found.");
+					duplicate = true;
+				}
+			}
+		}
+		if (this.after.ccA2Id > 0) {
+			if (this.after.ccA2Id === this.after.ccA3Id) {
+				alert("Duplicate CCA 2 and 3 found.");
+				duplicate = true;
+			}
 		}
 		return duplicate;
 	}
