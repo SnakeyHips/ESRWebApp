@@ -21,8 +21,13 @@ export default class CreateEmployeeComponent extends Vue {
 		workPattern: "",
 		status: ""
 	}
+	workpattern: string[] = [];
 
 	createEmployee() {
+		//Get work pattern first
+		this.employee.workPattern = this.workpattern.join();
+
+		//Then send employee to backend
 		fetch('api/Employee/Create', {
 			method: 'POST',
 			body: JSON.stringify(this.employee)
