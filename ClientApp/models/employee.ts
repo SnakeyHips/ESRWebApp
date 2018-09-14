@@ -10,7 +10,7 @@
 	absenceHours: number;
 	lowRateUHours: number;
 	highRateUHours: number;
-	overTimeHours: number;
+	overtimeHours: number;
 	workPattern: string;
 	status: string;
 }
