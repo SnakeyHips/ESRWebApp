@@ -1,40 +1,44 @@
 <template>
 	<div>
-		<h1>Absences</h1>
-		<div class="form-group">
-			<label for="date">Date:</label>
-			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadAbsences(date)" />
-		</div>
-		<button class="btn btn-primary" v-on:click="createAbsence">Create</button>
-		<table v-if="mount" class="table">
-			<thead>
-				<tr>
-					<th>Staff Id</th>
-					<th>Staff Name</th>
-					<th>Type</th>
-					<th>Start Date</th>
-					<th>End Date</th>
-					<th>Hours</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="absence in absences">
-					<td>{{ absence.staffId }}</td>
-					<td>{{ absence.staffName }}</td>
-					<td>{{ absence.type }}</td>
-					<td>{{ absence.startDate }}</td>
-					<td>{{ absence.endDate }}</td>
-					<td>{{ absence.hours }}</td>
-					<td>
-					<td>
-						<button class="btn btn-default" v-on:click="editAbsence(absence.id)">Edit</button>
-						<button class="btn btn-default" v-on:click="deleteAbsence(absence.id)">Delete</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<p v-else><em>Loading...</em></p>
+		<h1>Create Absence</h1>
+		<form v-on:submit.prevent="createAbsence">
+			<div class="form-group">
+				<label for="create-staffId">Staff Id</label>
+				<input type="number" class="form-control" id="create-staffid" v-model="absence.staffId" required />
+				<button type="button" class="btn btn-default" v-on:click="searchById(absence.staffId)">Search</button>
+			</div>
+			<div class="form-group">
+				<label for="create-staffName">Staff Name</label>
+				<input class="form-control" id="create-staffname" v-model="absence.staffName" disabled />
+			</div>
+			<div class="form-group">
+				<label for="create-type">Type</label>
+				<select class="form-control" id="create-type" v-model="absence.type" required>
+					<option>Day Off</option>
+					<option>Annual Leave</option>
+					<option>Sick Leave</option>
+					<option>Special Leave</option>
+					<option>Training</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="create-startDate">Start Date</label>
+				<input class="form-control" id="create-startDate" type="date" v-model="absence.startDate" required />
+			</div>
+			<div class="form-group">
+				<label for="create-endDate">End Date</label>
+				<input class="form-control" id="create-endDate" type="date" v-model="absence.endDate" required />
+			</div>
+			<div class="form-group">
+				<label for="create-hours">Hours</label>
+				<input class="form-control" id="create-hours" v-model="absence.hours" type="number" step=".01" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Create</button>
+			<router-link to="/fetchabsence">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
 	</div>
 </template>
 
-<script src="./fetchabsence.ts"></script>
+<script src="./createabsence.ts"></script>
