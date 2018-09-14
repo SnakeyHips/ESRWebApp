@@ -33,25 +33,58 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{week}")]
+        [HttpPost]
         [Route("GetRoster")]
-        public List<Employee> GetRoster(double week)
+        public List<Employee> GetRoster()
         {
-            string query = "SELECT Week, EmployeeId as Id, EmployeeName as Name, Role, ContractHours, " +
+            List<double> selectedWeeks = new List<double>();
+            List<Employee> employees = new List<Employee>();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                selectedWeeks = JsonConvert.DeserializeObject<List<double>>(sr.ReadToEnd());
+            }
+            foreach (double week in selectedWeeks)
+            {
+                List<Employee> temp = new List<Employee>();
+                string query = "SELECT Week, EmployeeId as Id, EmployeeName as Name, Role, ContractHours, " +
                 "AppointedHours, AbsenceHours, LowRateUHours, HighRateUHours, OvertimeHours " +
                 "FROM RosterTable WHERE Week=@Week;";
-            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
-            {
-                try
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
-                    conn.Open();
-                    return conn.Query<Employee>(query, new { week }).ToList();
+                    try
+                    {
+                        conn.Open();
+                        temp = conn.Query<Employee>(query, new { week }).ToList();
+                    }
+                    catch
+                    {
+                        //do nothing
+                    }
                 }
-                catch
+                foreach (Employee t in temp)
                 {
-                    return new List<Employee>();
+                    bool match = false;
+                    foreach (Employee e in employees)
+                    {
+                        if (t.Id == e.Id)
+                        {
+                            match = true;
+                            e.ContractHours += t.ContractHours;
+                            e.AppointedHours += t.AppointedHours;
+                            e.AbsenceHours += t.AbsenceHours;
+                            e.LowRateUHours += t.LowRateUHours;
+                            e.HighRateUHours += t.HighRateUHours;
+                            e.OvertimeHours += t.OvertimeHours;
+                            break;
+                        }
+                    }
+                    if (match == false)
+                    {
+                        employees.Add(t);
+                    }
                 }
             }
+            return employees;
         }
 
         [HttpGet("{week}/{id}")]
