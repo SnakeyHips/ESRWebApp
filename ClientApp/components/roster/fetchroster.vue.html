@@ -1,0 +1,44 @@
+<template>
+	<div>
+		<h1>Rosters</h1>
+		<div class="form-group">
+			<label for="date">Select week:</label>
+			<select class="form-control" id="roster-week" v-model="selectedWeeks" v-on:change="loadRoster(selectedWeeks)" multiple>
+				<option v-for="week in weeks">{{ week }}</option>
+			</select>
+		</div>
+		<table v-if="mount" class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Contract</th>
+					<th>Appointed</th>
+					<th>Absence</th>
+					<th>Low Rate U</th>
+					<th>High Rate U</th>
+					<th>Overtime</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="employee in employees">
+					<td>{{ employee.id }}</td>
+					<td>{{ employee.name }}</td>
+					<td>{{ employee.contractHours }}</td>
+					<td>{{ employee.appointedHours }}</td>
+					<td>{{ employee.absenceHours }}</td>
+					<td>{{ employee.lowRateUHours }}</td>
+					<td>{{ employee.highRateUHours }}</td>
+					<td>{{ employee.overtimeHours }}</td>
+					<td>
+					<td>
+						<button class="btn btn-default" v-on:click="viewRoster(employee.id)">View</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p v-else><em>Loading...</em></p>
+	</div>
+</template>
+
+<script src="./fetchroster.ts"></script>
