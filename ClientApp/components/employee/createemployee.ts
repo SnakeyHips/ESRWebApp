@@ -17,7 +17,7 @@ export default class CreateEmployeeComponent extends Vue {
 		absenceHours: 0.0,
 		lowRateUHours: 0.0,
 		highRateUHours: 0.0,
-		overTimeHours: 0.0,
+		overtimeHours: 0.0,
 		workPattern: "",
 		status: ""
 	}
