@@ -2,7 +2,7 @@
 	<div>
 		<h1>Rosters</h1>
 		<div class="form-group">
-			<label for="date">Select week:</label>
+			<label for="date">Week:</label>
 			<select class="form-control" id="roster-week" v-model="selectedWeeks" v-on:change="loadRoster(selectedWeeks)" multiple>
 				<option v-for="week in weeks">{{ week }}</option>
 			</select>
