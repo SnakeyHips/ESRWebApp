@@ -22,17 +22,23 @@ export default class EditEmployeeComponent extends Vue {
 		workPattern: "",
 		status: ""
 	}
+	workpattern: string[] = [];
 
 	mounted() {
 		fetch('api/Employee/GetById?id=' + this.$route.params.id)
 			.then(respone => respone.json() as Promise<Employee>)
 			.then(data => {
 				this.employee = data;
+				this.workpattern = this.employee.workPattern.split(",");
 				this.mount = true;
 			});
 	}
 
 	editEmployee() {
+		//Get work pattern first
+		this.employee.workPattern = this.workpattern.join();
+
+		//Then send employee to backend
 		fetch('api/Employee/Update', {
 			method: 'PUT',
 			body: JSON.stringify(this.employee)
