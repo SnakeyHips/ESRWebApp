@@ -2,10 +2,10 @@
 	<div>
 		<h1>Sessions</h1>
 		<div class="form-group">
-			<label for="date">Select date:</label>
+			<label for="date">Date:</label>
 			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadSessions(date)" />
 		</div>
-		<button class="btn btn-primary" v-on:click="createSession">Create New Session</button>
+		<button class="btn btn-primary" v-on:click="createSession">Create</button>
 		<table v-if="mount" class="table">
 			<thead>
 				<tr>
