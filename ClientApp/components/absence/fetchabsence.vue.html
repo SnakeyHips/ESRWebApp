@@ -2,10 +2,10 @@
 	<div>
 		<h1>Absences</h1>
 		<div class="form-group">
-			<label for="date">Select date:</label>
+			<label for="date">Date:</label>
 			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadAbsences(date)" />
 		</div>
-		<button class="btn btn-primary" v-on:click="createAbsence">Create New Absence</button>
+		<button class="btn btn-primary" v-on:click="createAbsence">Create</button>
 		<table v-if="mount" class="table">
 			<thead>
 				<tr>
