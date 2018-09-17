@@ -17,6 +17,11 @@ const routes = [
 	{ path: '/fetchabsence', component: require('./components/absence/fetchabsence.vue.html').default },
 	{ path: '/createabsence', component: require('./components/absence/createabsence.vue.html').default },
 	{ path: '/editabsence/:id', component: require('./components/absence/editabsence.vue.html').default },
+	{ path: '/fetchadmin', component: require('./components/admin/fetchadmin.vue.html').default },
+	{ path: '/createspecialdate', component: require('./components/admin/createspecialdate.vue.html').default },
+	{ path: '/editspecialdate/:id', component: require('./components/admin/editspecialdate.vue.html').default },
+	{ path: '/createsite', component: require('./components/admin/createsite.vue.html').default },
+	{ path: '/editsite/:id', component: require('./components/admin/editsite.vue.html').default },
 ];
 
 new Vue({
