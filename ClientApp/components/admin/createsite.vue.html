@@ -1,0 +1,28 @@
+﻿<template>
+	<div>
+		<h1>Create Site</h1>
+		<form v-on:submit.prevent="createSite">
+			<div class="form-group">
+				<label for="create-site-name">Name</label>
+				<input class="form-control" id="create-site-name" v-model="site.name" required />
+			</div>
+			<div class="form-group">
+				<label for="create-site-type">Type</label>
+				<select class="form-control" id="create-site-date" v-model="site.type" required>
+					<option>Community</option>
+					<option>MDC</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="create-site-times">Clinic Times</label>
+				<input class="form-control" id="create-site-times" v-model="site.times" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Create</button>
+			<router-link to="/fetchadmin">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+	</div>
+</template>
+
+<script src="./createsite.ts"></script>

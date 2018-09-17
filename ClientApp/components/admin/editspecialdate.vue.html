@@ -1,0 +1,22 @@
+﻿<template>
+	<div>
+		<h1>Edit Special Date</h1>
+		<form v-on:submit.prevent="editSpecialDate" v-if="mount">
+			<div class="form-group">
+				<label for="edit-specialdate-name">Name</label>
+				<input class="form-control" id="edit-specialdate-name" v-model="specialdate.name" required />
+			</div>
+			<div class="form-group">
+				<label for="edit-specialdate-date">Date</label>
+				<input class="form-control" id="edit-specialdate-date" type="date" v-model="specialdate.date" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Edit</button>
+			<router-link to="/fetchadmin">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+		<p v-else><em>Loading...</em></p>
+	</div>
+</template>
+
+<script src="./editspecialdate.ts"></script>

@@ -1,0 +1,57 @@
+<template>
+	<div>
+		<h1>Admin</h1>
+		<div>
+			<h2>Special Dates</h2>
+			<button class="btn btn-primary" v-on:click="createSpecialDate">Create</button>
+			<table v-if="mountSpecialDates" class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="specialdate in specialdates">
+						<td>{{ specialdate.name }}</td>
+						<td>{{ specialdate.date }}</td>
+						<td>
+						<td>
+							<button class="btn btn-default" v-on:click="editSpecialDate(specialdate.id)">Edit</button>
+							<button class="btn btn-default" v-on:click="deleteSpecialDate(specialdate.id)">Delete</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p v-if="!mountSpecialDates">Loading Special Dates...</p>
+		</div>
+		<div>
+			<h2>Sites</h2>
+			<button class="btn btn-primary" v-on:click="createSite">Create</button>
+			<table v-if="mountSites" class="table largetable">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Times</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="site in sites">
+						<td>{{ site.name }}</td>
+						<td>{{ site.type }}</td>
+						<td>{{ site.times }}</td>
+						<td>
+						<td>
+							<button class="btn btn-default" v-on:click="editSite(site.id)">Edit</button>
+							<button class="btn btn-default" v-on:click="deleteSite(site.id)">Delete</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<p v-if="!mountSites">Loading Sites...</p>
+		</div>
+	</div>
+</template>
+
+<script src="./fetchadmin.ts"></script>

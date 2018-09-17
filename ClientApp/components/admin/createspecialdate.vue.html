@@ -1,0 +1,21 @@
+﻿<template>
+	<div>
+		<h1>Create Special Date</h1>
+		<form v-on:submit.prevent="createSpecialDate">
+			<div class="form-group">
+				<label for="create-specialdate-name">Name</label>
+				<input class="form-control" id="create-specialdate-name" v-model="specialdate.name" required />
+			</div>
+			<div class="form-group">
+				<label for="create-specialdate-date">Date</label>
+				<input class="form-control" type="date" id="create-specialdate-date" v-model="specialdate.date" required />
+			</div>
+			<button type="submit" class="btn btn-primary">Create</button>
+			<router-link to="/fetchadmin">
+				<a class="btn btn-default">Cancel</a>
+			</router-link>
+		</form>
+	</div>
+</template>
+
+<script src="./createspecialdate.ts"></script>
