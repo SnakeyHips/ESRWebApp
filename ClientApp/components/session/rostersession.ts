@@ -6,6 +6,18 @@ import { Employee } from '../../models/employee';
 @Component
 export default class RosterSessionComponent extends Vue {
 
+	$refs!: {
+		form: HTMLFormElement
+	}
+
+	rules: object = {
+		required: value => !!value || 'Required',
+		number: value => /[0-9]/.test(value) || 'Value must be number e.g. "8" or "10"',
+		decimal: value => /^\d+(\.\d{1,2})?$/.test(value) || 'Value must be decimal e.g. "8.0" or "7.5"'
+	}
+
+	failed: boolean = false;
+	errorMessage: string = "";
 	mount: boolean = false;
 	holiday: boolean = false;
 
@@ -184,6 +196,7 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	rosterSession() {
+		this.failed = false;
 		if (!this.checkDuplicates()) {
 			let sessions: Session[] = [];
 			sessions.push(this.before);
@@ -195,12 +208,17 @@ export default class RosterSessionComponent extends Vue {
 				.then(response => response.json() as Promise<number>)
 				.then(data => {
 					if (data < 1) {
-						alert("Failed to create update Roster");
+						this.errorMessage = "Failed to roster session!";
+						this.failed = true;
 					} else {
 						this.$router.push('/fetchsession');
 					}
 				})
 		}
+	}
+
+	sessionNote() {
+		console.log("note test");
 	}
 
 	//Check for duplicates selected
@@ -209,7 +227,8 @@ export default class RosterSessionComponent extends Vue {
 		if (this.after.drI1Id > 0) {
 			if (this.after.drI2Id > 0) {
 				if (this.after.drI1Id === this.after.drI2Id) {
-					alert("Duplicate driver 1 and 2 found.");
+					this.errorMessage = "Duplicate driver 1 and 2 found!";
+					this.failed = true;
 					duplicate = true;
 				}
 			}
@@ -217,243 +236,57 @@ export default class RosterSessionComponent extends Vue {
 		if (this.after.rN1Id > 0) {
 			if (this.after.rN2Id > 0) {
 				if (this.after.rN1Id === this.after.rN2Id) {
-					alert("Duplicate RN 1 and 2 found.");
+					this.errorMessage = "Duplicate RN 1 and 2 found!";
+					this.failed = true;
 					duplicate = true;
 				}
 			}
 			if (this.after.rN3Id > 0) {
 				if (this.after.rN1Id === this.after.rN3Id) {
-					alert("Duplicate RN 1 and 3 found.");
+					this.errorMessage = "Duplicate RN 1 and 3 found!";
+					this.failed = true;
 					duplicate = true;
 				}
 			}
 		}
 		if (this.after.rN2Id > 0) {
 			if (this.after.rN2Id === this.after.rN3Id) {
-				alert("Duplicate RN 2 and 3 found.");
+				this.errorMessage = "Duplicate RN 2 and 3 found!";
+				this.failed = true;
 				duplicate = true;
 			}
 		}
 		if (this.after.ccA1Id > 0) {
 			if (this.after.ccA2Id > 0) {
 				if (this.after.ccA1Id === this.after.ccA2Id) {
-					alert("Duplicate CCA 1 and 2 found.");
+					this.errorMessage = "Duplicate CCA 1 and 2 found!";
+					this.failed = true;
 					duplicate = true;
 				}
 			}
 			if (this.after.ccA3Id > 0) {
 				if (this.after.ccA1Id === this.after.ccA3Id) {
-					alert("Duplicate CCA 1 and 3 found.");
+					this.errorMessage = "Duplicate CCA 1 and 3 found!";
+					this.failed = true;
 					duplicate = true;
 				}
 			}
 		}
 		if (this.after.ccA2Id > 0) {
 			if (this.after.ccA2Id === this.after.ccA3Id) {
-				alert("Duplicate CCA 2 and 3 found.");
+				this.errorMessage = "Duplicate CCA 2 and 3 found!";
+				this.failed = true;
 				duplicate = true;
 			}
 		}
 		return duplicate;
 	}
 
-	//Set name methods
-	setSV1(name: string) {
-		this.after.sV1Name = name;
+	clear() {
+		this.$refs.form.reset();
 	}
 
-	setDRI1(name: string) {
-		this.after.drI1Name = name;
-	}
-
-	setDRI2(name: string) {
-		this.after.drI2Name = name;
-	}
-
-	setRN1(name: string) {
-		this.after.rN1Name = name;
-	}
-
-	setRN2(name: string) {
-		this.after.rN2Name = name;
-	}
-
-	setRN3(name: string) {
-		this.after.rN3Name = name;
-	}
-
-	setCCA1(name: string) {
-		this.after.ccA1Name = name;
-	}
-
-	setCCA2(name: string) {
-		this.after.ccA2Name = name;
-	}
-
-	setCCA3(name: string) {
-		this.after.ccA3Name = name;
-	}
-
-	//Clear methods
-	clearSV1() {
-		var select = (document.getElementById("roster-sV1Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.sV1Id = 0;
-		this.after.sV1Name = "";
-		var lod = (document.getElementById("roster-sV1LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.sV1LOD = 0;
-		var ot = (document.getElementById("roster-sV1OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.sV1OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-sV1UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.sV1UNS = 0;
-		}
-	}
-
-	clearDRI1() {
-		var select = (document.getElementById("roster-drI1Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.drI1Id = 0;
-		this.after.drI1Name = "";
-		var lod = (document.getElementById("roster-drI1LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.drI1LOD = 0;
-		var ot = (document.getElementById("roster-drI1OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.drI1OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-drI1UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.drI1UNS = 0;
-		}
-	}
-
-	clearDRI2() {
-		var select = (document.getElementById("roster-drI2Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.drI2Id = 0;
-		this.after.drI2Name = "";
-		var lod = (document.getElementById("roster-drI2LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.drI2LOD = 0;
-		var ot = (document.getElementById("roster-drI2OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.drI2OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-drI2UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.drI2UNS = 0;
-		}
-	}
-
-	clearRN1() {
-		var select = (document.getElementById("roster-rN1Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.rN1Id = 0;
-		this.after.rN1Name = "";
-		var lod = (document.getElementById("roster-rN1LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.rN1LOD = 0;
-		var ot = (document.getElementById("roster-rN1OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.rN1OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-rN1UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.rN1UNS = 0;
-		}
-	}
-
-	clearRN2() {
-		var select = (document.getElementById("roster-rN2Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.rN2Id = 0;
-		this.after.rN2Name = "";
-		var lod = (document.getElementById("roster-rN2LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.rN2LOD = 0;
-		var ot = (document.getElementById("roster-rN2OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.rN2OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-rN2UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.rN2UNS = 0;
-		}
-	}
-
-	clearRN3() {
-		var select = (document.getElementById("roster-rN3Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.rN3Id = 0;
-		this.after.rN3Name = "";
-		var lod = (document.getElementById("roster-rN3LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.rN3LOD = 0;
-		var ot = (document.getElementById("roster-rN3OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.rN3OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-rN3UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.rN3UNS = 0;
-		}
-	}
-
-	clearCCA1() {
-		var select = (document.getElementById("roster-ccA1Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.ccA1Id = 0;
-		this.after.ccA1Name = "";
-		var lod = (document.getElementById("roster-ccA1LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.ccA1LOD = 0;
-		var ot = (document.getElementById("roster-ccA1OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.ccA1OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-ccA1UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.ccA1UNS = 0;
-		}
-	}
-
-	clearCCA2() {
-		var select = (document.getElementById("roster-ccA2Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.ccA2Id = 0;
-		this.after.ccA2Name = "";
-		var lod = (document.getElementById("roster-ccA2LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.ccA2LOD = 0;
-		var ot = (document.getElementById("roster-ccA2OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.ccA2OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-ccA2UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.ccA2UNS = 0;
-		}
-	}
-
-	clearCCA3() {
-		var select = (document.getElementById("roster-ccA3Id")) as HTMLSelectElement;
-		select.selectedIndex = -1;
-		this.after.ccA3Id = 0;
-		this.after.ccA3Name = "";
-		var lod = (document.getElementById("roster-ccA3LOD")) as HTMLSelectElement;
-		lod.value = "0";
-		this.after.ccA3LOD = 0;
-		var ot = (document.getElementById("roster-ccA3OT")) as HTMLSelectElement;
-		ot.value = "0";
-		this.after.ccA3OT = 0;
-		if (this.after.holiday == 0) {
-			var uns = (document.getElementById("roster-ccA3UNS")) as HTMLSelectElement;
-			uns.value = "0";
-			this.after.ccA3UNS = 0;
-		}
+	cancel() {
+		this.$router.push('/fetchsession');
 	}
 }
