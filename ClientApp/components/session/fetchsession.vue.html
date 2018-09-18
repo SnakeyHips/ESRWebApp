@@ -1,47 +1,50 @@
 <template>
-	<div>
-		<h1>Sessions</h1>
-		<div class="form-group">
-			<label for="date">Date:</label>
-			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadSessions(date)" />
-		</div>
-		<button class="btn btn-primary" v-on:click="createSession">Create</button>
-		<table v-if="mount" class="table">
-			<thead>
-				<tr>
-					<th>Date</th>
-					<th>Type</th>
-					<th>Site</th>
-					<th>Clinic Time</th>
-					<th>LOD</th>
-					<th>Chairs</th>
-					<th>OCC</th>
-					<th>Estimate</th>
-					<th>StaffCount</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="session in sessions">
-					<td>{{ session.date }}</td>
-					<td>{{ session.type }}</td>
-					<td>{{ session.site }}</td>
-					<td>{{ session.time }}</td>
-					<td>{{ session.lod }}</td>
-					<td>{{ session.chairs }}</td>
-					<td>{{ session.occ }}</td>
-					<td>{{ session.estimate }}</td>
-					<td>{{ session.staffCount }}</td>
-					<td>
-					<td>
-						<button class="btn btn-default" v-on:click="rosterSession(session.id)">Roster</button>
-						<button class="btn btn-default" v-on:click="editSession(session.id)">Edit</button>
-						<button class="btn btn-default" v-on:click="deleteSession(session.id)">Delete</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<p v-else><em>Loading...</em></p>
-	</div>
+	<v-container>
+		<v-flex xs12 class="text-xs-center">
+			<v-menu :nudge-right="40" lazy transition="scale-transition" offset-y>
+				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly />
+				<v-date-picker v-model="date" v-on:change="loadSessions(date)" />
+			</v-menu>
+		</v-flex>
+		<v-flex xs12 class="elevation-1">
+			<v-toolbar flat color="white">
+				<v-toolbar-title>Sessions</v-toolbar-title>
+				<v-spacer></v-spacer>
+				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-spacer></v-spacer>
+				<v-btn flat color="blue darken-1" v-on:click.native="createSession">Create</v-btn>
+				<v-btn flat color="blue darken-1" v-on:click.native="overview">Overview</v-btn>
+			</v-toolbar>
+			<v-data-table :headers="headers" :items="sessions" :search="search" :loading="loading" item-key="id" expand>
+				<v-progress-linear slot="progress" color="blue" indeterminate />
+				<template slot="items" slot-scope="props">
+					<tr @click="props.expanded = !props.expanded">
+						<td>{{ props.item.date }}</td>
+						<td>{{ props.item.type }}</td>
+						<td>{{ props.item.site }}</td>
+						<td>{{ props.item.time }}</td>
+						<td>{{ props.item.lod }}</td>
+						<td>{{ props.item.chairs }}</td>
+						<td>{{ props.item.occ }}</td>
+						<td>{{ props.item.estimate }}</td>
+						<td>{{ props.item.staffCount }}</td>
+					</tr>
+				</template>
+				<template slot="expand" slot-scope="props">
+					<v-card flat="flat" color="grey lighten-4">
+						<v-container grid-list-md text-xs-center>
+							<v-layout row wrap>
+								<v-spacer></v-spacer>
+								<v-btn flat v-on:click.native="rosterSession(props.item.id)">Roster</v-btn>
+								<v-btn flat v-on:click.native="editSession(props.item.id)">Edit</v-btn>
+								<v-btn flat v-on:click.native="deleteSession(props.item.id)">Delete</v-btn>
+							</v-layout>
+						</v-container>
+					</v-card>
+				</template>
+			</v-data-table>
+		</v-flex>
+	</v-container>
 </template>
 
 <script src="./fetchsession.ts"></script>
