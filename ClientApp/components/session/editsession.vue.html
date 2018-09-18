@@ -1,45 +1,24 @@
-﻿<template>
-	<div>
+<template>
+	<v-container>
 		<h1>Edit Session</h1>
-		<form v-on:submit.prevent="editSession">
-			<div class="form-group">
-				<label for="edit-date">Date</label>
-				<input class="form-control" id="edit-date" v-model="session.date" disabled />
-			</div>
-			<div class="form-group">
-				<label for="edit-type">Type</label>
-				<input class="form-control" id="edit-type" v-model="session.type" disabled />
-			</div>
-			<div class="form-group">
-				<label for="edit-site">Site</label>
-				<input class="form-control" id="edit-site" v-model="session.site" disabled />
-			</div>
-			<div class="form-group">
-				<label for="edit-time">Clinic Time</label>
-				<input class="form-control" type="time" id="edit-time" v-model="session.time" disabled />
-			</div>
-			<div class="form-group">
-				<label for="edit-lod">LOD</label>
-				<input type="number" step=".1" class="form-control" id="edit-lOD" v-model="session.lod" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-chairs">Chairs</label>
-				<input type="number" class="form-control" id="edit-chairs" v-model="session.chairs" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-occ">OCC</label>
-				<input type="number" class="form-control" id="edit-oCC" v-model="session.occ" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-estimate">Estimate</label>
-				<input type="number" class="form-control" id="edit-estimate" v-model="session.estimate" required />
-			</div>
-			<button type="submit" class="btn btn-primary">Edit</button>
-			<router-link to="/fetchsession">
-				<a class="btn btn-default">Cancel</a>
-			</router-link>
-		</form>
-	</div>
+		<v-form ref="form" lazy-validation v-if="!loading" >
+			<v-menu :nudge-right="40" lazy transition="scale-transition" offset-y>
+				<v-text-field slot="activator" v-model="session.date" label="Session date" append-icon="event" :rules="[rules.required]" readonly disabled></v-text-field>
+				<v-date-picker v-model="session.date"></v-date-picker>
+			</v-menu>
+			<v-text-field v-model="session.type" label="Type" :rules="[rules.required]" disabled />
+			<v-text-field v-model="session.site" label="Site" :rules="[rules.required]" disabled />
+			<v-text-field v-model="session.time" label="Clinic Time" :rules="[rules.required]" disabled />
+			<v-text-field v-model="session.lod" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+			<v-text-field v-model="session.chairs" label="Chairs" :rules="[rules.required, rules.number]" maxlength="2" required />
+			<v-text-field v-model="session.occ" label="OCC" :rules="[rules.required, rules.number]" maxlength="2" required />
+			<v-text-field v-model="session.estimate" label="Estimate" :rules="[rules.required, rules.number]" maxlength="2" required />
+			<v-btn v-on:click="editSession">Submit</v-btn>
+			<v-btn v-on:click="cancel">Cancel</v-btn>
+			<v-alert :value="failed" type="error">Failed to update session!</v-alert>
+		</v-form>
+		<v-progress-circular v-else color="primary" indeterminate />
+	</v-container>
 </template>
 
 <script src="./editsession.ts"></script>
