@@ -1,461 +1,168 @@
 <template>
-	<div>
-		<h1>Roster Session</h1>
+	<v-container>
 		<h2>{{ after.day }} - {{ after.date }} - {{ after.site }}</h2>
-		<form v-on:submit.prevent="rosterSession" v-if="mount">
-			<div class="form-group row">
-				<div class="col-md-6">
-					<label for="roster-time">Clinic Time</label>
-					<input class="form-control" id="roster-time" v-model="after.time" disabled />
-				</div>
-				<div class="col-md-6">
-					<label for="roster-type">Type</label>
-					<input class="form-control" id="roster-type" v-model="after.type" disabled />
-				</div>
-			</div>
-			<div class="form-group row">
-				<div class="col-md-6">
-					<label for="roster-lod">LOD</label>
-					<input class="form-control" id="roster-lod" v-model="after.lod" required />
-				</div>
-				<div class="col-md-6">
-					<label for="roster-chairs">Chairs</label>
-					<input class="form-control" id="roster-chairs" v-model="after.chairs" disabled />
-				</div>
-			</div>
-			<div class="form-group row">
-				<div class="col-md-6">
-					<label for="roster-occ">OCC</label>
-					<input class="form-control" id="roster-occ" v-model="after.occ" required />
-				</div>
-				<div class="col-md-6">
-					<label for="roster-estimate">Estimate</label>
-					<input class="form-control" id="roster-estimate" v-model="after.estimate" required />
-				</div>
-			</div>
-			<h3 class="text-center">Roster</h3>
-			<div v-if="!holiday">
-				<div class="row">
-					<h4 class="col-sm-2 text-center"></h4>
-					<h4 class="col-sm-2 text-center">Staff Name</h4>
-					<h4 class="col-sm-2 text-center">LOD</h4>
-					<h4 class="col-sm-2 text-center">Unsocial</h4>
-					<h4 class="col-sm-2 text-center">OT</h4>
-					<h4 class="col-sm-2 text-center"></h4>
-				</div>
-				<div class="row">
-					<h4 class="col-sm-2">Supervisor</h4>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-sV1Id" v-model="after.sV1Id" required >
-							<option v-for="sv in svs" v-bind:value="sv.id" v-on:click="setSV1(sv.name)">{{ sv.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-sV1LOD" v-model="after.sV1LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-sV1UNS" v-model="after.sV1UNS" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-sV1OT" v-model="after.sV1OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearSV1">Clear</button>
-					</div>
-				</div>
-				<div class="row">
-					<h4 class="col-sm-2">Drivers</h4>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-drI1Id" v-model="after.drI1Id" required>
-							<option v-for="dri in dris" v-bind:value="dri.id" v-on:click="setDRI1(dri.name)">{{ dri.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI1LOD" v-model="after.drI1LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI1UNS" v-model="after.drI1UNS" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI1OT" v-model="after.drI1OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearDRI1">Clear</button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-drI2Id" v-model="after.drI2Id" required>
-							<option v-for="dri in dris" v-bind:value="dri.id" v-on:click="setDRI2(dri.name)">{{ dri.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI2LOD" v-model="after.drI2LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI2UNS" v-model="after.drI2UNS" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI2OT" v-model="after.drI2OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearDRI2">Clear</button>
-					</div>
-				</div>
-				<div class="row">
-					<h4 class="col-sm-2">RNs</h4>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-rN1Id" v-model="after.rN1Id" required>
-							<option v-for="rn in rns" v-bind:value="rn.id" v-on:click="setRN1(rn.name)">{{ rn.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN1LOD" v-model="after.rN1LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN1UNS" v-model="after.rN1UNS" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN1OT" v-model="after.rN1OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearRN1">Clear</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2">
-						</div>
-						<div class="col-sm-2">
-							<select class="form-control" id="roster-rN2Id" v-model="after.rN2Id" required>
-								<option v-for="rn in rns" v-bind:value="rn.id" v-on:click="setRN2(rn.name)">{{ rn.name }}</option>
-							</select>
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN2LOD" v-model="after.rN2LOD" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN2UNS" v-model="after.rN2UNS" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN2OT" v-model="after.rN2OT" required />
-						</div>
-						<div class="col-sm-2">
-							<button class="btn btn-default" type="button" v-on:click="clearRN2">Clear</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2">
-						</div>
-						<div class="col-sm-2">
-							<select class="form-control" id="roster-rN3Id" v-model="after.rN3Id" required>
-								<option v-for="rn in rns" v-bind:value="rn.id" v-on:click="setRN3(rn.name)">{{ rn.name }}</option>
-							</select>
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN3LOD" v-model="after.rN3LOD" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN3UNS" v-model="after.rN3UNS" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-rN3OT" v-model="after.rN3OT" required />
-						</div>
-						<div class="col-sm-2">
-							<button class="btn btn-default" type="button" v-on:click="clearRN3">Clear</button>
-						</div>
-					</div>
-					<div class="row">
-						<h4 class="col-sm-2">CCAs</h4>
-					</div>
-					<div class="row">
-						<div class="col-sm-2">
-						</div>
-						<div class="col-sm-2">
-							<select class="form-control" id="roster-ccA1Id" v-model="after.ccA1Id" required>
-								<option v-for="cca in ccas" v-bind:value="cca.id" v-on:click="setCCA1(cca.name)">{{ cca.name }}</option>
-							</select>
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA1LOD" v-model="after.ccA1LOD" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA1UNS" v-model="after.ccA1UNS" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA1OT" v-model="after.ccA1OT" required />
-						</div>
-						<div class="col-sm-2">
-							<button class="btn btn-default" type="button" v-on:click="clearCCA1">Clear</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2">
-						</div>
-						<div class="col-sm-2">
-							<select class="form-control" id="roster-ccA2Id" v-model="after.ccA2Id" required>
-								<option v-for="cca in ccas" v-bind:value="cca.id" v-on:click="setCCA2(cca.name)">{{ cca.name }}</option>
-							</select>
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA2LOD" v-model="after.ccA2LOD" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA2UNS" v-model="after.ccA2UNS" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA2OT" v-model="after.ccA2OT" required />
-						</div>
-						<div class="col-sm-2">
-							<button class="btn btn-default" type="button" v-on:click="clearCCA2">Clear</button>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-2">
-						</div>
-						<div class="col-sm-2">
-							<select class="form-control" id="roster-ccA3Id" v-model="after.ccA3Id" required>
-								<option v-for="cca in ccas" v-bind:value="cca.id" v-on:click="setCCA3(cca.name)">{{ cca.name }}</option>
-							</select>
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA3LOD" v-model="after.ccA3LOD" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA3UNS" v-model="after.ccA3UNS" required />
-						</div>
-						<div class="col-sm-2">
-							<input class="form-control" id="roster-ccA3OT" v-model="after.ccA3OT" required />
-						</div>
-						<div class="col-sm-2">
-							<button class="btn btn-default" type="button" v-on:click="clearCCA3">Clear</button>
-						</div>
-					</div>
-				</div>
-			<div v-if="holiday">
-				<div class="row">
-					<h4 class="col-sm-2 text-center"></h4>
-					<h4 class="col-sm-2 text-center">Staff Name</h4>
-					<h4 class="col-sm-2 text-center">LOD</h4>
-					<h4 class="col-sm-2 text-center">OT</h4>
-					<h4 class="col-sm-2 text-center"></h4>
-					<h4 class="col-sm-2 text-center"></h4>
-				</div>
-				<div class="row">
-					<h4 class="col-sm-2">Supervisor</h4>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-sV1Id" v-model="after.sV1Id" required>
-							<option v-for="sv in svs" v-bind:value="sv.id" v-on:click="setSV1(sv.name)">{{ sv.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-sV1LOD" v-model="after.sV1LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-sV1OT" v-model="after.sV1OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearSV1">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<h4 class="col-sm-2">Drivers</h4>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-drI1Id" v-model="after.drI1Id" required>
-							<option v-for="dri in dris" v-bind:value="dri.id" v-on:click="setDRI1(dri.name)">{{ dri.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI1LOD" v-model="after.drI1LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI1OT" v-model="after.drI1OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearDRI1">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-drI2Id" v-model="after.drI2Id" required>
-							<option v-for="dri in dris" v-bind:value="dri.id" v-on:click="setDRI2(dri.name)">{{ dri.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI2LOD" v-model="after.drI2LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-drI2OT" v-model="after.drI2OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearDRI2">>Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<h4 class="col-sm-2">RNs</h4>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-rN1Id" v-model="after.rN1Id" required>
-							<option v-for="rn in rns" v-bind:value="rn.id" v-on:click="setRN1(rn.name)">{{ rn.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN1LOD" v-model="after.rN1LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN1OT" v-model="after.rN1OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearRN1">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-rN2Id" v-model="after.rN2Id" required>
-							<option v-for="rn in rns" v-bind:value="rn.id" v-on:click="setRN2(rn.name)">{{ rn.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN2LOD" v-model="after.rN2LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN2OT" v-model="after.rN2OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearRN2">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-rN3Id" v-model="after.rN3Id" required>
-							<option v-for="rn in rns" v-bind:value="rn.id" v-on:click="setRN3(rn.name)">{{ rn.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN3LOD" v-model="after.rN3LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-rN3OT" v-model="after.rN3OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearRN3">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<h4 class="col-sm-2">CCAs</h4>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-ccA1Id" v-model="after.ccA1Id" required>
-							<option v-for="cca in ccas" v-bind:value="cca.id" v-on:click="setCCA1(cca.name)">{{ cca.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA1LOD" v-model="after.ccA1LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA1OT" v-model="after.ccA1OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearCCA1">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-ccA2Id" v-model="after.ccA2Id" required>
-							<option v-for="cca in ccas" v-bind:value="cca.id" v-on:click="setCCA2(cca.name)">{{ cca.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA2LOD" v-model="after.ccA2LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA2OT" v-model="after.ccA2OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearCCA2">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-2">
-					</div>
-					<div class="col-sm-2">
-						<select class="form-control" id="roster-ccA3Id" v-model="after.ccA3Id" required>
-							<option v-for="cca in ccas" v-bind:value="cca.id" v-on:click="setCCA3(cca.name)">{{ cca.name }}</option>
-						</select>
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA3LOD" v-model="after.ccA3LOD" required />
-					</div>
-					<div class="col-sm-2">
-						<input class="form-control" id="roster-ccA3OT" v-model="after.ccA3OT" required />
-					</div>
-					<div class="col-sm-2">
-						<button class="btn btn-default" type="button" v-on:click="clearCCA3">Clear</button>
-					</div>
-					<div class="col-sm-2">
-					</div>
-				</div>
-				</div>
-				<button type="submit" class="btn btn-primary">Update</button>
-				<router-link to="/fetchsession">
-					<a class="btn btn-default">Cancel</a>
-				</router-link>
-				<div v-if="holiday">
-				</div>
-</form>
-		<p v-else><em>Loading...</em></p>
-	</div>
+		<v-layout row wrap>
+			<v-flex xs4>
+				<v-text-field v-model="after.time" label="Clinic Time" disabled />
+			</v-flex>
+			<v-flex xs4>
+				<v-text-field v-model="after.type" label="Type" disabled />
+			</v-flex>
+			<v-flex xs4>
+				<v-text-field v-model="after.lod" label="LOD" disabled />
+			</v-flex>
+		</v-layout>
+		<v-layout row wrap>
+			<v-flex xs4>
+				<v-text-field v-model="after.chairs" label="Chairs" disabled />
+			</v-flex>
+			<v-flex xs4>
+				<v-text-field v-model="after.occ" label="OCC" disabled />
+			</v-flex>
+			<v-flex xs4>
+				<v-text-field v-model="after.estimate" label="Estimate" disabled />
+			</v-flex>
+		</v-layout>
+		<v-form ref="form" lazy-validation>
+			<h3 class="text-md-center">Roster</h3>
+			<v-divider></v-divider>
+			<v-container v-if="!holiday">
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" :rules="[rules.required]" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.sV1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.sV1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.sV1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.drI1Id" :items="dris" label="Driver 1" item-text="name" item-value="id" :rules="[rules.required]" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.drI1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.drI1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.drI1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" :rules="[rules.required]" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.drI2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.drI2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.drI2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.rN1Id" :items="rns" label="RN 1" item-text="name" item-value="id" :rules="[rules.required]" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" :rules="[rules.required]" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" :rules="[rules.required]" requried />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN3LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN3UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.rN3OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.ccA1Id" :items="ccas" label="CCA 1" item-text="name" item-value="id" :rules="[rules.required]" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" :rules="[rules.required]" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+					</v-flex>
+				</v-layout>
+				<v-layout row wrap>
+					<v-flex xs3>
+						<v-select v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" :rules="[rules.required]" requried />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA3LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA3UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+					</v-flex>
+					<v-flex xs3>
+						<v-text-field v-model="after.ccA3OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+					</v-flex>
+				</v-layout>
+			</v-container>
+		</v-form>
+		<v-layout row wrap>
+			<v-spacer />
+			<v-btn v-on:click="rosterSession">Submit</v-btn>
+			<v-btn v-on:click="clear">Clear</v-btn>
+			<v-btn v-on:click="cancel">Cancel</v-btn>
+		</v-layout>
+		<v-alert :value="failed" type="error">{{ errorMessage }}</v-alert>
+	</v-container>
 </template>
 
 <script src="./rostersession.ts"></script>
