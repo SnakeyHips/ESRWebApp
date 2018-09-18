@@ -6,20 +6,27 @@ import { Session } from '../../models/session';
 export default class FetchSessionComponent extends Vue {
 	sessions: Session[] = [];
 	date: string = "";
-	mount: boolean = true;
-
-	mounted() {
-		this.date = new Date().toISOString().slice(0, 10);
-		this.loadSessions(this.date);
-	}
+	loading: boolean = false;
+	search: string = "";
+	headers: object[] = [
+		{ text: 'Date', value: 'date'	},
+		{ text: 'Type', value: 'type' },
+		{ text: 'Site', value: 'site' },
+		{ text: 'Time', value: 'time' },
+		{ text: 'LOD', value: 'lod' },
+		{ text: 'Chairs', value: 'chairs' },
+		{ text: 'OCC', value: 'occ' },
+		{ text: 'Estimate', value: 'estimate' },
+		{ text: 'Staff Count', value: 'staffCount' },
+	];
 
 	loadSessions(date: string) {
-		this.mount = false;
+		this.loading = true;
 		fetch('api/Session/GetSessions?date=' + date)
 			.then(response => response.json() as Promise<Session[]>)
 			.then(data => {
 				this.sessions = data;
-				this.mount = true;
+				this.loading = false;
 			});
 	}
 
@@ -33,6 +40,11 @@ export default class FetchSessionComponent extends Vue {
 
 	editSession(id: number) {
 		this.$router.push("/editsession/" + id);
+	}
+
+	overview() {
+		let overview = this.$router.resolve({ path: "/overviewsession" });
+		window.open(overview.href, '_blank');
 	}
 
 	deleteSession(id: number) {
