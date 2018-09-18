@@ -1,46 +1,21 @@
-﻿<template>
-	<div>
+<template>
+	<v-container>
 		<h1>Edit Employee</h1>
-		<form v-on:submit.prevent="editEmployee" v-if="mount">
-			<div class="form-group">
-				<label for="edit-id">Id</label>
-				<input type="number" class="form-control" id="edit-id" v-model="employee.id" disabled />
-			</div>
-			<div class="form-group">
-				<label for="edit-name">Name</label>
-				<input class="form-control" id="edit-name" v-model="employee.name" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-role">Role</label>
-				<input class="form-control" id="edit-role" v-model="employee.role" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-skill">Skill</label>
-				<input class="form-control" id="edit-skill" v-model="employee.skill" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-address">Address</label>
-				<input class="form-control" id="edit-address" v-model="employee.address" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-number">Number</label>
-				<input class="form-control" id="edit-number" v-model="employee.number" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-contractHours">Contract Hours</label>
-				<input class="form-control" id="edit-contracthours" v-model="employee.contractHours" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-workPattern">Work Pattern</label>
-				<input class="form-control" id="edit-workpattern" v-model="employee.workPattern" required />
-			</div>
-			<button type="submit" class="btn btn-primary">Edit</button>
-			<router-link to="/fetchemployee">
-				<a class="btn btn-default">Cancel</a>
-			</router-link>
-		</form>
-		<p v-else><em>Loading...</em></p>
-	</div>
+		<v-form ref="form" lazy-validation v-if="!loading">
+			<v-text-field v-model="employee.id" label="Id" :rules="[rules.required, rules.number]" maxlength="8" disabled />
+			<v-text-field v-model="employee.name" label="Name" :rules="[rules.required]" disabled />
+			<v-select v-model="employee.role" :items="roles" label="Role" :rules="[rules.required]" requried />
+			<v-text-field v-model="employee.skill" label="Skill" :rules="[rules.required]" required />
+			<v-text-field v-model="employee.address" label="Address" :rules="[rules.required]" required />
+			<v-text-field v-model="employee.number" label="Number" placeholder="01234123456" mask="###########" :rules="[rules.required]" required />
+			<v-text-field v-model="employee.contractHours" label="Contract Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+			<v-select v-model="workpattern" :items="days" label="Work Pattern" multiple chips></v-select>
+			<v-btn v-on:click="editEmployee">Submit</v-btn>
+			<v-btn v-on:click="cancel">Cancel</v-btn>
+			<v-alert :value="failed" type="error">Failed to edit employee!</v-alert>
+		</v-form>
+		<v-progress-circular v-else color="primary" indeterminate />
+	</v-container>
 </template>
 
 <script src="./editemployee.ts"></script>
