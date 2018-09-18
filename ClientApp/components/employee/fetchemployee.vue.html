@@ -1,7 +1,7 @@
 <template>
 	<v-container>
 		<v-flex xs12 class="text-xs-center">
-			<v-menu :nudge-right="40" lazy transition="scale-transition" offset-y>
+			<v-menu lazy transition="scale-transition" >
 				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly />
 				<v-date-picker v-model="date" v-on:change="loadEmployees(date)" />
 			</v-menu>
