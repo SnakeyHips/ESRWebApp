@@ -1,24 +1,26 @@
 <template>
-	<v-container>
-		<h1>Edit Session</h1>
-		<v-form ref="form" lazy-validation v-if="!loading" >
-			<v-menu :nudge-right="40" lazy transition="scale-transition" offset-y>
-				<v-text-field slot="activator" v-model="session.date" label="Session date" append-icon="event" :rules="[rules.required]" readonly disabled></v-text-field>
-				<v-date-picker v-model="session.date"></v-date-picker>
-			</v-menu>
-			<v-text-field v-model="session.type" label="Type" :rules="[rules.required]" disabled />
-			<v-text-field v-model="session.site" label="Site" :rules="[rules.required]" disabled />
-			<v-text-field v-model="session.time" label="Clinic Time" :rules="[rules.required]" disabled />
-			<v-text-field v-model="session.lod" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-			<v-text-field v-model="session.chairs" label="Chairs" :rules="[rules.required, rules.number]" maxlength="2" required />
-			<v-text-field v-model="session.occ" label="OCC" :rules="[rules.required, rules.number]" maxlength="2" required />
-			<v-text-field v-model="session.estimate" label="Estimate" :rules="[rules.required, rules.number]" maxlength="2" required />
-			<v-btn v-on:click="editSession">Submit</v-btn>
-			<v-btn v-on:click="cancel">Cancel</v-btn>
-			<v-alert :value="failed" type="error">Failed to update session!</v-alert>
-		</v-form>
-		<v-progress-circular v-else color="primary" indeterminate />
-	</v-container>
+	<v-layout justify-center text-xs-center>
+		<v-flex xs4>
+			<h1>Edit Session</h1>
+			<v-form ref="form" lazy-validation v-if="!loading">
+				<v-menu :nudge-right="40" lazy transition="scale-transition" offset-y>
+					<v-text-field slot="activator" v-model="session.date" label="Session date" append-icon="event" :rules="[rules.required]" box readonly disabled></v-text-field>
+					<v-date-picker v-model="session.date"></v-date-picker>
+				</v-menu>
+				<v-text-field v-model="session.type" label="Type" :rules="[rules.required]" box disabled />
+				<v-text-field v-model="session.site" label="Site" :rules="[rules.required]" box disabled />
+				<v-text-field v-model="session.time" label="Clinic Time" :rules="[rules.required]" box disabled />
+				<v-text-field v-model="session.lod" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" box required />
+				<v-text-field v-model="session.chairs" label="Chairs" :rules="[rules.required, rules.number]" maxlength="2" box required />
+				<v-text-field v-model="session.occ" label="OCC" :rules="[rules.required, rules.number]" maxlength="2" box required />
+				<v-text-field v-model="session.estimate" label="Estimate" :rules="[rules.required, rules.number]" maxlength="2" box required />
+				<v-btn v-on:click="editSession">Submit</v-btn>
+				<v-btn v-on:click="cancel">Cancel</v-btn>
+				<v-alert :value="failed" type="error">Failed to update session!</v-alert>
+			</v-form>
+			<v-progress-circular v-else color="primary" indeterminate />
+		</v-flex>
+	</v-layout>
 </template>
 
 <script src="./editsession.ts"></script>
