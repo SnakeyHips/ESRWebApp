@@ -1,9 +1,19 @@
-﻿import Vue from 'vue';
+import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Session } from '../../models/session';
+import { Site } from '../../models/site';
 
 @Component
 export default class CreateSessionComponent extends Vue {	
+	$refs!: {
+		form: HTMLFormElement
+	}
+
+	rules: object = {
+		required: value => !!value || 'Required',
+		number: value => /[0-9]/.test(value) || 'Value must be number e.g. "8" or "10"',
+		decimal: value => /^\d+(\.\d{1,2})?$/.test(value) || 'Value must be decimal e.g. "8.0" or "7.5"'
+	}
 
 	session: Session = {
 		id: 0,
@@ -67,18 +77,50 @@ export default class CreateSessionComponent extends Vue {
 		state: 0
 	}
 
+	types: string[] = ["Community", "MDC"];
+	sites: Site[] = [];
+	times: string[] = [];
+	failed: boolean = false;
+
 	createSession() {
-		fetch('api/Session/Create', {
-			method: 'POST',
-			body: JSON.stringify(this.session)
-		})
-			.then(response => response.json() as Promise<number>)
-			.then(data => {
-				if (data < 1) {
-					alert("Failed to create Session. Please make sure there is not already a session of that same date, time and location.");
-				} else {
-					this.$router.push('/fetchsession');
-				}
+		this.failed = false;
+		if (this.$refs.form.validate()) {
+			fetch('api/Session/Create', {
+				method: 'POST',
+				body: JSON.stringify(this.session)
 			})
+				.then(response => response.json() as Promise<number>)
+				.then(data => {
+					if (data < 1) {
+						this.failed = true;
+					} else {
+						this.$router.push('/fetchsession');
+					}
+				})
+		}
+	}
+
+	loadSites(type: string) {
+		fetch('api/Session/GetSites?type=' + type)
+			.then(response => response.json() as Promise<Site[]>)
+			.then(data => {
+				this.sites = data;
+			});
+	}
+
+	loadTimes(site: string) {
+		for (var i = 0; i < this.sites.length; i++) {
+			if (this.sites[i].name === site) {
+				this.times = this.sites[i].times.split('/');
+			}
+		}
+	}
+
+	clear() {
+		this.$refs.form.reset();
+	}
+
+	cancel() {
+		this.$router.push('/fetchsession');
 	}
 }
