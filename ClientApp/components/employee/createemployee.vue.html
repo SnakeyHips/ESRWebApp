@@ -1,64 +1,21 @@
-﻿<template>
-	<div>
+<template>
+	<v-container>
 		<h1>Create Employee</h1>
-		<form v-on:submit.prevent="createEmployee">
-			<div class="form-group">
-				<label for="create-id">Id</label>
-				<input type="number" class="form-control" id="create-id" v-model="employee.id" required />
-			</div>
-			<div class="form-group">
-				<label for="create-name">Name</label>
-				<input class="form-control" id="create-name" v-model="employee.name" required />
-			</div>
-			<div class="form-group">
-				<label for="create-roll">Role</label>
-				<input class="form-control" id="create-role" v-model="employee.role" required />
-			</div>
-			<div class="form-group">
-				<label for="create-skill">Skill</label>
-				<input class="form-control" id="create-skill" v-model="employee.skill" required />
-			</div>
-			<div class="form-group">
-				<label for="create-skill">Skill</label>
-				<input class="form-control" id="create-skill" v-model="employee.skill" required />
-			</div>
-			<div class="form-group">
-				<label for="create-address">Address</label>
-				<input class="form-control" id="create-address" v-model="employee.address" required />
-			</div>
-			<div class="form-group">
-				<label for="create-number">Number</label>
-				<input class="form-control" id="create-number" v-model="employee.number" required />
-			</div>
-			<div class="form-group">
-				<label for="create-contractHours">Contract Hours</label>
-				<input class="form-control" id="create-contractHours" v-model="employee.contractHours" required />
-			</div>
-						<div class="form-group">
-				<label for="create-workPattern">Work Pattern</label>
-				<div class="row">
-					<label for="Mon">Mon:</label>
-					<input id="Mon" type="checkbox" value="Mon" v-model="workpattern" />
-					<label for="Tue">Tue:</label>
-					<input id="Tue" type="checkbox" value="Tue" v-model="workpattern" />
-					<label for="Web">Wed:</label>
-					<input id="Wed" type="checkbox" value="Wed" v-model="workpattern" />
-					<label for="Thu">Thu:</label>
-					<input id="Thu" type="checkbox" value="Thu" v-model="workpattern" />
-					<label for="Fri">Fri:</label>
-					<input id="Fri" type="checkbox" value="Fri" v-model="workpattern" />
-					<label for="Sat">Sat:</label>
-					<input id="Sat" type="checkbox" value="Sat" v-model="workpattern" />
-					<label for="Sun">Sun:</label>
-					<input id="Sun" type="checkbox" value="Sun" v-model="workpattern" />
-				</div>
-			</div>
-			<button type="submit" class="btn btn-primary">Create</button>
-			<router-link to="/fetchemployee">
-				<a class="btn btn-default">Cancel</a>
-			</router-link>
-		</form>
-	</div>
+		<v-form ref="form" lazy-validation>
+			<v-text-field v-model="employee.id" label="Id" :rules="[rules.required, rules.number]" maxlength="8" required />
+			<v-text-field v-model="employee.name" label="Name" :rules="[rules.required]" required />
+			<v-select v-model="employee.role" :items="roles" label="Role" :rules="[rules.required]" requried />
+			<v-text-field v-model="employee.skill" label="Skill" :rules="[rules.required]" required />
+			<v-text-field v-model="employee.address" label="Address" :rules="[rules.required]" required />
+			<v-text-field v-model="employee.number" label="Number" placeholder="01234123456" mask="###########" :rules="[rules.required]" required />
+			<v-text-field v-model="employee.contractHours" label="Contract Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+			<v-select v-model="workpattern" :items="days" label="Work Pattern" multiple chips></v-select>
+			<v-btn v-on:click="createEmployee">Submit</v-btn>
+			<v-btn v-on:click="clear">Clear</v-btn>
+			<v-btn v-on:click="cancel">Cancel</v-btn>
+			<v-alert :value="failed" type="error">Failed to create employee!</v-alert>
+		</v-form>
+	</v-container>
 </template>
 
 <script src="./createemployee.ts"></script>
