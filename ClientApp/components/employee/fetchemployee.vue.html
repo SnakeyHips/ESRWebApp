@@ -1,46 +1,47 @@
 <template>
-	<div>
-		<h1>Employees</h1>
-		<div class="form-group">
-			<label for="date">Date:</label>
-			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadEmployees(date)" />
-		</div>
-		<button class="btn btn-primary" v-on:click="createEmployee">Create</button>
-		<table v-if="mount" class="table">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Name</th>
-					<th>Role</th>
-					<th>Skill</th>
-					<th>Address</th>
-					<th>Number</th>
-					<th>Contract Hours</th>
-					<th>Work Pattern</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="employee in employees">
-					<td>{{ employee.id }}</td>
-					<td>{{ employee.name }}</td>
-					<td>{{ employee.role }}</td>
-					<td>{{ employee.skill }}</td>
-					<td>{{ employee.address }}</td>
-					<td>{{ employee.number }}</td>
-					<td>{{ employee.contractHours }}</td>
-					<td>{{ employee.workPattern }}</td>
-					<td>{{ employee.status }}</td>
-					<td>
-					<td>
-						<button class="btn btn-default" v-on:click="editEmployee(employee.id)">Edit</button>
-						<button class="btn btn-default" v-on:click="deleteEmployee(employee.id)">Delete</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<p v-else><em>Loading...</em></p>
-	</div>
+	<v-container>
+		<v-flex xs12 class="text-xs-center">
+			<v-menu :nudge-right="40" lazy transition="scale-transition" offset-y>
+				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly />
+				<v-date-picker v-model="date" v-on:change="loadEmployees(date)" />
+			</v-menu>
+		</v-flex>
+		<v-flex xs12 class="elevation-1">
+			<v-toolbar flat color="white">
+				<v-toolbar-title>Employees</v-toolbar-title>
+				<v-spacer></v-spacer>
+				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-spacer></v-spacer>
+				<v-btn flat color="blue darken-1" v-on:click.native="createEmployee">Create</v-btn>
+			</v-toolbar>
+			<v-data-table :headers="headers" :items="employees" :search="search" :loading="loading" item-key="id" expand>
+				<template slot="items" slot-scope="props">
+					<tr @click="props.expanded = !props.expanded">
+						<td>{{ props.item.id }}</td>
+						<td>{{ props.item.name }}</td>
+						<td>{{ props.item.role }}</td>
+						<td>{{ props.item.skill }}</td>
+						<td>{{ props.item.address }}</td>
+						<td>{{ props.item.number }}</td>
+						<td>{{ props.item.contractHours }}</td>
+						<td>{{ props.item.workPattern }}</td>
+						<td>{{ props.item.status }}</td>
+					</tr>
+				</template>
+				<template slot="expand" slot-scope="props">
+					<v-card flat="flat" color="grey lighten-4">
+						<v-container>
+							<v-layout row wrap>
+								<v-spacer></v-spacer>
+								<v-btn v-on:click.native="editEmployee(props.item.id)">Edit</v-btn>
+								<v-btn v-on:click.native="deleteEmployee(props.item.id)">Delete</v-btn>
+							</v-layout>
+						</v-container>
+					</v-card>
+				</template>
+			</v-data-table>
+		</v-flex>
+	</v-container>
 </template>
 
 <script src="./fetchemployee.ts"></script>
