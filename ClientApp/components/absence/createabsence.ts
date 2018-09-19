@@ -50,8 +50,8 @@ export default class CreateAbsenceComponent extends Vue {
 		}
 	}
 
-	searchById(staffId: number) {
-		fetch('api/Employee/GetById?id=' + staffId)
+	search() {
+		fetch('api/Employee/GetById?id=' + this.absence.staffId)
 			.then(response => response.json() as Promise<Employee>)
 			.then(data => {
 				if (data != null) {
@@ -60,6 +60,10 @@ export default class CreateAbsenceComponent extends Vue {
 					alert("Couldn't find Employee by that Id!");
 				}
 			})
+	}
+
+	clearName() {
+		this.absence.staffName = "";
 	}
 
 	checkDates() {
