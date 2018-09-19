@@ -1,8 +1,8 @@
-<boxtemplate>
-	<v-layout column align-center>
+<template>
+	<v-layout column>
 		<v-flex xs12 class="text-xs-center">
 			<v-menu lazy transition="scale-transition">
-				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly box/>
+				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly box />
 				<v-date-picker v-model="date" v-on:change="loadAbsences(date)" />
 			</v-menu>
 		</v-flex>
