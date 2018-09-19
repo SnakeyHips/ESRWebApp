@@ -4,7 +4,7 @@
 			<v-form ref="form" lazy-validation>
 				<h3>Create Session</h3>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="session.date" label="Session date" append-icon="event" :rules="[rules.required]" readonly required></v-text-field>
+					<v-text-field slot="activator" v-model="session.date" label="Date" append-icon="event" :rules="[rules.required]" readonly required></v-text-field>
 					<v-date-picker v-model="session.date" ></v-date-picker>
 				</v-menu>
 				<v-select v-model="session.type" :items="types" label="Type" v-on:change="loadSites(session.type)" :rules="[rules.required]" requried />
