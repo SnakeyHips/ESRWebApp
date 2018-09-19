@@ -1,11 +1,19 @@
-﻿import Vue from 'vue';
+import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Site } from '../../models/site';
 
 @Component
 export default class EditSiteComponent extends Vue {
+	$refs!: {
+		form: HTMLFormElement
+	}
 
-	mount: boolean = false;
+	rules: object = {
+		required: value => !!value || 'Required',
+		number: value => /[0-9]/.test(value) || 'Value must be number e.g. "8" or "10"',
+		decimal: value => /^\d+(\.\d{1,2})?$/.test(value) || 'Value must be decimal e.g. "8.0" or "7.5"'
+	}
+
 	site: Site = {
 		id: 0,
 		name: "",
@@ -13,27 +21,39 @@ export default class EditSiteComponent extends Vue {
 		times: "",
 	}
 
+	loading: boolean = false;
+	failed: boolean = false;
+	types: string[] = ["Community", "MDC"];
+
 	mounted() {
+		this.loading = true;
 		fetch('api/Admin/GetSiteById?id=' + this.$route.params.id)
 			.then(respone => respone.json() as Promise<Site>)
 			.then(data => {
 				this.site = data;
-				this.mount = true;
+				this.loading = false;
 			});
 	}
 
 	editSite() {
-		fetch('api/Admin/UpdateSite', {
-			method: 'PUT',
-			body: JSON.stringify(this.site)
-		})
-			.then(response => response.json() as Promise<number>)
-			.then(data => {
-				if (data < 1) {
-					alert("Failed to edit Site. Please make sure all fields are correct.");
-				} else {
-					this.$router.push('/fetchadmin');
-				}
+		this.failed = false;
+		if (this.$refs.form.validate()) {
+			fetch('api/Admin/UpdateSite', {
+				method: 'PUT',
+				body: JSON.stringify(this.site)
 			})
+				.then(response => response.json() as Promise<number>)
+				.then(data => {
+					if (data < 1) {
+						this.failed = true;
+					} else {
+						this.$router.push('/fetchadmin');
+					}
+				})
+		}
+	}
+
+	cancel() {
+		this.$router.push('/fetchadmin');
 	}
 }
