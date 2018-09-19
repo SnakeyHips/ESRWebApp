@@ -7,7 +7,18 @@ export default class FetchRosterComponent extends Vue {
 	weeks: number[] = [];
 	employees: Employee[] = [];
 	selectedWeeks: number[] = [];
-	mount: boolean = false;
+	loading: boolean = false;
+	search: string = "";
+	headers: object[] = [
+		{ text: 'Id', value: 'id' },
+		{ text: 'Name', value: 'name' },
+		{ text: 'Contract', value: 'contractHours' },
+		{ text: 'Appointed', value: 'appointedHours' },
+		{ text: 'Absence', value: 'absenceHours' },
+		{ text: 'LowRateU', value: 'lowRateUHours' },
+		{ text: 'HighRateU', value: 'highRateUHours' },
+		{ text: 'Overtime', value: 'overtimeHours' },
+	];
 
 	mounted() {
 		this.loadWeeks();
@@ -21,17 +32,17 @@ export default class FetchRosterComponent extends Vue {
 			})
 	}
 
-	loadRoster(selectedWeeks: number[]) {
-		this.mount = false;
-		console.log(JSON.stringify(selectedWeeks));
+	loadRoster() {
+		this.loading = true;
+		console.log(JSON.stringify(this.selectedWeeks));
 		fetch('api/Roster/GetRoster', {
 			method: 'POST',
-			body: JSON.stringify(selectedWeeks)
+			body: JSON.stringify(this.selectedWeeks)
 		})
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
-				this.mount = true;
+				this.loading = false;
 			});
 	}
 
