@@ -4,7 +4,7 @@
 			<v-toolbar flat color="white">
 				<v-toolbar-title>Special Dates</v-toolbar-title>
 				<v-spacer></v-spacer>
-				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-text-field v-model="searchSpecialDate" append-icon="search" label="Search" single-line hide-details />
 				<v-spacer></v-spacer>
 				<v-btn flat color="accent" v-on:click.native="createSpecialDate">Create</v-btn>
 			</v-toolbar>
@@ -30,9 +30,9 @@
 			<v-toolbar flat color="white">
 				<v-toolbar-title>Sites</v-toolbar-title>
 				<v-spacer></v-spacer>
-				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-text-field v-model="searchSite" append-icon="search" label="Search" single-line hide-details />
 				<v-spacer></v-spacer>
-				<v-btn flat color="accent" v-on:click.native="createSpecialDate">Create</v-btn>
+				<v-btn flat color="accent" v-on:click.native="createSite">Create</v-btn>
 			</v-toolbar>
 			<v-data-table :headers="headersSite" :items="sites" :search="searchSite" :loading="loadingSite" item-key="id" expand>
 				<v-progress-linear slot="progress" color="primary" indeterminate />
