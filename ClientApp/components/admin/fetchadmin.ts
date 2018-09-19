@@ -7,8 +7,21 @@ import { Site } from '../../models/site';
 export default class FetchAbsenceComponent extends Vue {
 	specialdates: SpecialDate[] = [];
 	sites: Site[] = [];
-	mountSpecialDates: boolean = false;
-	mountSites: boolean = false;
+	loadingSpecialDate: boolean = false;
+	loadingSite: boolean = false;
+	searchSpecialDate: string = "";
+	searchSite: string = "";
+
+	headersSpecialDate: object[] = [
+		{ text: 'Name', value: 'name' },
+		{ text: 'Date', value: 'date' }
+	];
+
+	headersSite: object[] = [
+		{ text: 'Name', value: 'name' },
+		{ text: 'Type', value: 'type' },
+		{ text: 'Times', value: 'times' }
+	];
 
 	mounted() {
 		this.loadSpecialDates();
@@ -16,22 +29,22 @@ export default class FetchAbsenceComponent extends Vue {
 	}
 
 	loadSpecialDates() {
-		this.mountSpecialDates = false;
+		this.loadingSpecialDate = true;
 		fetch('api/Admin/GetSpecialDates')
 			.then(response => response.json() as Promise<SpecialDate[]>)
 			.then(data => {
 				this.specialdates = data;
-				this.mountSpecialDates = true;
+				this.loadingSpecialDate = false;
 			});
 	}
 
 	loadSites() {
-		this.mountSites = false;
+		this.loadingSite = true;
 		fetch('api/Admin/GetSites')
 			.then(response => response.json() as Promise<Site[]>)
 			.then(data => {
 				this.sites = data;
-				this.mountSites = true;
+				this.loadingSite = false;
 			});
 	}
 
