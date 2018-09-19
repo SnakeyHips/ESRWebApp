@@ -1,38 +1,27 @@
 <template>
-	<div>
-		<h1>Edit Absence</h1>
-		<form v-on:submit.prevent="editAbsence" v-if="mount">
-			<div class="form-group">
-				<label for="edit-staffId">Staff Id</label>
-				<input type="number" class="form-control" id="edit-staffid" v-model="after.staffId" disabled />
-			</div>
-			<div class="form-group">
-				<label for="edit-staffName">Staff Name</label>
-				<input class="form-control" id="edit-staffname" v-model="after.staffName" disabled />
-			</div>
-			<div class="form-group">
-				<label for="edit-type">Type</label>
-				<input class="form-control" id="edit-type" v-model="after.type" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-startDate">Start Date</label>
-				<input class="form-control" id="edit-startDate" v-model="after.startDate" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-endDate">End Date</label>
-				<input class="form-control" id="edit-endDate" v-model="after.endDate" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-hours">Hours</label>
-				<input class="form-control" id="edit-hours" v-model="after.hours" type="number" step=".01" required />
-			</div>
-			<button type="submit" class="btn btn-primary">Edit</button>
-			<router-link to="/fetchabsence">
-				<a class="btn btn-default">Cancel</a>
-			</router-link>
-		</form>
-		<p v-else><em>Loading...</em></p>
-	</div>
+	<v-layout justify-center text-xs-center>
+		<v-flex xs4>
+			<v-form ref="form" lazy-validation v-if="!loading">
+				<h3>Edit Absence</h3>
+				<v-text-field v-model="after.staffId" label="Staff Id" :rules="[rules.required, rules.number]" maxlength="8" disabled />
+				<v-text-field v-model="after.staffName" label="Staff Name" :rules="[rules.required]" disabled required />
+				<v-select v-model="after.type" :items="types" label="Type" :rules="[rules.required]" />
+				<v-menu lazy transition="scale-transition" full-width min-width="290px">
+					<v-text-field slot="activator" v-model="after.startDate" label="Start date" append-icon="event" :rules="[rules.required]" readonly  disabled required />
+					<v-date-picker v-model="after.startDate" />
+				</v-menu>
+				<v-menu lazy transition="scale-transition" full-width min-width="290px">
+					<v-text-field slot="activator" v-model="after.endDate" label="End date" append-icon="event" :rules="[rules.required]" readonly required />
+					<v-date-picker v-model="after.endDate" />
+				</v-menu>
+				<v-text-field v-model="after.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+				<v-btn v-on:click="editAbsence">Submit</v-btn>
+				<v-btn v-on:click="cancel">Cancel</v-btn>
+				<v-alert :value="failed" type="error">Failed to update absence!</v-alert>
+			</v-form>
+			<v-progress-circular v-else color="primary" indeterminate />
+		</v-flex>
+	</v-layout>
 </template>
 
 <script src="./editabsence.ts"></script>
