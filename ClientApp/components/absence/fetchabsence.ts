@@ -6,20 +6,28 @@ import { Absence } from '../../models/absence';
 export default class FetchAbsenceComponent extends Vue {
 	absences: Absence[] = [];
 	date: string = "";
-	mount: boolean = false;
+	loading: boolean = false;
+	search: string = "";
+	headers: object[] = [
+		{ text: 'Staff Id', value: 'staffId' },
+		{ text: 'Staff Name', value: 'staffName' },
+		{ text: 'Type', value: 'type' },
+		{ text: 'Start Date', value: 'startDate' },
+		{ text: 'End Date', value: 'endDate' },
+		{ text: 'Hours', value: 'hours' },
+	];
 
 	mounted() {
-		this.date = new Date().toISOString().slice(0, 10);
 		this.loadAbsences(this.date);
 	}
 
 	loadAbsences(date: string) {
-		this.mount = false;
+		this.loading = true;
 		fetch('api/Absence/GetAbsences?date=' + date)
 			.then(response => response.json() as Promise<Absence[]>)
 			.then(data => {
 				this.absences = data;
-				this.mount = true;
+				this.loading = false;
 			});
 	}
 
