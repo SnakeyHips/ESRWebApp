@@ -4,7 +4,7 @@
 			<v-form ref="form" lazy-validation>
 				<h3>Create Absence</h3>
 				<v-text-field v-model="absence.staffId" label="Staff Id" :rules="[rules.required, rules.number]" maxlength="8" required />
-				<v-btn v-on:click="searchById(absence.staffId)">Search By Id</v-btn>
+				<v-btn color="accent" v-on:click="searchById(absence.staffId)">Search By Id</v-btn>
 				<v-text-field v-model="absence.staffName" label="Staff Name" :rules="[rules.required]" disabled required />
 				<v-select v-model="absence.type" :items="types" label="Type" :rules="[rules.required]" requried />
 				<v-menu lazy transition="scale-transition" full-width min-width="290px" >
@@ -16,9 +16,9 @@
 					<v-date-picker v-model="absence.endDate" />
 				</v-menu>
 				<v-text-field v-model="absence.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-				<v-btn v-on:click="createAbsence">Submit</v-btn>
-				<v-btn v-on:click="clear">Clear</v-btn>
-				<v-btn v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="accent" v-on:click="createAbsence">Submit</v-btn>
+				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
+				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to create absence!</v-alert>
 			</v-form>
 		</v-flex>
