@@ -1,7 +1,7 @@
 <template>
-	<v-layout column align-center>
+	<v-layout column>
 		<v-flex xs4>
-			<v-select v-model="selectedWeeks" :items="weeks" label="Weeks" v-on:change="loadRoster" multiple chips></v-select>
+			<v-select v-model="selectedWeeks" :items="weeks" label="Weeks" v-on:change="loadRoster" multiple chips box></v-select>
 		</v-flex>
 		<v-flex xs12 class="elevation-1">
 			<v-toolbar flat color="white">
