@@ -1,8 +1,10 @@
 <template>
 	<v-layout column>
-		<v-flex xs4>
-			<v-select v-model="selectedWeeks" :items="weeks" label="Weeks" v-on:change="loadRoster" multiple chips box></v-select>
-		</v-flex>
+		<v-layout align-center justify-center>
+			<v-flex xs4>
+				<v-select v-model="selectedWeeks" :items="weeks" label="Weeks" v-on:change="loadRoster" multiple chips box></v-select>
+			</v-flex>
+		</v-layout>
 		<v-flex xs12 class="elevation-1">
 			<v-toolbar flat color="white">
 				<v-toolbar-title>Rosters</v-toolbar-title>
