@@ -17,10 +17,6 @@ export default class FetchAbsenceComponent extends Vue {
 		{ text: 'Hours', value: 'hours' },
 	];
 
-	mounted() {
-		this.loadAbsences(this.date);
-	}
-
 	loadAbsences(date: string) {
 		this.loading = true;
 		fetch('api/Absence/GetAbsences?date=' + date)
