@@ -1,29 +1,18 @@
-﻿<template>
-	<div>
-		<h1>Edit Site</h1>
-		<form v-on:submit.prevent="editSite" v-if="mount">
-			<div class="form-group">
-				<label for="edit-site-name">Name</label>
-				<input class="form-control" id="edit-site-name" v-model="site.name" required />
-			</div>
-			<div class="form-group">
-				<label for="edit-site-type">Type</label>
-				<select class="form-control" id="edit-site-date" v-model="site.type" required>
-					<option>Community</option>
-					<option>MDC</option>
-				</select>
-			</div>
-			<div class="form-group">
-				<label for="edit-site-times">Clinic Times</label>
-				<input class="form-control" id="edit-site-times" v-model="site.times" required />
-			</div>
-			<button type="submit" class="btn btn-primary">Edit</button>
-			<router-link to="/fetchadmin">
-				<a class="btn btn-default">Cancel</a>
-			</router-link>
-		</form>
-		<p v-else><em>Loading...</em></p>
-	</div>
+<template>
+	<v-layout justify-center text-xs-center>
+		<v-flex xs4>
+			<v-form ref="form" lazy-validation v-if="!loading">
+				<h3>Create Site</h3>
+				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" disabled required />
+				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" requried />
+				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" required />
+				<v-btn color="accent" v-on:click="editSite">Submit</v-btn>
+				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-alert :value="failed" type="error">Failed to update site!</v-alert>
+			</v-form>
+			<v-progress-circular v-else color="primary" indeterminate />
+		</v-flex>
+	</v-layout>
 </template>
 
 <script src="./editsite.ts"></script>
