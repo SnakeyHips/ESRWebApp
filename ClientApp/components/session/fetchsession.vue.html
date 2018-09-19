@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-layout column>
 		<v-flex xs12 class="text-xs-center">
 			<v-menu lazy transition="scale-transition">
 				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly box />
@@ -41,7 +41,7 @@
 				</template>
 			</v-data-table>
 		</v-flex>
-	</v-container>
+	</v-layout>
 </template>
 
 <script src="./fetchsession.ts"></script>
