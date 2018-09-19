@@ -1,21 +1,20 @@
-﻿<template>
-	<div>
-		<h1>Create Special Date</h1>
-		<form v-on:submit.prevent="createSpecialDate">
-			<div class="form-group">
-				<label for="create-specialdate-name">Name</label>
-				<input class="form-control" id="create-specialdate-name" v-model="specialdate.name" required />
-			</div>
-			<div class="form-group">
-				<label for="create-specialdate-date">Date</label>
-				<input class="form-control" type="date" id="create-specialdate-date" v-model="specialdate.date" required />
-			</div>
-			<button type="submit" class="btn btn-primary">Create</button>
-			<router-link to="/fetchadmin">
-				<a class="btn btn-default">Cancel</a>
-			</router-link>
-		</form>
-	</div>
+<template>
+	<v-layout justify-center text-xs-center>
+		<v-flex xs4>
+			<v-form ref="form" lazy-validation>
+				<h3>Create Special Date</h3>
+				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" required />
+				<v-menu lazy transition="scale-transition" full-width min-width="290px">
+					<v-text-field slot="activator" v-model="specialdate.date" label="Date" append-icon="event" :rules="[rules.required]" readonly required></v-text-field>
+					<v-date-picker v-model="specialdate.date"></v-date-picker>
+				</v-menu>
+				<v-btn color="accent" v-on:click="createSpecialDate">Submit</v-btn>
+				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
+				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-alert :value="failed" type="error">Failed to create site!</v-alert>
+			</v-form>
+		</v-flex>
+	</v-layout>
 </template>
 
 <script src="./createspecialdate.ts"></script>
