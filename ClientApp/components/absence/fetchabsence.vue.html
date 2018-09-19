@@ -1,40 +1,42 @@
 <template>
-	<div>
-		<h1>Absences</h1>
-		<div class="form-group">
-			<label for="date">Date:</label>
-			<input class="form-control" type="date" id="date" v-model="date" v-on:change="loadAbsences(date)" />
-		</div>
-		<button class="btn btn-primary" v-on:click="createAbsence">Create</button>
-		<table v-if="mount" class="table">
-			<thead>
-				<tr>
-					<th>Staff Id</th>
-					<th>Staff Name</th>
-					<th>Type</th>
-					<th>Start Date</th>
-					<th>End Date</th>
-					<th>Hours</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="absence in absences">
-					<td>{{ absence.staffId }}</td>
-					<td>{{ absence.staffName }}</td>
-					<td>{{ absence.type }}</td>
-					<td>{{ absence.startDate }}</td>
-					<td>{{ absence.endDate }}</td>
-					<td>{{ absence.hours }}</td>
-					<td>
-					<td>
-						<button class="btn btn-default" v-on:click="editAbsence(absence.id)">Edit</button>
-						<button class="btn btn-default" v-on:click="deleteAbsence(absence.id)">Delete</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<p v-else><em>Loading...</em></p>
-	</div>
+	<v-layout column>
+		<v-flex xs12 class="text-xs-center">
+			<v-menu lazy transition="scale-transition">
+				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly />
+				<v-date-picker v-model="date" v-on:change="loadAbsences(date)" />
+			</v-menu>
+		</v-flex>
+		<v-flex xs12 class="elevation-1">
+			<v-toolbar flat color="white">
+				<v-toolbar-title>Absences</v-toolbar-title>
+				<v-spacer></v-spacer>
+				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-spacer></v-spacer>
+				<v-btn flat color="blue darken-1" v-on:click.native="createAbsence">Create</v-btn>
+			</v-toolbar>
+			<v-data-table :headers="headers" :items="absences" :search="search" :loading="loading" item-key="id" expand>
+				<v-progress-linear slot="progress" color="blue" indeterminate />
+				<template slot="items" slot-scope="props">
+					<tr @click="props.expanded = !props.expanded">
+						<td>{{ props.item.staffId }}</td>
+						<td>{{ props.item.staffName }}</td>
+						<td>{{ props.item.type }}</td>
+						<td>{{ props.item.startDate }}</td>
+						<td>{{ props.item.endDate }}</td>
+						<td>{{ props.item.hours }}</td>
+					</tr>
+				</template>
+				<template slot="expand" slot-scope="props">
+					<v-card flat="flat" color="grey lighten-4">
+						<v-layout justify-center>
+							<v-btn flat v-on:click.native="editAbsence(props.item.id)">Edit</v-btn>
+							<v-btn flat v-on:click.native="deleteAbsence(props.item.id)">Delete</v-btn>
+						</v-layout>
+					</v-card>
+				</template>
+			</v-data-table>
+		</v-flex>
+	</v-layout>
 </template>
 
 <script src="./fetchabsence.ts"></script>
