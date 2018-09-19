@@ -1,15 +1,3 @@
-.router-link-exact-active {
-	background: gray;
-}
-
-.navigation-drawer > .list .router-link-exact-active.list__tile--active > :first-child .icon {
-	color: #fff
-}
-
-.navigation-drawer > .list .router-link-exact-active.list__tile--active .list__tile__title {
-	color: #fff;
-}
-
 @media (max-width: 767px) {
 	/* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
 	body {
