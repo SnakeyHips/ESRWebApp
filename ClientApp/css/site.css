@@ -13,16 +13,16 @@
 	}
 }
 
-/* do print stlye here */
 @media print {
-	body {
-	}
-
-	.col-sm-9 {
-		width: 100%;
-	}
-
-	.btn {
+	.v-toolbar {
 		display: none;
 	}
-} 
+
+	.elevation-1 * {
+		visibility: visible;
+	}
+
+	body * {
+		visibility: hidden;
+	}
+}
