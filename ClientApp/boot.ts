@@ -5,7 +5,14 @@ import VueRouter from 'vue-router';
 import Vuetify from 'vuetify';
 
 Vue.use(VueRouter);
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+	theme: {
+		primary: '#ed1c24',
+		secondary: '#af0e14',
+		accent: '#f36368',
+		error: '#ff0000'
+	}
+});
 
 const routes = [
 	{ path: '/', component: require('./components/home/home.vue.html').default },
