@@ -11,9 +11,9 @@
 				<v-text-field v-model="employee.number" label="Number" placeholder="01234123456" mask="###########" :rules="[rules.required]" required box/>
 				<v-text-field v-model="employee.contractHours" label="Contract Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required box/>
 				<v-select v-model="workpattern" :items="days" label="Work Pattern" multiple chips box></v-select>
-				<v-btn color="accent" v-on:click="createEmployee">Submit</v-btn>
-				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
-				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="secondary" v-on:click="createEmployee">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to create employee!</v-alert>
 			</v-form>
 		</v-flex>
