@@ -1,3 +1,4 @@
+
 import './css/site.css';
 import 'vuetify/dist/vuetify.min.css';
 import Vue from 'vue';
@@ -23,6 +24,7 @@ const routes = [
 	{ path: '/fetchemployee', component: require('./components/employee/fetchemployee.vue.html').default },
 	{ path: '/createemployee', component: require('./components/employee/createemployee.vue.html').default },
 	{ path: '/editemployee/:id', component: require('./components/employee/editemployee.vue.html').default },
+	{ path: '/viewemployee/:id', component: require('./components/employee/viewemployee.vue.html').default },
 	{ path: '/fetchroster', component: require('./components/roster/fetchroster.vue.html').default },
 	{ path: '/fetchabsence', component: require('./components/absence/fetchabsence.vue.html').default },
 	{ path: '/createabsence', component: require('./components/absence/createabsence.vue.html').default },
