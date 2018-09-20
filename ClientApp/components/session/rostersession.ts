@@ -215,11 +215,7 @@ export default class RosterSessionComponent extends Vue {
 					}
 				})
 		}
-	}
-
-	sessionNote() {
-		console.log("note test");
-	}
+	}	
 
 	//Check for duplicates selected
 	checkDuplicates() {
