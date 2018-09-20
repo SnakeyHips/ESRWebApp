@@ -15,9 +15,9 @@
 					<v-date-picker v-model="absence.endDate" />
 				</v-menu>
 				<v-text-field v-model="absence.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required box/>
-				<v-btn color="accent" v-on:click="createAbsence">Submit</v-btn>
-				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
-				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="secondary" v-on:click="createAbsence">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to create absence!</v-alert>
 			</v-form>
 		</v-flex>
