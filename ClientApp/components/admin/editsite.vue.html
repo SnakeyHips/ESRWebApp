@@ -6,8 +6,8 @@
 				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" disabled required box/>
 				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" requried box/>
 				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" required box/>
-				<v-btn color="accent" v-on:click="editSite">Submit</v-btn>
-				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="secondary" v-on:click="editSite">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to update site!</v-alert>
 			</v-form>
 			<v-progress-circular v-else color="primary" indeterminate />
