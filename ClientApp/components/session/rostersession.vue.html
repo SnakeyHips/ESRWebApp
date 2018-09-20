@@ -1,165 +1,167 @@
 <template>
-	<v-container>
-		<h2>{{ after.day }} - {{ after.date }} - {{ after.site }}</h2>
-		<v-layout row wrap>
+	<v-container grid-list-xl text-xs-center>
+		<h3>{{ after.day }} - {{ after.date }} - {{ after.site }}</h3>
+		<v-layout>
 			<v-flex xs4>
-				<v-text-field v-model="after.time" label="Clinic Time" disabled />
+				<v-text-field box v-model="after.time" label="Clinic Time" disabled />
 			</v-flex>
 			<v-flex xs4>
-				<v-text-field v-model="after.type" label="Type" disabled />
+				<v-text-field box v-model="after.type" label="Type" disabled />
 			</v-flex>
 			<v-flex xs4>
-				<v-text-field v-model="after.lod" label="LOD" disabled />
-			</v-flex>
-		</v-layout>
-		<v-layout row wrap>
-			<v-flex xs4>
-				<v-text-field v-model="after.chairs" label="Chairs" disabled />
-			</v-flex>
-			<v-flex xs4>
-				<v-text-field v-model="after.occ" label="OCC" disabled />
-			</v-flex>
-			<v-flex xs4>
-				<v-text-field v-model="after.estimate" label="Estimate" disabled />
+				<v-text-field box v-model="after.lod" label="LOD" disabled />
 			</v-flex>
 		</v-layout>
-		<v-form ref="form" lazy-validation>
-			<h3 class="text-md-center">Roster</h3>
-			<v-divider></v-divider>
-			<v-container v-if="!holiday">
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" :rules="[rules.required]" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.sV1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.sV1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.sV1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.drI1Id" :items="dris" label="Driver 1" item-text="name" item-value="id" :rules="[rules.required]" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.drI1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.drI1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.drI1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" :rules="[rules.required]" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.drI2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.drI2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.drI2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.rN1Id" :items="rns" label="RN 1" item-text="name" item-value="id" :rules="[rules.required]" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" :rules="[rules.required]" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" :rules="[rules.required]" requried />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN3LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN3UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.rN3OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.ccA1Id" :items="ccas" label="CCA 1" item-text="name" item-value="id" :rules="[rules.required]" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" :rules="[rules.required]" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
-					</v-flex>
-				</v-layout>
-				<v-layout row wrap>
-					<v-flex xs3>
-						<v-select v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" :rules="[rules.required]" requried />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA3LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA3UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-					</v-flex>
-					<v-flex xs3>
-						<v-text-field v-model="after.ccA3OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" required />
-					</v-flex>
-				</v-layout>
-			</v-container>
+		<v-layout>
+			<v-flex xs4>
+				<v-text-field box v-model="after.chairs" label="Chairs" disabled />
+			</v-flex>
+			<v-flex xs4>
+				<v-text-field box v-model="after.occ" label="OCC" disabled />
+			</v-flex>
+			<v-flex xs4>
+				<v-text-field box v-model="after.estimate" label="Estimate" disabled />
+			</v-flex>
+		</v-layout>
+		<v-flex xs12>
+			<v-text-field box v-model="after.note" label="Session Note"></v-text-field>
+		</v-flex>
+		<v-layout>
+		</v-layout>
+		<v-form ref="form" lazy-validation v-if="!holiday">
+			<h3>Roster</h3>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" :rules="[rules.required]" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.sV1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.sV1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.sV1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.drI1Id" :items="dris" label="Driver 1" item-text="name" item-value="id" :rules="[rules.required]" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.drI1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.drI1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.drI1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" :rules="[rules.required]" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.drI2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.drI2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.drI2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.rN1Id" :items="rns" label="RN 1" item-text="name" item-value="id" :rules="[rules.required]" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" :rules="[rules.required]" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" :rules="[rules.required]" requried />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN3LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN3UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.rN3OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.ccA1Id" :items="ccas" label="CCA 1" item-text="name" item-value="id" :rules="[rules.required]" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA1LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA1UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA1OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" :rules="[rules.required]" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA2LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA2UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA2OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-layout>
+				<v-flex xs3>
+					<v-select box v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" :rules="[rules.required]" requried />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA3LOD" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA3UNS" label="Unsocial" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+				</v-flex>
+				<v-flex xs3>
+					<v-text-field box v-model="after.ccA3OT" label="OT" :rules="[rules.required, rules.decimal]" maxlength="5" required />
+				</v-flex>
+			</v-layout>
 		</v-form>
-		<v-layout row wrap>
+		<v-layout>
 			<v-spacer />
-			<v-btn v-on:click="rosterSession">Submit</v-btn>
-			<v-btn v-on:click="clear">Clear</v-btn>
-			<v-btn v-on:click="cancel">Cancel</v-btn>
+			<v-btn color="secondary" v-on:click="rosterSession">Submit</v-btn>
+			<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
+			<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 		</v-layout>
 		<v-alert :value="failed" type="error">{{ errorMessage }}</v-alert>
 	</v-container>
