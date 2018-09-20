@@ -14,8 +14,8 @@
 				<v-text-field v-model="session.chairs" label="Chairs" :rules="[rules.required, rules.number]" maxlength="2" required box/>
 				<v-text-field v-model="session.occ" label="OCC" :rules="[rules.required, rules.number]" maxlength="2" required box/>
 				<v-text-field v-model="session.estimate" label="Estimate" :rules="[rules.required, rules.number]" maxlength="2" required box/>
-				<v-btn color="accent" v-on:click="editSession">Submit</v-btn>
-				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="secondary" v-on:click="editSession">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to update session!</v-alert>
 			</v-form>
 			<v-progress-circular v-else color="primary" indeterminate />
