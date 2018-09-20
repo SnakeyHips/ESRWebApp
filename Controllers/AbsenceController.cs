@@ -13,9 +13,9 @@ namespace ERSWebApp.Controllers
     [Route("api/[controller]")]
     public class AbsenceController : Controller
     {
-        [HttpGet("{date}")]
+        [HttpGet)]
         [Route("GetAbsences")]
-        public List<Absence> GetAbsences(string date)
+        public List<Absence> GetAbsences[FromQuery]string date)
         {
             return GetAbsencesStatic(date);
         }
@@ -38,9 +38,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet)]
         [Route("GetById")]
-        public Absence GetById(int id)
+        public Absence GetById([FromQuery]int id)
         {
             string query = "SELECT * FROM AbsenceTable WHERE Id=@Id;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
