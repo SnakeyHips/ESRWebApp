@@ -15,8 +15,8 @@
 					<v-date-picker v-model="after.endDate" />
 				</v-menu>
 				<v-text-field v-model="after.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required box/>
-				<v-btn color="accent" v-on:click="editAbsence">Submit</v-btn>
-				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="secondary" v-on:click="editAbsence">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to update absence!</v-alert>
 			</v-form>
 			<v-progress-circular v-else color="primary" indeterminate />
