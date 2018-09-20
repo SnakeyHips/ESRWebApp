@@ -266,16 +266,16 @@ namespace ERSWebApp.Controllers
             {
                 holiday = 2;
             }
-            //else
-            //{
-            //    foreach (Holiday h in AdminViewModel.Holidays)
-            //    {
-            //        if (h.Date.Equals(date))
-            //        {
-            //            holiday = 2;
-            //        }
-            //    }
-            //}
+            else
+            {
+                foreach (SpecialDate sd in AdminController.GetSpecialDatesStatic())
+                {
+                    if (sd.Date.Equals(date))
+                    {
+                        holiday = 2;
+                    }
+                }
+            }
             return holiday;
         }
 
