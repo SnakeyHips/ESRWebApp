@@ -87,9 +87,9 @@ namespace ERSWebApp.Controllers
             return employees;
         }
 
-        [HttpGet("{week}/{id}")]
+        [HttpGet]
         [Route("GetEmployeeRoster")]
-        public Employee GetEmployeeRoster(double week, int id)
+        public Employee GetEmployeeRoster([FromQuery]double week, [FromQuery]int id)
         {
             string query = "SELECT * FROM RosterTable WHERE Week=@Week AND EmployeeId=@Id;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
