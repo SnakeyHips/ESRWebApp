@@ -8,9 +8,9 @@
 					<v-text-field slot="activator" v-model="specialdate.date" label="Date" append-icon="event" :rules="[rules.required]" readonly required box></v-text-field>
 					<v-date-picker v-model="specialdate.date"></v-date-picker>
 				</v-menu>
-				<v-btn color="accent" v-on:click="createSpecialDate">Submit</v-btn>
-				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
-				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="secondary" v-on:click="createSpecialDate">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to create site!</v-alert>
 			</v-form>
 		</v-flex>
