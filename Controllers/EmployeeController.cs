@@ -13,9 +13,9 @@ namespace ERSWebApp.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : Controller
     {
-        [HttpGet("{date}")]
+        [HttpGet]
         [Route("GetEmployees")]
-        public List<Employee> GetEmployees(string date)
+        public List<Employee> GetEmployees([FromQuery]string date)
         {
             string query = "SELECT * FROM EmployeeTable;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -68,9 +68,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [Route("GetById")]
-        public Employee GetById(int id)
+        public Employee GetById([FromQuery]int id)
         {
             return GetByIdStatic(id);
         }
@@ -126,9 +126,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [Route("Delete")]
-        public int Delete(int id)
+        public int Delete([FromQuery]int id)
         {
             if (id > 0)
             {
@@ -153,13 +153,13 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{date}")]
+        [HttpGet]
         [Route("GetAvailable")]
-        public List<Employee> GetAvailable(string date)
+        public List<Employee> GetAvailable([FromQuery]string date)
         {
-            List<Employee> available = GetEmployees(date);
+            List<Employee> available = new List<Employee>();
             DateTime datetime = DateTime.Parse(date);
-            foreach (Employee e in available)
+            foreach (Employee e in GetEmployees(date))
             {
                 if (e.Status == "Okay" && e.WorkPattern.Contains(datetime.DayOfWeek.ToString().Substring(0, 3)))
                 {
