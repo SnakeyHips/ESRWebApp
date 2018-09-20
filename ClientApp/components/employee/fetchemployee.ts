@@ -1,3 +1,5 @@
+
+
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Employee } from '../../models/employee';
@@ -40,6 +42,10 @@ export default class FetchEmployeeComponent extends Vue {
 
 	editEmployee(id: number) {
 		this.$router.push("/editemployee/" + id);
+	}
+	
+	viewEmployee(id: number) {
+		this.$router.push("/viewemployee/" + id);
 	}
 
 	deleteEmployee(id: number) {
