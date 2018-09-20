@@ -25,13 +25,15 @@ export default class CreateAbsenceComponent extends Vue {
 		hours: 0
 	}
 
+	iddisable: boolean = false;
+	loading: boolean = false;
 	failed: boolean = false;
 	types: string[] = ["Day Off", "Annual Leave", "Sick Leave", "Special Leave", "Training"];
 
 	createAbsence() {
 		this.failed = false;
 		if (this.$refs.form.validate()) {
-			if (this.checkDates()) {
+			if (!(new Date(this.absence.endDate) < new Date(this.absence.startDate))) {
 				fetch('api/Absence/Create', {
 					method: 'POST',
 					body: JSON.stringify(this.absence)
@@ -51,30 +53,23 @@ export default class CreateAbsenceComponent extends Vue {
 	}
 
 	search() {
+		this.loading = true;
 		fetch('api/Employee/GetById?id=' + this.absence.staffId)
 			.then(response => response.json() as Promise<Employee>)
 			.then(data => {
-				if (data != null) {
+				if (data.id > 0) {
 					this.absence.staffName = data.name;
+					this.iddisable = true;
+					this.loading = false;
 				} else {
 					alert("Couldn't find Employee by that Id!");
+					this.loading = false;
 				}
 			})
 	}
 
-	clearName() {
-		this.absence.staffName = "";
-	}
-
-	checkDates() {
-		if (new Date(this.absence.endDate) < new Date(this.absence.startDate)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
 	clear() {
+		this.iddisable = false;
 		this.$refs.form.reset();
 	}
 
