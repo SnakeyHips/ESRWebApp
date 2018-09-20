@@ -14,9 +14,9 @@ namespace ERSWebApp.Controllers
     public class SessionController : Controller
     {
 
-        [HttpGet("{date}")]
+        [HttpGet()]
         [Route("GetSessions")]
-        public List<Session> GetSessions(string date)
+        public List<Session> GetSessions([FromQuery]string date)
         {
             string query = "SELECT * FROM SessionTable WHERE Date=@Date;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -34,9 +34,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet()]
         [Route("GetById")]
-        public Session GetById(int id)
+        public Session GetById([FromQuery]int id)
         {
             string query = "SELECT * FROM SessionTable WHERE Id=@Id;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -54,9 +54,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{date}/{staffid}")]
+        [HttpGet()]
         [Route("GetStaff")]
-        public Session GetStaff(string date, int staffid)
+        public Session GetStaff([FromQuery]string date, [FromQuery]int staffid)
         {
             string query = "SELECT * FROM SessionTable WHERE Date=@Date AND @StaffId IN" +
                 "(SV1Id, DRI1Id, DRI2Id, RN1Id, RN2Id, RN3Id, CCA1Id, CCA2Id, CCA3Id)";
@@ -74,9 +74,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{date}/{staffid}")]
+        [HttpGet()]
         [Route("GetSite")]
-        public string GetSite(string date, int staffid)
+        public string GetSite([FromQuery]string date, [FromQuery]int staffid)
         {
             string query = "SELECT Site FROM SessionTable WHERE Date=@Date AND @StaffId IN" +
                 "(SV1Id, DRI1Id, DRI2Id, RN1Id, RN2Id, RN3Id, CCA1Id, CCA2Id, CCA3Id)";
@@ -148,7 +148,7 @@ namespace ERSWebApp.Controllers
             }
             if (session != null)
             {
-                string query = "UPDATE SessionTable" +
+                string query = " UPDATE SessionTable" +
                     " SET Time=@Time, Type=@Type, Site=@Site, LOD=@LOD, Chairs=@Chairs, OCC=@OCC, Estimate=@Estimate" +
                     " WHERE Id=@Id;";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -207,9 +207,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [Route("Delete")]
-        public int Delete(int id)
+        public int Delete([FromQuery]int id)
         {
             if (id > 0)
             {
@@ -234,9 +234,29 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{type}")]
+        [HttpGet()]
+        [Route("GetEmployeeSessions")]
+        public List<Session> GetEmployeeSessions([FromQuery]int staffid, [FromQuery]string startdate, [FromQuery]string enddate)
+        {
+            string query = "SELECT * FROM SessionTable WHERE Date BETWEEN @StartDate AND @EndDate AND @StaffId IN" +
+                "(SV1Id, DRI1Id, DRI2Id, RN1Id, RN2Id, RN3Id, CCA1Id, CCA2Id, CCA3Id)";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<Session>(query, new { startdate, enddate, staffid }).ToList();
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+        [HttpGet()]
         [Route("GetSites")]
-        public List<Site> GetSites(string type)
+        public List<Site> GetSites([FromQuery]string type)
         {
             string query = "SELECT * FROM SiteTable WHERE Type=@Type;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
