@@ -8,8 +8,8 @@ Vue.use(VueRouter);
 Vue.use(Vuetify, {
 	theme: {
 		primary: '#ed1c24',
-		secondary: '#af0e14',
-		accent: '#f36368',
+		secondary: '#f36368',
+		accent: '#af0e14', 
 		error: '#af0e14'
 	}
 });
