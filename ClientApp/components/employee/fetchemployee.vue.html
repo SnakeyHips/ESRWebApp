@@ -12,7 +12,7 @@
 				<v-spacer></v-spacer>
 				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
 				<v-spacer></v-spacer>
-				<v-btn flat color="accent" v-on:click.native="createEmployee">Create</v-btn>
+				<v-btn flat color="secondary" v-on:click.native="createEmployee">Create</v-btn>
 			</v-toolbar>
 			<v-data-table :headers="headers" :items="employees" :search="search" :loading="loading" item-key="id" expand>
 				<v-progress-linear slot="progress" color="primary" indeterminate />
@@ -32,8 +32,8 @@
 				<template slot="expand" slot-scope="props">
 					<v-card flat="flat" color="grey lighten-4">
 						<v-layout justify-center>
-							<v-btn color="accent" flat v-on:click.native="editEmployee(props.item.id)">Edit</v-btn>
-							<v-btn color="accent" flat v-on:click.native="deleteEmployee(props.item.id)">Delete</v-btn>
+							<v-btn color="secondary" flat v-on:click.native="editEmployee(props.item.id)">Edit</v-btn>
+							<v-btn color="secondary" flat v-on:click.native="deleteEmployee(props.item.id)">Delete</v-btn>
 						</v-layout>
 					</v-card>
 				</template>
