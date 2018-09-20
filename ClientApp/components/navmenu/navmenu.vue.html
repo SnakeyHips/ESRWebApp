@@ -1,52 +1,15 @@
 <template>
-    <div class="main-nav">
-        <div class="navbar navbar-inverse">
-            <div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-                <a class="navbar-brand" href="/">ERSWebApp</a>
-            </div>
-            <div class="clearfix"></div>
-            <div class="navbar-collapse collapse">
-				<ul class="nav navbar-nav">
-					<li>
-						<router-link to="/" :exact="true">
-							<span class="glyphicon glyphicon-home"></span> Home
-						</router-link>
-					</li>
-					<li>
-						<router-link to="/fetchsession">
-							<span class="glyphicon glyphicon-heart"></span> Sessions
-						</router-link>
-					</li>
-					<li>
-						<router-link to="/fetchemployee">
-							<span class="glyphicon glyphicon-user"></span> Employees
-						</router-link>
-					</li>
-					<li>
-						<router-link to="/fetchabsence">
-							<span class="glyphicon glyphicon-thumbs-down"></span> Absences
-						</router-link>
-					</li>
-					<li>
-						<router-link to="/fetchroster">
-							<span class="glyphicon glyphicon-time"></span> Roster
-						</router-link>
-					</li>
-					<li>
-						<router-link to="/fetchadmin">
-							<span class="glyphicon glyphicon-cog"></span> Admin
-						</router-link>
-					</li>
-				</ul>
-            </div>
-        </div>
-    </div>
+	<v-list dense>
+		<v-list-tile v-for="item in menuItems" :key="item.title" @click="" :to="item.path">
+			<v-list-tile-action>
+				<v-icon>{{item.icon}}</v-icon>
+			</v-list-tile-action>
+			<v-list-tile-content>
+				<v-list-tile-title>
+					{{item.title}}
+				</v-list-tile-title>
+			</v-list-tile-content>
+		</v-list-tile>
+	</v-list>
 </template>
-
-<style src="./navmenu.css"></style>
+<script src="./navmenu.ts"></script>
