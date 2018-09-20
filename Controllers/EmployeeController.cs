@@ -88,7 +88,7 @@ namespace ERSWebApp.Controllers
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex);
-                    return null;
+                    return new Employee();
                 }
             }
         }
