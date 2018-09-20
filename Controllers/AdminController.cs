@@ -39,9 +39,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [Route("GetSpecialDateById")]
-        public SpecialDate GetSpecialDateById(int id)
+        public SpecialDate GetSpecialDateById([FromQuery]int id)
         {
             string query = "SELECT * FROM SpecialDateTable WHERE Id=@Id;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -124,9 +124,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [Route("DeleteSpecialDate")]
-        public int DeleteSpecialDate(int id)
+        public int DeleteSpecialDate([FromQuery]int id)
         {
             if (id > 0)
             {
@@ -176,9 +176,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         [Route("GetSiteById")]
-        public Site GetSiteById(int id)
+        public Site GetSiteById([FromQuery]int id)
         {
             string query = "SELECT * FROM SiteTable WHERE Id=@Id;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -261,9 +261,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [Route("DeleteSite")]
-        public int DeleteSite(int id)
+        public int DeleteSite([FromQuery]int id)
         {
             if (id > 0)
             {
