@@ -2,7 +2,7 @@
 	<v-layout justify-center text-xs-center>
 		<v-flex xs4>
 			<v-form ref="form" lazy-validation v-if="!loading">
-				<h3>Create Site</h3>
+				<h3>Edit Site</h3>
 				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" disabled box/>
 				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" box/>
 				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" box/>
