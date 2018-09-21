@@ -32,6 +32,8 @@ const routes = [
 	{ path: '/fetchadmin', component: require('./components/admin/fetchadmin.vue.html').default },
 	{ path: '/createspecialdate', component: require('./components/admin/createspecialdate.vue.html').default },
 	{ path: '/editspecialdate/:id', component: require('./components/admin/editspecialdate.vue.html').default },
+	{ path: '/createskill', component: require('./components/admin/createskill.vue.html').default },
+	{ path: '/editskill/:id', component: require('./components/admin/editskill.vue.html').default },
 	{ path: '/createsite', component: require('./components/admin/createsite.vue.html').default },
 	{ path: '/editsite/:id', component: require('./components/admin/editsite.vue.html').default },
 ];
