@@ -1,4 +1,4 @@
-﻿namespace ERSWebApp.Models
+namespace ERSWebApp.Models
 {
     public class Employee
     {
@@ -14,6 +14,8 @@
         public double LowRateUHours { get; set; }
         public double HighRateUHours { get; set; }
         public double OvertimeHours { get; set; }
+        public double NegHours { get; set; }
+        public double COHours { get; set; }
         public string WorkPattern { get; set; }
         public string Status { get; set; }
     }
