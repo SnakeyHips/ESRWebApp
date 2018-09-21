@@ -3,18 +3,18 @@
 		<v-flex xs4>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<h3>Edit Absence</h3>
-				<v-text-field v-model="after.staffId" label="Staff Id" :rules="[rules.number]" maxlength="8" disabled box/>
-				<v-text-field v-model="after.staffName" label="Staff Name" disabled required box/>
-				<v-select v-model="after.type" :items="types" label="Type" required box/>
+				<v-text-field v-model="after.staffId" label="Staff Id" :rules="[rules.required, rules.number]" maxlength="8" disabled box/>
+				<v-text-field v-model="after.staffName" label="Staff Name" :rules="[rules.required]" disabled box/>
+				<v-select v-model="after.type" :items="types" label="Type" :rules="[rules.required]" box/>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="after.startDate" label="Start date" append-icon="event" readonly disabled required box/>
+					<v-text-field slot="activator" v-model="after.startDate" label="Start date" append-icon="event" :rules="[rules.required]" readonly disabled box/>
 					<v-date-picker v-model="after.startDate" />
 				</v-menu>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="after.endDate" label="End date" append-icon="event" readonly required box/>
+					<v-text-field slot="activator" v-model="after.endDate" label="End date" append-icon="event" :rules="[rules.required]" readonly box/>
 					<v-date-picker v-model="after.endDate" />
 				</v-menu>
-				<v-text-field v-model="after.hours" label="Hours" :rules="[rules.decimal]" maxlength="5" required box/>
+				<v-text-field v-model="after.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" box/>
 				<v-btn color="secondary" v-on:click="editAbsence">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to update absence!</v-alert>
