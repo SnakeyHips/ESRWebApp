@@ -3,18 +3,18 @@
 		<v-flex xs4>
 			<v-form ref="form" lazy-validation>
 				<h3>Create Absence</h3>
-				<v-text-field v-model="absence.staffId" label="Staff Id" :rules="[rules.required, rules.number]" append-icon="search" @click:append="search" maxlength="8" :disabled="iddisable" required box/>
-				<v-text-field v-model="absence.staffName" label="Staff Name" :rules="[rules.required]" :loading="loading" disabled required box/>
-				<v-select v-model="absence.type" :items="types" label="Type" :rules="[rules.required]" requried box/>
+				<v-text-field v-model="absence.staffId" label="Staff Id" :rules="[rules.number]" append-icon="search" @click:append="search" maxlength="8" :disabled="iddisable" required box/>
+				<v-text-field v-model="absence.staffName" label="Staff Name" :loading="loading" disabled required box/>
+				<v-select v-model="absence.type" :items="types" label="Type" requried box/>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px" >
-					<v-text-field slot="activator" v-model="absence.startDate" label="Start date" append-icon="event" :rules="[rules.required]" readonly required box/>
+					<v-text-field slot="activator" v-model="absence.startDate" label="Start date" append-icon="event" readonly required box/>
 					<v-date-picker v-model="absence.startDate" />
 				</v-menu>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px" >
-					<v-text-field slot="activator" v-model="absence.endDate" label="End date" append-icon="event" :rules="[rules.required]" readonly required box/>
+					<v-text-field slot="activator" v-model="absence.endDate" label="End date" append-icon="event" readonly required box/>
 					<v-date-picker v-model="absence.endDate" />
 				</v-menu>
-				<v-text-field v-model="absence.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required box/>
+				<v-text-field v-model="absence.hours" label="Hours" :rules="[rules.decimal]" maxlength="5" required box/>
 				<v-btn color="secondary" v-on:click="createAbsence">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
