@@ -49,7 +49,7 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.QuerySingle<SpecialDate>(query, new { id });
+                    return conn.QueryFirstOrDefault<SpecialDate>(query, new { id });
                 }
                 catch (Exception ex)
                 {
@@ -186,7 +186,7 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.QuerySingle<Site>(query, new { id });
+                    return conn.QueryFirstOrDefault<Site>(query, new { id });
                 }
                 catch (Exception ex)
                 {
