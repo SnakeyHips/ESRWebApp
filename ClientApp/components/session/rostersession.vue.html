@@ -1,3 +1,4 @@
+
 <template>
 	<v-container grid-list-xl text-xs-center>
 		<h3>{{ after.day }} - {{ after.date }} - {{ after.site }}</h3>
@@ -30,6 +31,7 @@
 		</v-layout>
 		<v-form ref="form" lazy-validation v-if="!holiday">
 			<h3>Roster</h3>
+			<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam"/>
 			<v-layout>
 				<v-flex xs3>
 					<v-select ref="sv1" box v-model="after.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" />
@@ -159,6 +161,7 @@
 		</v-form>
 		<v-form ref="form" lazy-validation v-if="holiday">
 			<h3>Roster</h3>
+			<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam"/>
 			<v-layout>
 				<v-flex xs4>
 					<v-select ref="sv1" box v-model="after.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" />
