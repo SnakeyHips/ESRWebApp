@@ -152,6 +152,158 @@ namespace ERSWebApp.Controllers
         }
 
         [HttpGet]
+        [Route("GetSkills")]
+        public List<Skill> GetSkills()
+        {
+            string query = "SELECT * FROM SkillTable;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<Skill>(query).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<Skill>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetSkillById")]
+        public Skill GetSkillById([FromQuery]int id)
+        {
+            string query = "SELECT * FROM SkillTable WHERE Id=@Id;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<Skill>(query, new { id });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetSkillsByRole")]
+        public List<string> GetSkillsByRole([FromQuery]string role)
+        {
+            string query = "SELECT Name FROM SkillTable WHERE Role=@Role;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<string>(query, new { role }).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<string>();
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateSkill")]
+        public int CreateSkill()
+        {
+            Skill skill = new Skill();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                skill = JsonConvert.DeserializeObject<Skill>(sr.ReadToEnd());
+            }
+            if (skill != null)
+            {
+                string query = "IF NOT EXISTS (SELECT * FROM SkillTable WHERE Role=@Role Name=@Name) " +
+                "INSERT INTO SkillTable (Role, Name) VALUES (@Role, @Name);";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, skill);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateSkill")]
+        public int UpdateSkill()
+        {
+            Skill skill = new Skill();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                skill = JsonConvert.DeserializeObject<Skill>(sr.ReadToEnd());
+            }
+            if (skill != null)
+            {
+                string query = "UPDATE SkillTable SET Name=@Name WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, skill);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteSkill")]
+        public int DeleteSkill([FromQuery]int id)
+        {
+            if (id > 0)
+            {
+                string query = "DELETE FROM SkillTable WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, new { id });
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpGet]
         [Route("GetSites")]
         public List<Site> GetSites()
         {
