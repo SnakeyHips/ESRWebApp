@@ -13,9 +13,9 @@ namespace ERSWebApp.Controllers
     [Route("api/[controller]")]
     public class AbsenceController : Controller
     {
-        [HttpGet)]
+        [HttpGet]
         [Route("GetAbsences")]
-        public List<Absence> GetAbsences[FromQuery]string date)
+        public List<Absence> GetAbsences([FromQuery]string date)
         {
             return GetAbsencesStatic(date);
         }
@@ -38,7 +38,7 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet)]
+        [HttpGet]
         [Route("GetById")]
         public Absence GetById([FromQuery]int id)
         {
@@ -48,7 +48,7 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.QuerySingle<Absence>(query, new { id });
+                    return conn.QueryFirstOrDefault<Absence>(query, new { id });
                 }
                 catch (Exception ex)
                 {
@@ -181,6 +181,24 @@ namespace ERSWebApp.Controllers
                 }
             }
             return status;
+        }
+
+        public static string GetStaffStatus(int staffid, string date)
+        {
+            string query = "SELECT Type FROM AbsenceTable WHERE StaffId=@StaffId AND @Date BETWEEN StartDate AND EndDate;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<string>(query, new { staffid, date });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return "";
+                }
+            }
         }
     }
 }
