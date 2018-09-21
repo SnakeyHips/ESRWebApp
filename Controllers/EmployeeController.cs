@@ -83,12 +83,12 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.QuerySingle<Employee>(query, new { id });
+                    return conn.QueryFirstOrDefault<Employee>(query, new { id });
                 }
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine(ex);
-                    return new Employee();
+                    return null;
                 }
             }
         }
