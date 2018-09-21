@@ -2,12 +2,22 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Session } from '../../models/session';
 import { Employee } from '../../models/employee';
+import { VuetifyObject } from 'vuetify';
 
 @Component
 export default class RosterSessionComponent extends Vue {
 
 	$refs!: {
-		form: HTMLFormElement
+		form: HTMLFormElement,
+		sv1: VuetifyObject,
+		dri1: VuetifyObject,
+		dri2: VuetifyObject,
+		rn1: VuetifyObject,
+		rn2: VuetifyObject,
+		rn3: VuetifyObject,
+		cca1: VuetifyObject,
+		cca2: VuetifyObject,
+		cca3: VuetifyObject
 	}
 
 	rules: object = {
@@ -16,6 +26,7 @@ export default class RosterSessionComponent extends Vue {
 		decimal: value => /^\d+(\.\d{1,2})?$/.test(value) || 'Value must be decimal e.g. "8.0" or "7.5"'
 	}
 
+	test: string = "";
 	failed: boolean = false;
 	errorMessage: string = "";
 	mount: boolean = false;
@@ -198,6 +209,7 @@ export default class RosterSessionComponent extends Vue {
 	rosterSession() {
 		this.failed = false;
 		if (!this.checkDuplicates()) {
+			this.getNames();
 			let sessions: Session[] = [];
 			sessions.push(this.before);
 			sessions.push(this.after);
@@ -215,7 +227,7 @@ export default class RosterSessionComponent extends Vue {
 					}
 				})
 		}
-	}	
+	}
 
 	//Check for duplicates selected
 	checkDuplicates() {
@@ -276,6 +288,55 @@ export default class RosterSessionComponent extends Vue {
 			}
 		}
 		return duplicate;
+	}
+
+	//Set name methods
+	getNames() {
+		try {
+			this.after.sV1Name = this.$refs.sv1.$data.selectedItems[0].name;
+		} catch{
+			this.after.sV1Name = "";
+		}
+		try {
+			this.after.drI1Name = this.$refs.dri1.$data.selectedItems[0].name;
+		} catch{
+			this.after.drI1Name = "";
+		}
+		try {
+			this.after.drI2Name = this.$refs.dri2.$data.selectedItems[0].name;
+		} catch{
+			this.after.drI2Name = "";
+		}
+		try {
+			this.after.rN1Name = this.$refs.rn1.$data.selectedItems[0].name;
+		} catch{
+			this.after.rN1Name = "";
+		}
+		try {
+			this.after.rN2Name = this.$refs.rn2.$data.selectedItems[0].name;
+		} catch{
+			this.after.rN2Name = "";
+		}
+		try {
+			this.after.rN3Name = this.$refs.rn3.$data.selectedItems[0].name;
+		} catch{
+			this.after.rN3Name = "";
+		}
+		try {
+			this.after.ccA1Name = this.$refs.cca1.$data.selectedItems[0].name;
+		} catch{
+			this.after.ccA1Name = "";
+		}
+		try {
+			this.after.ccA2Name = this.$refs.cca2.$data.selectedItems[0].name;
+		} catch{
+			this.after.ccA2Name = "";
+		}
+		try {
+			this.after.ccA3Name = this.$refs.cca3.$data.selectedItems[0].name;
+		} catch{
+			this.after.ccA3Name = "";
+		}
 	}
 
 	clear() {
