@@ -8,6 +8,7 @@ export default class FetchRosterComponent extends Vue {
 	employees: Employee[] = [];
 	selectedWeeks: number[] = [];
 	loading: boolean = false;
+	loadingweeks: boolean = false;
 	search: string = "";
 	headers: object[] = [
 		{ text: 'Id', value: 'id' },
@@ -18,6 +19,8 @@ export default class FetchRosterComponent extends Vue {
 		{ text: 'LowRateU', value: 'lowRateUHours' },
 		{ text: 'HighRateU', value: 'highRateUHours' },
 		{ text: 'Overtime', value: 'overtimeHours' },
+		{ text: 'Neg', value: 'negHours' },
+		{ text: 'OC', value: 'coHours' },
 	];
 
 	mounted() {
@@ -25,10 +28,12 @@ export default class FetchRosterComponent extends Vue {
 	}
 
 	loadWeeks() {
+		this.loadingweeks = true;
 		fetch('api/Roster/GetRosterWeeks')
 			.then(response => response.json() as Promise<number[]>)
 			.then(data => {
 				this.weeks = data;
+				this.loadingweeks = false;
 			})
 	}
 
