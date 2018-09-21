@@ -1,0 +1,17 @@
+<template>
+	<v-layout justify-center text-xs-center>
+		<v-flex xs4>
+			<v-form ref="form" lazy-validation>
+				<h3>Create Skill</h3>
+				<v-select v-model="skill.role" :items="roles" label="Role" :rules="[rules.required]" box />
+				<v-text-field v-model="skill.name" label="Name" :rules="[rules.required]" box />
+				<v-btn color="secondary" v-on:click="createSkill">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
+				<v-alert :value="failed" type="error">Failed to create skill!</v-alert>
+			</v-form>
+		</v-flex>
+	</v-layout>
+</template>
+
+<script src="./createskill.ts"></script>
