@@ -3,9 +3,9 @@
 		<v-flex xs4>
 			<v-form ref="form" lazy-validation>
 				<h3>Create Site</h3>
-				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" required box/>
-				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" requried box/>
-				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" required box/>
+				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" box/>
+				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" box/>
+				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" box/>
 				<v-btn color="secondary" v-on:click="createSite">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
