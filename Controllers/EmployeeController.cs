@@ -67,12 +67,16 @@ namespace ERSWebApp.Controllers
                 return -1;
             }
         }
-
         [HttpGet]
         [Route("GetById")]
         public Employee GetById([FromQuery]int id)
         {
-            return GetByIdStatic(id);
+            Employee temp = GetByIdStatic(id);
+            if(temp == null)
+            {
+                temp = new Employee();
+            }
+            return temp;
         }
 
         public static Employee GetByIdStatic(int id)
