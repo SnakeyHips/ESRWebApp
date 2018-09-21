@@ -1,20 +1,29 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { SpecialDate } from '../../models/specialdate';
+import { Skill } from '../../models/skill';
 import { Site } from '../../models/site';
 
 @Component
 export default class FetchAbsenceComponent extends Vue {
 	specialdates: SpecialDate[] = [];
+	skills: Skill[] = [];
 	sites: Site[] = [];
 	loadingSpecialDate: boolean = false;
+	loadingSkill: boolean = false;
 	loadingSite: boolean = false;
 	searchSpecialDate: string = "";
+	searchSkill: string = "";
 	searchSite: string = "";
 
 	headersSpecialDate: object[] = [
 		{ text: 'Name', value: 'name' },
 		{ text: 'Date', value: 'date' }
+	];
+
+	headersSkill: object[] = [
+		{ text: 'Role', value: 'role' },
+		{ text: 'Name', value: 'name' }
 	];
 
 	headersSite: object[] = [
@@ -25,6 +34,7 @@ export default class FetchAbsenceComponent extends Vue {
 
 	mounted() {
 		this.loadSpecialDates();
+		this.loadSkills();
 		this.loadSites();
 	}
 
@@ -35,6 +45,16 @@ export default class FetchAbsenceComponent extends Vue {
 			.then(data => {
 				this.specialdates = data;
 				this.loadingSpecialDate = false;
+			});
+	}
+
+	loadSkills() {
+		this.loadingSkill = true;
+		fetch('api/Admin/GetSkills')
+			.then(response => response.json() as Promise<Skill[]>)
+			.then(data => {
+				this.skills = data;
+				this.loadingSkill= false;
 			});
 	}
 
@@ -52,17 +72,23 @@ export default class FetchAbsenceComponent extends Vue {
 		this.$router.push("/createspecialdate");
 	}
 
+	createSkill() {
+		this.$router.push("/createskill");
+	}
+
 	createSite() {
 		this.$router.push("/createsite");
 	}
 
 	editSpecialDate(id: number) {
-		console.log(id);
 		this.$router.push("/editspecialdate/" + id);
 	}
 
+	editSkill(id: number) {
+		this.$router.push("/editskill/" + id);
+	}
+
 	editSite(id: number) {
-		console.log(id);
 		this.$router.push("/editsite/" + id);
 	}
 
@@ -78,6 +104,23 @@ export default class FetchAbsenceComponent extends Vue {
 						alert("Failed to delete Special Date. Please make sure you are still connected?");
 					} else {
 						this.loadSpecialDates();
+					}
+				})
+		}
+	}
+
+	deleteSkill(id: number) {
+		var ans = confirm("Do you want to delete this Skill?");
+		if (ans) {
+			fetch('api/Admin/DeleteSkill?id=' + id, {
+				method: 'DELETE'
+			})
+				.then(response => response.json() as Promise<number>)
+				.then(data => {
+					if (data < 1) {
+						alert("Failed to delete Skill. Please make sure you are still connected?");
+					} else {
+						this.loadSkills();
 					}
 				})
 		}
