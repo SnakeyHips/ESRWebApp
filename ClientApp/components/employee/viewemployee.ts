@@ -51,8 +51,6 @@ export default class ViewEmployeeComponent extends Vue {
 		if (this.startdate != "" && this.enddate != "") {
 			if (!(new Date(this.enddate) < new Date(this.startdate))) {
 				this.loading = true;
-				console.log(this.startdate);
-				console.log(this.enddate);
 				fetch('api/Session/GetEmployeeSessions?staffid=' + this.employee.id + '&startdate=' + this.startdate + '&enddate=' + this.enddate)
 					.then(response => response.json() as Promise<Session[]>)
 					.then(data => {
