@@ -3,14 +3,14 @@
 		<v-flex xs4>
 			<v-form ref="form" lazy-validation>
 				<h3>Create Employee</h3>
-				<v-text-field v-model="employee.id" label="Id" :rules="[rules.required, rules.number]" maxlength="8" required box/>
-				<v-text-field v-model="employee.name" label="Name" :rules="[rules.required]" required box/>
-				<v-select v-model="employee.role" :items="roles" label="Role" :rules="[rules.required]" requried box/>
-				<v-text-field v-model="employee.skill" label="Skill" :rules="[rules.required]" required box/>
-				<v-text-field v-model="employee.address" label="Address" :rules="[rules.required]" required box/>
-				<v-text-field v-model="employee.number" label="Number" placeholder="01234123456" mask="###########" :rules="[rules.required]" required box/>
-				<v-text-field v-model="employee.contractHours" label="Contract Hours" :rules="[rules.required, rules.decimal]" maxlength="5" required box/>
-				<v-select v-model="workpattern" :items="days" label="Work Pattern" multiple chips box></v-select>
+				<v-text-field v-model="employee.id" label="Id" :rules="[rules.required, rules.number]" maxlength="8" box/>
+				<v-text-field v-model="employee.name" label="Name" :rules="[rules.required]" box/>
+				<v-select v-model="employee.role" :items="roles" label="Role" :rules="[rules.required]" box/>
+				<v-text-field v-model="employee.skill" label="Skill" :rules="[rules.required]" box/>
+				<v-text-field v-model="employee.address" label="Address" :rules="[rules.required]" box/>
+				<v-text-field v-model="employee.number" label="Number" placeholder="01234123456" mask="###########" :rules="[rules.required]" box/>
+				<v-text-field v-model="employee.contractHours" label="Contract Hours" :rules="[rules.required, rules.decimal]" maxlength="5" box/>
+				<v-select v-model="workpattern" :items="days" label="Work Pattern" :rules="[rules.required]" multiple chips box></v-select>
 				<v-btn color="secondary" v-on:click="createEmployee">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
