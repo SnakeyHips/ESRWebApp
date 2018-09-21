@@ -3,9 +3,9 @@
 		<v-flex xs4>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<h3>Edit Special Date</h3>
-				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" disabled required box/>
+				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" disabled box/>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="specialdate.date" label="Date" append-icon="event" :rules="[rules.required]" readonly required box></v-text-field>
+					<v-text-field slot="activator" v-model="specialdate.date" label="Date" append-icon="event" :rules="[rules.required]" readonly box></v-text-field>
 					<v-date-picker v-model="specialdate.date"></v-date-picker>
 				</v-menu>
 				<v-btn color="secondary" v-on:click="editSpecialDate">Submit</v-btn>
