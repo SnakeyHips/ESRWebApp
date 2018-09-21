@@ -54,7 +54,6 @@ export default class ViewEmployeeComponent extends Vue {
 				fetch('api/Session/GetEmployeeSessions?staffid=' + this.employee.id + '&startdate=' + this.startdate + '&enddate=' + this.enddate)
 					.then(response => response.json() as Promise<Session[]>)
 					.then(data => {
-						console.log(JSON.stringify(data));
 						this.sessions = data;
 						this.loading = false;
 					});
