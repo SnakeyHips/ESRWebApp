@@ -10,10 +10,10 @@
 				<v-text-field v-model="session.type" label="Type" :rules="[rules.required]" disabled box/>
 				<v-text-field v-model="session.site" label="Site" :rules="[rules.required]" disabled box/>
 				<v-text-field v-model="session.time" label="Clinic Time" :rules="[rules.required]" disabled box/>
-				<v-text-field v-model="session.lod" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" required box/>
-				<v-text-field v-model="session.chairs" label="Chairs" :rules="[rules.required, rules.number]" maxlength="2" required box/>
-				<v-text-field v-model="session.occ" label="OCC" :rules="[rules.required, rules.number]" maxlength="2" required box/>
-				<v-text-field v-model="session.estimate" label="Estimate" :rules="[rules.required, rules.number]" maxlength="2" required box/>
+				<v-text-field v-model="session.lod" label="LOD" :rules="[rules.required, rules.decimal]" maxlength="5" box/>
+				<v-text-field v-model="session.chairs" label="Chairs" :rules="[rules.required, rules.number]" maxlength="2" box/>
+				<v-text-field v-model="session.occ" label="OCC" :rules="[rules.required, rules.number]" maxlength="2" box/>
+				<v-text-field v-model="session.estimate" label="Estimate" :rules="[rules.required, rules.number]" maxlength="2" box/>
 				<v-btn color="secondary" v-on:click="editSession">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
 				<v-alert :value="failed" type="error">Failed to update session!</v-alert>
