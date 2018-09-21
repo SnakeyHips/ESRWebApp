@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Session } from '../../models/session';
 import { Employee } from '../../models/employee';
+import { Team } from '../../models/team';
 import { VuetifyObject } from 'vuetify';
 
 @Component
@@ -155,8 +156,32 @@ export default class RosterSessionComponent extends Vue {
 		staffCount: 0,
 		state: 0
 	}
-	
+
+	team: Team = {
+		id: 0,
+		name: "",
+		sV1Id: 0,
+		sV1Name: "",
+		drI1Id: 0,
+		drI1Name: "",
+		drI2Id: 0,
+		drI2Name: "",
+		rN1Id: 0,
+		rN1Name: "",
+		rN2Id: 0,
+		rN2Name: "",
+		rN3Id: 0,
+		rN3Name: "",
+		ccA1Id: 0,
+		ccA1Name: "",
+		ccA2Id: 0,
+		ccA2Name: "",
+		ccA3Id: 0,
+		ccA3Name: "",
+	}
+
 	employees: Employee[] = [];
+	teams: Team[] = [];
 	svs: Employee[] = [];
 	dris: Employee[] = [];
 	rns: Employee[] = [];
@@ -172,17 +197,26 @@ export default class RosterSessionComponent extends Vue {
 				if (this.after.holiday > 0) {
 					this.holiday = true;
 				}
-				//then get available 
-				this.getAvailable();
+				//then get available and teams
+				this.loadAvailable();
+				this.loadTeams();
 			});
 	}
 
-	getAvailable() {
+	loadAvailable() {
 		fetch('api/Employee/GetAvailable?date=' + this.before.date)
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
 				this.filterRoles();
+			});
+	}
+
+	loadTeams() {
+		fetch('api/Team/GetTeams')
+			.then(response => response.json() as Promise<Team[]>)
+			.then(data => {
+				this.teams = data;
 			});
 	}
 
@@ -204,6 +238,18 @@ export default class RosterSessionComponent extends Vue {
 			}
 		}
 		this.mount = true;
+	}
+
+	setTeam() {
+		this.after.sV1Id = this.team.sV1Id;
+		this.after.drI1Id = this.team.drI1Id;
+		this.after.drI2Id = this.team.drI2Id;
+		this.after.rN1Id = this.team.rN1Id;
+		this.after.rN2Id = this.team.rN2Id;
+		this.after.rN3Id = this.team.rN3Id;
+		this.after.ccA1Id = this.team.ccA1Id;
+		this.after.ccA2Id = this.team.ccA2Id;
+		this.after.ccA3Id = this.team.ccA3Id;
 	}
 
 	rosterSession() {
