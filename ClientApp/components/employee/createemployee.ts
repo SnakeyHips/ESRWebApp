@@ -1,4 +1,3 @@
-
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Employee } from '../../models/employee';
@@ -36,6 +35,7 @@ export default class CreateEmployeeComponent extends Vue {
 
 	failed: boolean = false;
 	workpattern: string[] = [];
+	skills: string[] = [];
 	roles: string[] = ["SV", "DRI", "RN", "CCA"];
 	days: string[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -59,6 +59,14 @@ export default class CreateEmployeeComponent extends Vue {
 					}
 				})
 		}
+	}
+
+	loadSkills() {
+		fetch('api/Admin/GetSkillsByRole?role=' + this.employee.role)
+			.then(response => response.json() as Promise<string[]>)
+			.then(data => {
+				this.skills = data;
+			})
 	}
 
 	clear() {
