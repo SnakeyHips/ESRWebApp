@@ -39,8 +39,14 @@ export default class FetchSessionComponent extends Vue {
 		this.$router.push("/rostersession/" + id);
 	}
 
-	editSession(id: number) {
-		this.$router.push("/editsession/" + id);
+	editSession(session: Session) {
+		if (session.sV1Id === 0 && session.drI1Id === 0 && session.drI2Id === 0 &&
+			session.rN1Id === 0 && session.rN2Id === 0 && session.rN3Id === 0 &&
+			session.ccA1Id === 0 && session.ccA2Id === 0 && session.ccA3Id === 0) {
+			this.$router.push("/editsession/" + session.id);
+		} else {
+			alert("Please unroster staff before editing session!");
+		}
 	}
 
 	overview() {
@@ -48,20 +54,26 @@ export default class FetchSessionComponent extends Vue {
 		window.open(overview.href, '_blank');
 	}
 
-	deleteSession(id: number) {
-		var ans = confirm("Do you want to delete this Session?" + id);
-		if (ans) {
-			fetch('api/Session/Delete?id=' + id, {
-				method: 'DELETE'
-			})
-				.then(response => response.json() as Promise<number>)
-				.then(data => {
-					if (data < 1) {
-						alert("Failed to delete Session. Please make sure you are still connected.");
-					} else {
-						this.loadSessions(this.date);
-					}
+	deleteSession(session: Session) {
+		if (session.sV1Id === 0 && session.drI1Id === 0 && session.drI2Id === 0 &&
+			session.rN1Id === 0 && session.rN2Id === 0 && session.rN3Id === 0 &&
+			session.ccA1Id === 0 && session.ccA2Id === 0 && session.ccA3Id === 0) {
+			var ans = confirm("Do you want to delete this Session?");
+			if (ans) {
+				fetch('api/Session/Delete?id=' + session.id, {
+					method: 'DELETE'
 				})
+					.then(response => response.json() as Promise<number>)
+					.then(data => {
+						if (data < 1) {
+							alert("Failed to delete Session. Please make sure you are still connected.");
+						} else {
+							this.loadSessions(this.date);
+						}
+					})
+			}
+		} else {
+			alert("Please unroster staff before deleting session!");
 		}
 	}
 }
