@@ -44,7 +44,7 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.QuerySingle<Session>(query, new { id });
+                    return conn.QueryFirstOrDefault<Session>(query, new { id });
                 }
                 catch (Exception ex)
                 {
@@ -65,7 +65,7 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.QuerySingle<Session>(query, new { date, staffid });
+                    return conn.QueryFirst<Session>(query, new { date, staffid });
                 }
                 catch
                 {
@@ -74,10 +74,9 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet()]
-        [Route("GetSite")]
-        public string GetSite([FromQuery]string date, [FromQuery]int staffid)
+        public static string GetSite(string date, int staffid)
         {
+            string site = "";
             string query = "SELECT Site FROM SessionTable WHERE Date=@Date AND @StaffId IN" +
                 "(SV1Id, DRI1Id, DRI2Id, RN1Id, RN2Id, RN3Id, CCA1Id, CCA2Id, CCA3Id)";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -85,13 +84,18 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.QuerySingle<string>(query, new { date, staffid });
+                    site = conn.QueryFirstOrDefault<string>(query, new { date, staffid });
+                    if(site == null)
+                    {
+                        site = AbsenceController.GetStaffStatus(staffid, date);
+                    }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    return "";
+                    System.Diagnostics.Debug.WriteLine(ex);
                 }
             }
+            return site;
         }
 
         [HttpPost]
