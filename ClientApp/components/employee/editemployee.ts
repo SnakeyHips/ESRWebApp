@@ -27,6 +27,8 @@ export default class EditEmployeeComponent extends Vue {
 		lowRateUHours: 0.0,
 		highRateUHours: 0.0,
 		overtimeHours: 0.0,
+		negHours: 0.0,
+		coHours: 0.0,
 		workPattern: "",
 		status: ""
 	}
