@@ -1,3 +1,4 @@
+
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Employee } from '../../models/employee';
@@ -27,6 +28,8 @@ export default class CreateEmployeeComponent extends Vue {
 		lowRateUHours: 0.0,
 		highRateUHours: 0.0,
 		overtimeHours: 0.0,
+		negHours: 0.0,
+		coHours: 0.0,
 		workPattern: "",
 		status: ""
 	}
