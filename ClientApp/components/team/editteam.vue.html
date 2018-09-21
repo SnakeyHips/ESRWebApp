@@ -1,0 +1,26 @@
+﻿<template>
+	<v-layout justify-center text-xs-center>
+		<v-flex xs4>
+			<v-form ref="form" lazy-validation v-if="!loading">
+				<h3>Edit Team</h3>
+				<v-text-field v-model="team.name" label="Name" :rules="[rules.required]" box />
+				<v-select box ref="sv1" v-model="team.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="dri1" v-model="team.drI1Id" :items="dris" label="Driver 1" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="dri2" v-model="team.drI2Id" :items="dris" label="Driver2" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="rn1" v-model="team.rN1Id" :items="rns" label="RN1" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="rn2" v-model="team.rN2Id" :items="rns" label="RN2" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="rn3" v-model="team.rN3Id" :items="rns" label="RN3" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="cca1" v-model="team.ccA1Id" :items="ccas" label="CCA1" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="cca2" v-model="team.ccA2Id" :items="ccas" label="CCA2" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-select box ref="cca3" v-model="team.ccA3Id" :items="ccas" label="CCA3" item-text="name" item-value="id" :rules="[rules.required]" />
+				<v-btn color="secondary" v-on:click="editTeam">Submit</v-btn>
+				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
+				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
+				<v-alert :value="failed" type="error">{{ errorMessage }}</v-alert>
+			</v-form>
+			<v-progress-circular v-else color="primary" indeterminate />
+		</v-flex>
+	</v-layout>
+</template>
+
+<script src="./editteam.ts"></script>
