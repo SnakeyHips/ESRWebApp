@@ -10,10 +10,9 @@ export default class FetchSessionComponent extends Vue {
 	notedialog: boolean = false;
 	search: string = "";
 	headers: object[] = [
-		{ text: 'Date', sortable: false, value: 'date'	},
-		{ text: 'Type', value: 'type' },
 		{ text: 'Site', value: 'site' },
 		{ text: 'Time', value: 'time' },
+		{ text: 'Type', value: 'type' },
 		{ text: 'LOD', value: 'lod' },
 		{ text: 'Chairs', value: 'chairs' },
 		{ text: 'OCC', value: 'occ' },
