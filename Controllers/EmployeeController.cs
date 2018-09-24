@@ -162,7 +162,6 @@ namespace ERSWebApp.Controllers
         public List<Employee> GetAvailable([FromQuery]string date, string day)
         {
             List<Employee> available = new List<Employee>();
-            DateTime datetime = DateTime.Parse(date);
             foreach (Employee e in GetEmployees(date))
             {
                 if (e.Status == "Okay" && e.WorkPattern.Contains(day.Substring(0, 3)))
