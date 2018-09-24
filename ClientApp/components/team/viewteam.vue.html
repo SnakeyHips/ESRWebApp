@@ -22,15 +22,15 @@
 				<template slot="items" slot-scope="props">
 						<td>{{ props.item.date }}</td>
 						<td>{{ props.item.day }}</td>
-						<td>{{ props.item.sV1Site }}</td>
-						<td>{{ props.item.drI1Site }}</td>
-						<td>{{ props.item.drI2Site }}</td>
-						<td>{{ props.item.rN1Site }}</td>
-						<td>{{ props.item.rN2Site }}</td>
-						<td>{{ props.item.rN3Site }}</td>
-						<td>{{ props.item.ccA1Site }}</td>
-						<td>{{ props.item.ccA2Site }}</td>
-						<td>{{ props.item.ccA3Site }}</td>
+						<td><font v-bind:style="{ color: siteColour(props.item.sV1Site) }">{{ props.item.sV1Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.drI1Site) }">{{ props.item.drI1Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.drI2Site) }">{{ props.item.drI2Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.rN1Site) }">{{ props.item.rN1Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.rN2Site) }">{{ props.item.rN2Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.rN3Site) }">{{ props.item.rN3Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.ccA1Site) }">{{ props.item.ccA1Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.ccA2Site) }">{{ props.item.ccA2Site }}</font></td>
+						<td><font v-bind:style="{ color: siteColour(props.item.ccA3Site) }">{{ props.item.ccA3Site }}</font></td>
 					</tr>
 				</template>
 			</v-data-table>
