@@ -1,3 +1,5 @@
+
+
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Absence } from '../../models/absence';
@@ -25,6 +27,21 @@ export default class FetchAbsenceComponent extends Vue {
 				this.absences = data;
 				this.loading = false;
 			});
+	}
+	
+	typeColour(type: string) {
+		switch (type) {
+			case "Day Off":
+				return "LightGray";
+			case "Annual Leave":
+				return "Plum";
+			case "Sick Leave":
+				return "LightSeaGreen";
+			case "Special Leave":
+				return "LightCoral";
+			case "Training":
+				return "CornflowerBlue";
+		}
 	}
 
 	createAbsence() {
