@@ -34,12 +34,17 @@ export default class RosterSessionComponent extends Vue {
 	holiday: boolean = false;
 	sv1disable: boolean = true;
 	dri1disable: boolean = true;
+	dri2selectdisable: boolean = false;
 	dri2disable: boolean = true;
 	rn1disable: boolean = true;
+	rn2selectdisable: boolean = false;
 	rn2disable: boolean = true;
+	rn3selectdisable: boolean = false;
 	rn3disable: boolean = true;
 	cca1disable: boolean = true;
+	cca2selectdisable: boolean = false;
 	cca2disable: boolean = true;
+	cca3selectdisable: boolean = false;
 	cca3disable: boolean = true;
 
 	before: Session = {
@@ -209,6 +214,7 @@ export default class RosterSessionComponent extends Vue {
 				//then get available and teams
 				this.loadAvailable();
 				this.loadTeams();
+				this.loadChairModel();
 			});
 	}
 
@@ -227,6 +233,18 @@ export default class RosterSessionComponent extends Vue {
 			.then(data => {
 				this.teams = data;
 			});
+	}
+
+	loadChairModel() {
+		if (this.after.chairs < 9) {
+			this.rn3selectdisable = true;
+			this.cca3selectdisable = true;
+			if (this.after.chairs < 6 && this.after.type === "MDC") {
+				this.dri2selectdisable = true;
+				this.rn2selectdisable = true;
+				this.cca2selectdisable = true;
+			}
+		}
 	}
 
 	filterRoles() {
