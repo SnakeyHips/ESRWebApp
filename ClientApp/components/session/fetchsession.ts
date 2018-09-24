@@ -30,6 +30,17 @@ export default class FetchSessionComponent extends Vue {
 				this.loading = false;
 			});
 	}
+	
+	stateColour(state: number) {
+		switch (state) {
+			case 0:
+				return 'gray';
+			case 1:
+				return 'black';
+			case 2:
+				return 'red';
+		}
+	}
 
 	createSession() {
 		this.$router.push("/createsession");
