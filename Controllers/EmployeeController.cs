@@ -159,7 +159,7 @@ namespace ERSWebApp.Controllers
 
         [HttpGet]
         [Route("GetAvailable")]
-        public List<Employee> GetAvailable([FromQuery]string date, string day)
+        public List<Employee> GetAvailable([FromQuery]string date, [FromQuery]string day)
         {
             List<Employee> available = new List<Employee>();
             foreach (Employee e in GetEmployees(date))
