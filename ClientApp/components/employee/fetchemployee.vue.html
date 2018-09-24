@@ -7,7 +7,7 @@
 			</v-menu>
 		</v-flex>
 		<v-flex xs12 class="elevation-1">
-			<v-toolbar flat>
+			<v-toolbar flat color="white">
 				<v-toolbar-title>Employees</v-toolbar-title>
 				<v-spacer></v-spacer>
 				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
@@ -30,7 +30,7 @@
 					</tr>
 				</template>
 				<template slot="expand" slot-scope="props">
-					<v-card flat="flat">
+					<v-card flat="flat" color="grey lighten-4">
 						<v-layout justify-center>
 							<v-btn color="secondary" flat v-on:click.native="editEmployee(props.item.id)">Edit</v-btn>
 							<v-btn color="secondary" flat v-on:click.native="viewEmployee(props.item.id)">View</v-btn>
