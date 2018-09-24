@@ -63,6 +63,23 @@ namespace ERSWebApp.Controllers
                 }
                 foreach (Employee t in temp)
                 {
+                    double difference = t.ContractHours - (t.AppointedHours + t.AbsenceHours);
+                    if (difference > 0)
+                    {
+                        t.NegHours = difference;
+                        t.COHours = 0;
+
+                    }
+                    else if (difference < 0)
+                    {
+                        t.NegHours = 0;
+                        t.COHours = difference;
+                    }
+                    else
+                    {
+                        t.NegHours = 0;
+                        t.COHours = 0;
+                    }
                     bool match = false;
                     foreach (Employee e in employees)
                     {
@@ -75,6 +92,8 @@ namespace ERSWebApp.Controllers
                             e.LowRateUHours += t.LowRateUHours;
                             e.HighRateUHours += t.HighRateUHours;
                             e.OvertimeHours += t.OvertimeHours;
+                            e.NegHours += e.NegHours;
+                            e.COHours += e.COHours;
                             break;
                         }
                     }
@@ -424,6 +443,43 @@ namespace ERSWebApp.Controllers
                 case 2:
                     UpdateRosterHighRate(before, after);
                     break;
+            }
+            //check if state complete
+            if (after.Chairs < 9)
+            {
+                if (after.Chairs < 6 && after.Type.Equals("MDC"))
+                {
+                    if(after.StaffCount < 3)
+                    {
+                        after.State = 0;
+                    }
+                    else
+                    {
+                        after.State = 1;
+                    }
+                }
+                else
+                {
+                    if(after.StaffCount < 5)
+                    {
+                        after.State = 0;
+                    }
+                    else
+                    {
+                        after.State = 1;
+                    }
+                }
+            }
+            else
+            {
+                if(after.StaffCount < 6)
+                {
+                    after.State = 0;
+                }
+                else
+                {
+                    after.State = 1;
+                }
             }
             return SessionController.UpdateStaff(after);
         }
