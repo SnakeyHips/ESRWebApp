@@ -32,6 +32,15 @@ export default class RosterSessionComponent extends Vue {
 	errorMessage: string = "";
 	mount: boolean = false;
 	holiday: boolean = false;
+	sv1disable: boolean = true;
+	dri1disable: boolean = true;
+	dri2disable: boolean = true;
+	rn1disable: boolean = true;
+	rn2disable: boolean = true;
+	rn3disable: boolean = true;
+	cca1disable: boolean = true;
+	cca2disable: boolean = true;
+	cca3disable: boolean = true;
 
 	before: Session = {
 		id: 0,
@@ -275,6 +284,69 @@ export default class RosterSessionComponent extends Vue {
 		}
 	}
 
+	sv1select() {
+		if (this.after.sV1Id > 0) {
+			this.sv1disable = false;
+			this.after.sV1LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	dri1select() {
+		if (this.after.drI1Id > 0) {
+			this.dri1disable = false;
+			this.after.drI1LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	dri2select() {
+		if (this.after.drI2Id > 0) {
+			this.dri2disable = false;
+			this.after.drI2LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	rn1select() {
+		if (this.after.rN1Id > 0) {
+			this.rn1disable = false;
+			this.after.rN1LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	rn2select() {
+		if (this.after.rN2Id > 0) {
+			this.rn2disable = false;
+			this.after.rN2LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	rn3select() {
+		if (this.after.rN3Id > 0) {
+			this.rn3disable = false;
+			this.after.rN3LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	cca1select() {
+		if (this.after.ccA1Id > 0) {
+			this.cca1disable = false;
+			this.after.ccA1LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	cca2select() {
+		if (this.after.ccA2Id > 0) {
+			this.cca2disable = false;
+			this.after.ccA2LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
+	cca3select() {
+		if (this.after.ccA3Id > 0) {
+			this.cca3disable = false;
+			this.after.ccA3LOD = JSON.parse(JSON.stringify(this.after.lod));
+		}
+	}
+
 	//Check for duplicates selected
 	checkDuplicates() {
 		let duplicate: boolean = false;
@@ -386,7 +458,60 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	clear() {
-		this.$refs.form.reset();
+		this.after.sV1Id = 0;
+		this.after.sV1Name = "";
+		this.after.sV1LOD = 0;
+		this.after.sV1UNS = 0;
+		this.after.sV1OT = 0;
+		this.after.drI1Id = 0;
+		this.after.drI1Name = "";
+		this.after.drI1LOD = 0;
+		this.after.drI1UNS = 0;
+		this.after.drI1OT = 0;
+		this.after.drI2Id = 0;
+		this.after.drI2Name = "";
+		this.after.drI2LOD = 0;
+		this.after.drI2UNS = 0;
+		this.after.drI2OT = 0;
+		this.after.rN1Id = 0;
+		this.after.rN1Name = "";
+		this.after.rN1LOD = 0;
+		this.after.rN1UNS = 0;
+		this.after.rN1OT = 0;
+		this.after.rN2Id = 0;
+		this.after.rN2Name = "";
+		this.after.rN2LOD = 0;
+		this.after.rN2UNS = 0;
+		this.after.rN2OT = 0;
+		this.after.rN3Id = 0;
+		this.after.rN3Name = "";
+		this.after.rN3LOD = 0;
+		this.after.rN3UNS = 0;
+		this.after.rN3OT = 0;
+		this.after.ccA1Id = 0;
+		this.after.ccA1Name = "";
+		this.after.ccA1LOD = 0;
+		this.after.ccA1UNS = 0;
+		this.after.ccA1OT = 0;
+		this.after.ccA2Id = 0;
+		this.after.ccA2Name = "";
+		this.after.ccA2LOD = 0;
+		this.after.ccA2UNS = 0;
+		this.after.ccA2OT = 0;
+		this.after.ccA3Id = 0;
+		this.after.ccA3Name = "";
+		this.after.ccA3LOD = 0;
+		this.after.ccA3UNS = 0;
+		this.after.ccA3OT = 0;
+		this.sv1disable = true;
+		this.dri1disable = true;
+		this.dri2disable = true;
+		this.rn1disable = true;
+		this.rn2disable = true;
+		this.rn3disable = true;
+		this.cca1disable = true;
+		this.cca2disable = true;
+		this.cca3disable = true;
 	}
 
 	cancel() {
