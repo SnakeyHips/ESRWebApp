@@ -18,15 +18,24 @@ table{
 }
 
 @media print {
+	.container.fluid {
+		padding: 0;
+		margin: 0;
+	}
+
+	.text-xs-center {
+		display: none;
+	}
+
 	.v-toolbar {
 		display: none;
 	}
 
-	.elevation-1 * {
-		visibility: visible;
+	.v-datatable__actions {
+		height: 0;
 	}
 
-	body * {
-		visibility: hidden;
+	span {
+		display: none;
 	}
 }
