@@ -18,10 +18,9 @@
 				<v-progress-linear slot="progress" color="primary" indeterminate />
 				<template slot="items" slot-scope="props">
 					<tr @click="props.expanded = !props.expanded">
-						<td>{{ props.item.date }}</td>
-						<td>{{ props.item.type }}</td>
-						<td>{{ props.item.site }}</td>
+						<td><font v-bind:style="{ color: stateColour(props.item.state) }">{{ props.item.site }}</font></td>
 						<td>{{ props.item.time }}</td>
+						<td>{{ props.item.type }}</td>
 						<td>{{ props.item.lod }}</td>
 						<td>{{ props.item.chairs }}</td>
 						<td>{{ props.item.occ }}</td>
