@@ -159,13 +159,13 @@ namespace ERSWebApp.Controllers
 
         [HttpGet]
         [Route("GetAvailable")]
-        public List<Employee> GetAvailable([FromQuery]string date)
+        public List<Employee> GetAvailable([FromQuery]string date, string day)
         {
             List<Employee> available = new List<Employee>();
             DateTime datetime = DateTime.Parse(date);
             foreach (Employee e in GetEmployees(date))
             {
-                if (e.Status == "Okay" && e.WorkPattern.Contains(datetime.DayOfWeek.ToString().Substring(0, 3)))
+                if (e.Status == "Okay" && e.WorkPattern.Contains(day.Substring(0, 3)))
                 {
                     available.Add(e);
                 }
