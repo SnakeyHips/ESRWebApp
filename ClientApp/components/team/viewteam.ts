@@ -37,4 +37,21 @@ export default class ViewTeamComponent extends Vue {
 			}
 		}
 	}
+	
+	siteColour(type: string) {
+		switch (type) {
+			case "Day Off":
+				return "LightGray";
+			case "Annual Leave":
+				return "Plum";
+			case "Sick Leave":
+				return "LightSeaGreen";
+			case "Special Leave":
+				return "LightCoral";
+			case "Training":
+				return "CornflowerBlue";
+			default:
+				return "Black";
+		}
+	}
 }
