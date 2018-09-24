@@ -35,6 +35,23 @@ export default class FetchEmployeeComponent extends Vue {
 				this.loading = false;
 			});
 	}
+	
+	statusColour(type: string) {
+		switch (type) {
+			case "Okay":
+				return "Black";
+			case "Day Off":
+				return "LightGray";
+			case "Annual Leave":
+				return "Plum";
+			case "Sick Leave":
+				return "LightSeaGreen";
+			case "Special Leave":
+				return "LightCoral";
+			case "Training":
+				return "CornflowerBlue";
+		}
+	}
 
 	createEmployee() {
 		this.$router.push("/createemployee");
