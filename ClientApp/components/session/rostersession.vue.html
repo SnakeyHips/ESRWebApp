@@ -61,7 +61,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs3>
-					<v-select ref="dri2" box v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" v-on:change="dri2select" />
+					<v-select ref="dri2" box v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" v-on:change="dri2select" :disabled="dri2selectdisable" />
 				</v-flex>
 				<v-flex xs3>
 					<v-text-field box v-model="after.drI2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="dri2disable" />
@@ -89,7 +89,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs3>
-					<v-select ref="rn2" box v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" v-on:change="rn2select" />
+					<v-select ref="rn2" box v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" v-on:change="rn2select" :disabled="rn2selectdisable"/>
 				</v-flex>
 				<v-flex xs3>
 					<v-text-field box v-model="after.rN2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="rn2disable" />
@@ -103,7 +103,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs3>
-					<v-select ref="rn3" box v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" v-on:change="rn3select" />
+					<v-select ref="rn3" box v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" v-on:change="rn3select" :disabled="rn3selectdisable"/>
 				</v-flex>
 				<v-flex xs3>
 					<v-text-field box v-model="after.rN3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="rn3disable" />
@@ -131,7 +131,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs3>
-					<v-select ref="cca2" box v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" v-on:change="cca2select" />
+					<v-select ref="cca2" box v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" v-on:change="cca2select" :disabled="cca2selectdisable"/>
 				</v-flex>
 				<v-flex xs3>
 					<v-text-field box v-model="after.ccA2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="cca2disable" />
@@ -145,7 +145,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs3>
-					<v-select ref="cca3" box v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" v-on:change="cca3select" />
+					<v-select ref="cca3" box v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" v-on:change="cca3select" :disabled="cca3selectdisable"/>
 				</v-flex>
 				<v-flex xs3>
 					<v-text-field box v-model="after.ccA3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="cca3disable" />
@@ -185,7 +185,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs4>
-					<v-select ref="dri2" box v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" v-on:change="dri2select" />
+					<v-select ref="dri2" box v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" v-on:change="dri2select" :disabled="dri2selectdisable"/>
 				</v-flex>
 				<v-flex xs4>
 					<v-text-field box v-model="after.drI2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="dri2disable" />
@@ -207,7 +207,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs4>
-					<v-select ref="rn2" box v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" v-on:change="rn2select" />
+					<v-select ref="rn2" box v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" v-on:change="rn2select" :disabled="rn2selectdisable"/>
 				</v-flex>
 				<v-flex xs4>
 					<v-text-field box v-model="after.rN2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="rn2disable" />
@@ -218,7 +218,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs4>
-					<v-select ref="rn3" box v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" v-on:change="rn3select" />
+					<v-select ref="rn3" box v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" v-on:change="rn3select" :disabled="rn3selectdisable"/>
 				</v-flex>
 				<v-flex xs4>
 					<v-text-field box v-model="after.rN3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="rn3disable" />
@@ -240,7 +240,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs4>
-					<v-select ref="cca2" box v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" v-on:change="cca2select" />
+					<v-select ref="cca2" box v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" v-on:change="cca2select" :disabled="cca2selectdisable"/>
 				</v-flex>
 				<v-flex xs4>
 					<v-text-field box v-model="after.ccA2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="cca2disable" />
@@ -251,7 +251,7 @@
 			</v-layout>
 			<v-layout>
 				<v-flex xs4>
-					<v-select ref="cca3" box v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" v-on:change="cca3select" />
+					<v-select ref="cca3" box v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" v-on:change="cca3select" :disabled="cca3selectdisable"/>
 				</v-flex>
 				<v-flex xs4>
 					<v-text-field box v-model="after.ccA3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="cca3disable" />
