@@ -5,7 +5,7 @@
 				<h3>Edit Session</h3>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
 					<v-text-field slot="activator" v-model="session.date" label="Session date" append-icon="event" :rules="[rules.required]" readonly disabled box></v-text-field>
-					<v-date-picker v-model="session.date"></v-date-picker>
+					<v-date-picker v-model="session.date" first-day-of-week="1" />
 				</v-menu>
 				<v-text-field v-model="session.type" label="Type" :rules="[rules.required]" disabled box/>
 				<v-text-field v-model="session.site" label="Site" :rules="[rules.required]" disabled box/>
