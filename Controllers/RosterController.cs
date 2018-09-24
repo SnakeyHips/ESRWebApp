@@ -630,7 +630,6 @@ namespace ERSWebApp.Controllers
             {
                 if (Before.RN3Id == 0)
                 {
-                    After.StaffCount++;
                     UpdateHours(After.RN3Id, After.RN3LOD, After.RN3UNS, After.RN3OT, Week);
                 }
                 else if (Before.RN3Id == After.RN3Id)
@@ -660,7 +659,6 @@ namespace ERSWebApp.Controllers
             else if (After.RN3Id == 0 && Before.RN3Id != 0)
             {
                 UpdateHours(Before.RN3Id, -Before.RN3LOD, -Before.RN3UNS, -Before.RN3OT, Week);
-                After.StaffCount--;
             }
 
             //CCAs
