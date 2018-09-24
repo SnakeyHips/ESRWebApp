@@ -219,7 +219,7 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	loadAvailable() {
-		fetch('api/Employee/GetAvailable?date=' + this.before.date)
+		fetch('api/Employee/GetAvailable?date=' + this.before.date + "&day=" + this.before.day)
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
