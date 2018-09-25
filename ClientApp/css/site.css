@@ -1,3 +1,4 @@
+
 table{
 	width: 100%;
 }
@@ -33,6 +34,7 @@ table{
 
 	.v-datatable__actions {
 		height: 0;
+		visibility: hidden;
 	}
 
 	span {
