@@ -79,6 +79,7 @@ export default class CreateSessionComponent extends Vue {
 		state: 0
 	}
 
+	dateFormatted = "";
 	types: string[] = ["Community", "MDC"];
 	sites: Site[] = [];
 	times: string[] = [];
@@ -117,6 +118,10 @@ export default class CreateSessionComponent extends Vue {
 				this.times = this.sites[i].times.split('/');
 			}
 		}
+	}
+
+	formatDate() {
+		this.dateFormatted = new Date(this.session.date).toLocaleDateString();
 	}
 
 	clear() {
