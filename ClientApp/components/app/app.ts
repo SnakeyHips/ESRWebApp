@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
+import { SelectedDate } from '../../models/selecteddate';
 
 @Component({
 	components: {
@@ -9,4 +10,5 @@ import { Component } from 'vue-property-decorator';
 export default class AppComponent extends Vue {
 	drawer: boolean = false;
 	dark: boolean = false;
+	selecteddate: SelectedDate = new SelectedDate();
 }
