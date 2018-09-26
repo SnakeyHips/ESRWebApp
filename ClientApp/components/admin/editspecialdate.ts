@@ -20,6 +20,7 @@ export default class EditSpecialDateComponent extends Vue {
 		date: ""
 	}
 
+	dateFormatted = "";
 	loading: boolean = false;
 	failed: boolean = false;
 
@@ -29,6 +30,7 @@ export default class EditSpecialDateComponent extends Vue {
 			.then(respone => respone.json() as Promise<SpecialDate>)
 			.then(data => {
 				this.specialdate = data;
+				this.formatDate();
 				this.loading = false;
 			});
 	}
@@ -49,6 +51,10 @@ export default class EditSpecialDateComponent extends Vue {
 					}
 				})
 		}
+	}
+
+	formatDate() {
+		this.dateFormatted = new Date(this.specialdate.date).toLocaleDateString();
 	}
 
 	cancel() {
