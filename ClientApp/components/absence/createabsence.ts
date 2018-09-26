@@ -35,7 +35,7 @@ export default class CreateAbsenceComponent extends Vue {
 	createAbsence() {
 		this.failed = false;
 		if (this.$refs.form.validate()) {
-			if (!(new Date(this.absence.endDate) < new Date(this.absence.startDate))) {
+			if (this.absence.endDate >= this.absence.startDate) {
 				fetch('api/Absence/Create', {
 					method: 'POST',
 					body: JSON.stringify(this.absence)
