@@ -6,6 +6,7 @@ import { SelectedDate } from '../../models/selecteddate';
 @Component
 export default class FetchAbsenceComponent extends Vue {
 	@Prop(SelectedDate) selecteddate!: SelectedDate;
+	dateFormatted: string = new Date(this.selecteddate.date).toLocaleDateString();
 	absences: Absence[] = [];
 	date: string = "";
 	loading: boolean = false;
@@ -21,6 +22,7 @@ export default class FetchAbsenceComponent extends Vue {
 
 	loadAbsences() {
 		this.loading = true;
+		this.dateFormatted = new Date(this.selecteddate.date).toLocaleDateString();
 		fetch('api/Absence/GetAbsences?date=' + this.selecteddate.date)
 			.then(response => response.json() as Promise<Absence[]>)
 			.then(data => {
