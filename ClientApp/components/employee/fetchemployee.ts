@@ -1,11 +1,11 @@
-
-
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { Employee } from '../../models/employee';
+import { SelectedDate } from '../../models/selecteddate';
 
 @Component
 export default class FetchEmployeeComponent extends Vue {
+	@Prop(SelectedDate) selecteddate!: SelectedDate;
 	employees: Employee[] = [];
 	date: string = "";
 	loading: boolean = false;
@@ -23,12 +23,12 @@ export default class FetchEmployeeComponent extends Vue {
 	];
 
 	mounted() {
-		this.loadEmployees(this.date);
+		this.loadEmployees(t);
 	}
 
-	loadEmployees(date: string) {
+	loadEmployees() {
 		this.loading = true;
-		fetch('api/Employee/GetEmployees?date=' + date)
+		fetch('api/Employee/GetEmployees?date=' + this.selecteddate.date)
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
