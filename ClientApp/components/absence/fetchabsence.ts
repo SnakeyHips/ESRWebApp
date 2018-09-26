@@ -8,7 +8,6 @@ export default class FetchAbsenceComponent extends Vue {
 	@Prop(SelectedDate) selecteddate!: SelectedDate;
 	dateFormatted: string = new Date(this.selecteddate.date).toLocaleDateString();
 	absences: Absence[] = [];
-	date: string = "";
 	loading: boolean = false;
 	search: string = "";
 	headers: object[] = [
