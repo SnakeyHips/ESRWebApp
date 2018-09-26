@@ -6,7 +6,7 @@
 				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" box/>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
 					<v-text-field slot="activator" v-model="specialdate.date" label="Date" append-icon="event" :rules="[rules.required]" readonly box></v-text-field>
-					<v-date-picker v-model="specialdate.date"></v-date-picker>
+					<v-date-picker v-model="dateFormatted" v-on:change="formatDate" first-day-of-week="1"></v-date-picker>
 				</v-menu>
 				<v-btn color="secondary" v-on:click="createSpecialDate">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
