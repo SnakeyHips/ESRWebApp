@@ -7,17 +7,27 @@ export default class ViewTeamComponent extends Vue {
 	teamsites: TeamSite[] = [];
 	startdate: string = "";
 	enddate: string = "";
+	startDateFormatted: string = "";
+	endDateFormatted: string = "";
 	loading: boolean = false;
+	failed: boolean = false;
 	search: string = "";
 	headers: object[] = [];
 
 	loadSessions() {
+		if (this.startdate != "") {
+			this.startDateFormatted = new Date(this.startdate).toLocaleDateString();
+		}
+		if (this.enddate != "") {
+			this.endDateFormatted = new Date(this.enddate).toLocaleDateString();
+		}
 		if (this.startdate != "" && this.enddate != "") {
-			if (!(new Date(this.enddate) < new Date(this.startdate))) {
+			if (this.enddate >= this.startdate) {
 				this.loading = true;
 				fetch('api/Team/GetTeamSites?id=' + this.$route.params.id + '&startdate=' + this.startdate + '&enddate=' + this.enddate)
 					.then(response => response.json() as Promise<TeamSite[]>)
 					.then(data => {
+						this.failed = false;
 						this.teamsites = data;
 						this.headers = [
 							{ text: 'Date', value: 'date' },
@@ -34,10 +44,13 @@ export default class ViewTeamComponent extends Vue {
 						];
 						this.loading = false;
 					});
+			} else {
+				this.teamsites = [];
+				this.failed = true;
 			}
 		}
 	}
-	
+
 	siteColour(type: string) {
 		switch (type) {
 			case "Day Off":
