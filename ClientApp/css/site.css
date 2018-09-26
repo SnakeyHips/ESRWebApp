@@ -1,6 +1,21 @@
-
 table{
 	width: 100%;
+}
+
+.theme--light.v-toolbar.tabletoolbar {
+	background-color: white !important;
+}
+
+.theme--dark.v-toolbar.tabletoolbar {
+	background-color: #424242 !important;
+}
+
+.theme--light.v-card {
+	background-color: #f5f5f5 !important;
+}
+
+.theme--dark.v-card{
+	background-color: #212121 !important;
 }
 
 @media (max-width: 767px) {
