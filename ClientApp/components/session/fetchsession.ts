@@ -6,6 +6,7 @@ import { SelectedDate } from '../../models/selecteddate';
 @Component
 export default class FetchSessionComponent extends Vue {
 	@Prop(SelectedDate) selecteddate!: SelectedDate;
+	dateFormatted: string = new Date(this.selecteddate.date).toLocaleDateString();
 	sessions: Session[] = [];
 	date: string = "";
 	loading: boolean = false;
@@ -28,6 +29,7 @@ export default class FetchSessionComponent extends Vue {
 
 	loadSessions() {
 		this.loading = true;
+		this.dateFormatted = new Date(this.selecteddate.date).toLocaleDateString();
 		fetch('api/Session/GetSessions?date=' + this.selecteddate.date)
 			.then(response => response.json() as Promise<Session[]>)
 			.then(data => {
