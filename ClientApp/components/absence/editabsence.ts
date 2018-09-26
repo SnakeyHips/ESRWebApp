@@ -34,6 +34,8 @@ export default class EditAbsenceComponent extends Vue {
 		hours: 0
 	}
 
+	startDateFormatted = "";
+	endDateFormatted = "";
 	loading: boolean = false;
 	failed: boolean = false;
 	types: string[] = ["Day Off", "Annual Leave", "Sick Leave", "Special Leave", "Training"];
@@ -45,6 +47,8 @@ export default class EditAbsenceComponent extends Vue {
 			.then(data => {
 				this.before = JSON.parse(JSON.stringify(data));
 				this.after = data;
+				this.formatStartDate();
+				this.formatEndDate();
 				this.loading = false;
 			});
 	}
@@ -72,6 +76,14 @@ export default class EditAbsenceComponent extends Vue {
 				this.failed = true;
 			}
 		}
+	}
+
+	formatStartDate() {
+		this.startDateFormatted = new Date(this.after.startDate).toLocaleDateString();
+	}
+
+	formatEndDate() {
+		this.endDateFormatted = new Date(this.after.endDate).toLocaleDateString();
 	}
 
 	checkDates() {
