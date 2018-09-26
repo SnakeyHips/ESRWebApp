@@ -1,9 +1,11 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { Session } from '../../models/session';
+import { SelectedDate } from '../../models/selecteddate';
 
 @Component
 export default class FetchSessionComponent extends Vue {
+	@Prop(SelectedDate) selecteddate!: SelectedDate;
 	sessions: Session[] = [];
 	date: string = "";
 	loading: boolean = false;
@@ -20,9 +22,13 @@ export default class FetchSessionComponent extends Vue {
 		{ text: 'Staff Count', value: 'staffCount' },
 	];
 
-	loadSessions(date: string) {
+	mounted() {
+		this.loadSessions();
+	}
+
+	loadSessions() {
 		this.loading = true;
-		fetch('api/Session/GetSessions?date=' + date)
+		fetch('api/Session/GetSessions?date=' + this.selecteddate.date)
 			.then(response => response.json() as Promise<Session[]>)
 			.then(data => {
 				this.sessions = data;
