@@ -76,6 +76,7 @@ export default class EditSessionComponent extends Vue {
 		state: 0
 	}
 
+	dateFormatted = "";
 	loading: boolean = false;
 	failed: boolean = false;
 
@@ -85,6 +86,7 @@ export default class EditSessionComponent extends Vue {
 			.then(respone => respone.json() as Promise<Session>)
 			.then(data => {
 				this.session = data;
+				this.dateFormatted = new Date(this.session.date).toLocaleDateString();
 				this.loading = false;
 			});
 	}
