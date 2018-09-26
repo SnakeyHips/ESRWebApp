@@ -1,10 +1,12 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { Session } from '../../models/session';
 import { Site } from '../../models/site';
+import { SelectedDate } from '../../models/selecteddate';
 
 @Component
-export default class CreateSessionComponent extends Vue {	
+export default class CreateSessionComponent extends Vue {
+	@Prop(SelectedDate) selecteddate!: SelectedDate;
 	$refs!: {
 		form: HTMLFormElement
 	}
@@ -94,6 +96,7 @@ export default class CreateSessionComponent extends Vue {
 					if (data < 1) {
 						this.failed = true;
 					} else {
+						this.selecteddate.date = this.session.date;
 						this.$router.push('/fetchsession');
 					}
 				})
