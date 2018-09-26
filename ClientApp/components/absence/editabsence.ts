@@ -48,15 +48,14 @@ export default class EditAbsenceComponent extends Vue {
 				this.before = JSON.parse(JSON.stringify(data));
 				this.after = data;
 				this.formatStartDate();
-				this.formatEndDate();
-				this.loading = false;
+				this.formatEndDate()				this.loading = false;
 			});
 	}
 
 	editAbsence() {
 		this.failed = false;
 		if (this.$refs.form.validate()) {
-			if (this.checkDates()) {
+			if (this.after.endDate >= this.after.startDate) {
 				let absences: Absence[] = [];
 				absences.push(this.before);
 				absences.push(this.after);
@@ -84,14 +83,6 @@ export default class EditAbsenceComponent extends Vue {
 
 	formatEndDate() {
 		this.endDateFormatted = new Date(this.after.endDate).toLocaleDateString();
-	}
-
-	checkDates() {
-		if (new Date(this.after.endDate) < new Date(this.after.startDate)) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 
 	cancel() {
