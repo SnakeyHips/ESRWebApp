@@ -38,8 +38,6 @@ export default class FetchEmployeeComponent extends Vue {
 	
 	statusColour(type: string) {
 		switch (type) {
-			case "Okay":
-				return "Black";
 			case "Day Off":
 				return "LightGray";
 			case "Annual Leave":
