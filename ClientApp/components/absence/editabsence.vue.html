@@ -7,12 +7,12 @@
 				<v-text-field v-model="after.staffName" label="Staff Name" :rules="[rules.required]" disabled box/>
 				<v-select v-model="after.type" :items="types" label="Type" :rules="[rules.required]" box/>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="after.startDate" label="Start date" append-icon="event" :rules="[rules.required]" readonly disabled box/>
-					<v-date-picker v-model="after.startDate" first-day-of-week="1"/>
+					<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" :rules="[rules.required]" readonly disabled box/>
+					<v-date-picker v-model="after.startDate" v-on:change="formatStartDate" first-day-of-week="1"/>
 				</v-menu>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="after.endDate" label="End date" append-icon="event" :rules="[rules.required]" readonly box/>
-					<v-date-picker v-model="after.endDate" first-day-of-week="1"/>
+					<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" :rules="[rules.required]" readonly box/>
+					<v-date-picker v-model="after.endDate" v-on:change="formatEndDate" first-day-of-week="1"/>
 				</v-menu>
 				<v-text-field v-model="after.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" box/>
 				<v-btn color="secondary" v-on:click="editAbsence">Submit</v-btn>
