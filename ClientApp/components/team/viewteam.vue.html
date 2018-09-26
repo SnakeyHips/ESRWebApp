@@ -3,11 +3,11 @@
 		<v-flex xs12 class="text-xs-center">
 			<h3>View Team</h3>
 			<v-menu lazy transition="scale-transition">
-				<v-text-field slot="activator" v-model="startdate" label="Start date" append-icon="event" readonly box />
+				<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
 				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1"/>
 			</v-menu>
 			<v-menu lazy transition="scale-transition">
-				<v-text-field slot="activator" v-model="enddate" label="End date" append-icon="event" readonly box />
+				<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
 				<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1"/>
 			</v-menu>
 		</v-flex>
@@ -34,6 +34,7 @@
 					</tr>
 				</template>
 			</v-data-table>
+			<v-alert :value="failed" type="error">Please enter valid dates!</v-alert>
 		</v-flex>
 	</v-layout>
 </template>
