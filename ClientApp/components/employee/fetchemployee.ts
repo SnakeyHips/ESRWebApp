@@ -6,6 +6,7 @@ import { SelectedDate } from '../../models/selecteddate';
 @Component
 export default class FetchEmployeeComponent extends Vue {
 	@Prop(SelectedDate) selecteddate!: SelectedDate;
+	dateFormatted: string = new Date(this.selecteddate.date).toLocaleDateString();
 	employees: Employee[] = [];
 	date: string = "";
 	loading: boolean = false;
@@ -32,6 +33,7 @@ export default class FetchEmployeeComponent extends Vue {
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
+				this.dateFormatted = new Date(this.selecteddate.date).toLocaleDateString();
 				this.loading = false;
 			});
 	}
