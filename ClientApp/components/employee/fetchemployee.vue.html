@@ -2,8 +2,8 @@
 	<v-layout column>
 		<v-flex xs12 class="text-xs-center">
 			<v-menu lazy transition="scale-transition" >
-				<v-text-field slot="activator" v-model="date" label="Date" append-icon="event" readonly box/>
-				<v-date-picker v-model="date" v-on:change="loadEmployees(date)" first-day-of-week="1"/>
+				<v-text-field slot="activator" v-model="selecteddate.date" label="Date" append-icon="event" readonly box/>
+				<v-date-picker v-model="selecteddate.date" v-on:change="loadEmployees" first-day-of-week="1"/>
 			</v-menu>
 		</v-flex>
 		<v-flex xs12 class="elevation-1">
