@@ -5,8 +5,8 @@
 				<h3>Edit Special Date</h3>
 				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" disabled box/>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="specialdate.date" label="Date" append-icon="event" :rules="[rules.required]" readonly box></v-text-field>
-					<v-date-picker v-model="specialdate.date"></v-date-picker>
+					<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" :rules="[rules.required]" readonly box></v-text-field>
+					<v-date-picker v-model="specialdate.date" v-on:change="formatDate" first-day-of-week="1"></v-date-picker>
 				</v-menu>
 				<v-btn color="secondary" v-on:click="editSpecialDate">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
