@@ -8,7 +8,10 @@ export default class ViewEmployeeComponent extends Vue {
 	sessions: Session[] = [];
 	startdate: string = "";
 	enddate: string = "";
+	startDateFormatted = "";
+	endDateFormatted = "";
 	loading: boolean = false;
+	failed: boolean = false;
 	search: string = "";
 	headers: object[] = [
 		{ text: 'Day', value: 'day' },
@@ -50,15 +53,25 @@ export default class ViewEmployeeComponent extends Vue {
 	}
 
 	loadSessions() {
+		if (this.startdate != "") {
+			this.startDateFormatted = new Date(this.startdate).toLocaleDateString();
+		}
+		if (this.enddate != "") {
+			this.endDateFormatted = new Date(this.enddate).toLocaleDateString();
+		}
 		if (this.startdate != "" && this.enddate != "") {
-			if (!(new Date(this.enddate) < new Date(this.startdate))) {
+			if (this.enddate >= this.startdate) {
 				this.loading = true;
 				fetch('api/Session/GetEmployeeSessions?staffid=' + this.employee.id + '&startdate=' + this.startdate + '&enddate=' + this.enddate)
 					.then(response => response.json() as Promise<Session[]>)
 					.then(data => {
 						this.sessions = data;
+						this.failed = false;
 						this.loading = false;
 					});
+			} else {
+				this.sessions = [];
+				this.failed = true;
 			}
 		}
 	}
