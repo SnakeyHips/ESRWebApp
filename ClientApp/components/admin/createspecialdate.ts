@@ -20,6 +20,7 @@ export default class CreateSpecialDateComponent extends Vue {
 		date: ""
 	}
 
+	dateFormatted = "";
 	failed: boolean = false;
 
 	createSpecialDate() {
@@ -38,6 +39,10 @@ export default class CreateSpecialDateComponent extends Vue {
 					}
 				})
 		}
+	}
+
+	formatDate() {
+		this.dateFormatted = new Date(this.specialdate.date).toLocaleDateString();
 	}
 
 	clear() {
