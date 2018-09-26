@@ -1,11 +1,11 @@
-
-
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { Absence } from '../../models/absence';
+import { SelectedDate } from '../../models/selecteddate';
 
 @Component
 export default class FetchAbsenceComponent extends Vue {
+	@Prop(SelectedDate) selecteddate!: SelectedDate;
 	absences: Absence[] = [];
 	date: string = "";
 	loading: boolean = false;
@@ -19,9 +19,9 @@ export default class FetchAbsenceComponent extends Vue {
 		{ text: 'Hours', value: 'hours' },
 	];
 
-	loadAbsences(date: string) {
+	loadAbsences() {
 		this.loading = true;
-		fetch('api/Absence/GetAbsences?date=' + date)
+		fetch('api/Absence/GetAbsences?date=' + this.selecteddate.date)
 			.then(response => response.json() as Promise<Absence[]>)
 			.then(data => {
 				this.absences = data;
