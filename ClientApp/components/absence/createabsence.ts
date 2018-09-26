@@ -25,6 +25,8 @@ export default class CreateAbsenceComponent extends Vue {
 		hours: 0
 	}
 
+	startDateFormatted = "";
+	endDateFormatted = "";
 	iddisable: boolean = false;
 	loading: boolean = false;
 	failed: boolean = false;
@@ -66,6 +68,14 @@ export default class CreateAbsenceComponent extends Vue {
 					this.loading = false;
 				}
 			})
+	}
+
+	formatStartDate() {
+		this.startDateFormatted = new Date(this.absence.startDate).toLocaleDateString();
+	}
+
+	formatEndDate() {
+		this.endDateFormatted = new Date(this.absence.endDate).toLocaleDateString();
 	}
 
 	clear() {
