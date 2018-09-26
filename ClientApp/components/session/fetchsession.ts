@@ -42,8 +42,6 @@ export default class FetchSessionComponent extends Vue {
 		switch (state) {
 			case 0:
 				return 'gray';
-			case 1:
-				return 'black';
 			case 2:
 				return 'red';
 		}
