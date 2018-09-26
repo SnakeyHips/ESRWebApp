@@ -76,7 +76,7 @@ export default class FetchEmployeeComponent extends Vue {
 					if (data < 1) {
 						alert("Failed to delete employee. Please make sure you are still connected.");
 					} else {
-						this.loadEmployees(this.date);
+						this.loadEmployees();
 					}
 				})
 		}
