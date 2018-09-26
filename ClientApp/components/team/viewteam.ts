@@ -50,8 +50,6 @@ export default class ViewTeamComponent extends Vue {
 				return "LightCoral";
 			case "Training":
 				return "CornflowerBlue";
-			default:
-				return "Black";
 		}
 	}
 }
