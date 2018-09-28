@@ -1,18 +1,22 @@
 <template>
 	<v-layout column>
-		<v-flex xs12 class="text-xs-center">
+		<v-flex xl4 lg4 md6 xs8 class="text-xs-center">
 			<v-menu lazy transition="scale-transition">
-				<v-text-field slot="activator" v-model="selecteddate.date" label="Date" append-icon="event" readonly box />
+				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
 				<v-date-picker v-model="selecteddate.date" v-on:change="loadAbsences" first-day-of-week="1"/>
 			</v-menu>
 		</v-flex>
 		<v-flex xs12 class="elevation-1">
 			<v-toolbar flat class="tabletoolbar">
-				<v-toolbar-title>Absences</v-toolbar-title>
-				<v-spacer></v-spacer>
-				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
-				<v-spacer></v-spacer>
-				<v-btn flat color="secondary" v-on:click.native="createAbsence">Create</v-btn>
+				<v-flex xs4>
+					<v-toolbar-title>Absences</v-toolbar-title>
+				</v-flex>
+				<v-flex xs4>
+					<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				</v-flex>
+				<v-flex xs4 class="text-xs-right">
+					<v-btn flat color="secondary" v-on:click.native="createAbsence">Create</v-btn>
+				</v-flex>
 			</v-toolbar>
 			<v-data-table :headers="headers" :items="absences" :search="search" :loading="loading" item-key="id" expand>
 				<v-progress-linear slot="progress" color="primary" indeterminate />
