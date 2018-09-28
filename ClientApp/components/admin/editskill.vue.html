@@ -1,6 +1,6 @@
 <template>
 	<v-layout justify-center text-xs-center>
-		<v-flex xs4>
+		<v-flex xl4 lg4 md6 xs8>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<h3>Edit Skill</h3>
 				<v-select v-model="skill.role" :items="roles" label="Role" :rules="[rules.required]" box/>
