@@ -1,6 +1,6 @@
 <template>
 	<v-layout justify-center text-xs-center>
-		<v-flex xs4>
+		<v-flex xl4 lg4 md6 xs8>
 			<v-form ref="form" lazy-validation>
 				<h3>Create Employee</h3>
 				<v-text-field v-model="employee.id" label="Id" :rules="[rules.required, rules.number]" maxlength="8" box/>
