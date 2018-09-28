@@ -5,6 +5,7 @@ import { TeamSite } from '../../models/teamsite';
 @Component
 export default class ViewTeamComponent extends Vue {
 	teamsites: TeamSite[] = [];
+	teamname: string = "";
 	startdate: string = "";
 	enddate: string = "";
 	startDateFormatted: string = "";
@@ -13,6 +14,14 @@ export default class ViewTeamComponent extends Vue {
 	failed: boolean = false;
 	search: string = "";
 	headers: object[] = [];
+
+	mounted() {
+		fetch('api/Team/GetTeamName?id=' + this.$route.params.id)
+			.then(response => response.json() as Promise<string>)
+			.then(data => {
+				this.teamname = data;
+			})
+	}
 
 	loadSessions() {
 		if (this.startdate != "") {
