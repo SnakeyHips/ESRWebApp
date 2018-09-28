@@ -1,15 +1,21 @@
 <template>
 	<v-layout column>
 		<v-layout align-center justify-center>
-			<v-flex xs4>
+			<v-flex xl4 lg4 md6 xs8>
 				<v-select v-model="selectedWeeks" :items="weeks" label="Weeks" v-on:change="loadRoster" :loading="loadingweeks" multiple chips box></v-select>
 			</v-flex>
 		</v-layout>
 		<v-flex xs12 class="elevation-1">
 			<v-toolbar flat class="tabletoolbar">
-				<v-toolbar-title>Rosters</v-toolbar-title>
-				<v-spacer></v-spacer>
-				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-flex>
+					<v-toolbar-title>Roster</v-toolbar-title>
+				</v-flex>
+				<v-flex>
+					<v-spacer />
+				</v-flex>
+				<v-flex>
+					<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				</v-flex>
 			</v-toolbar>
 			<v-data-table :headers="headers" :items="employees" :search="search" :loading="loading" item-key="id" expand>
 				<v-progress-linear slot="progress" color="primary" indeterminate />
