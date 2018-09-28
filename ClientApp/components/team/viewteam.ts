@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { TeamSite } from '../../models/teamsite';
+import { Team } from '../../models/team';
 
 @Component
 export default class ViewTeamComponent extends Vue {
 	teamsites: TeamSite[] = [];
-	teamname: string = "";
 	startdate: string = "";
 	enddate: string = "";
 	startDateFormatted: string = "";
@@ -15,11 +15,47 @@ export default class ViewTeamComponent extends Vue {
 	search: string = "";
 	headers: object[] = [];
 
+	team: Team = {
+		id: 0,
+		name: "",
+		sV1Id: 0,
+		sV1Name: "",
+		drI1Id: 0,
+		drI1Name: "",
+		drI2Id: 0,
+		drI2Name: "",
+		rN1Id: 0,
+		rN1Name: "",
+		rN2Id: 0,
+		rN2Name: "",
+		rN3Id: 0,
+		rN3Name: "",
+		ccA1Id: 0,
+		ccA1Name: "",
+		ccA2Id: 0,
+		ccA2Name: "",
+		ccA3Id: 0,
+		ccA3Name: "",
+	}
+
 	mounted() {
-		fetch('api/Team/GetTeamName?id=' + this.$route.params.id)
-			.then(response => response.json() as Promise<string>)
+		fetch('api/Team/GetById?id=' + this.$route.params.id)
+			.then(response => response.json() as Promise<Team>)
 			.then(data => {
-				this.teamname = data;
+				this.team = data;
+				this.headers = [
+					{ text: 'Date', value: 'date' },
+					{ text: 'Day', value: 'day' },
+					{ text: this.team.sV1Name, value: 'sV1Site' },
+					{ text: this.team.drI1Name, value: 'drI1Site' },
+					{ text: this.team.drI2Name, value: 'drI2Site' },
+					{ text: this.team.rN1Name, value: 'rN1Site' },
+					{ text: this.team.rN2Name, value: 'rN2Site' },
+					{ text: this.team.rN3Name, value: 'rN3Site' },
+					{ text: this.team.ccA1Name, value: 'ccA1Site' },
+					{ text: this.team.ccA2Name, value: 'ccA2Site' },
+					{ text: this.team.ccA3Name, value: 'ccA3Site' },
+				];
 			})
 	}
 
@@ -38,19 +74,6 @@ export default class ViewTeamComponent extends Vue {
 					.then(data => {
 						this.failed = false;
 						this.teamsites = data;
-						this.headers = [
-							{ text: 'Date', value: 'date' },
-							{ text: 'Day', value: 'day' },
-							{ text: this.teamsites[0].sV1Name, value: 'sV1Site' },
-							{ text: this.teamsites[0].drI1Name, value: 'drI1Site' },
-							{ text: this.teamsites[0].drI2Name, value: 'drI2Site' },
-							{ text: this.teamsites[0].rN1Name, value: 'rN1Site' },
-							{ text: this.teamsites[0].rN2Name, value: 'rN2Site' },
-							{ text: this.teamsites[0].rN3Name, value: 'rN3Site' },
-							{ text: this.teamsites[0].ccA1Name, value: 'ccA1Site' },
-							{ text: this.teamsites[0].ccA2Name, value: 'ccA2Site' },
-							{ text: this.teamsites[0].ccA3Name, value: 'ccA3Site' },
-						];
 						this.loading = false;
 					});
 			} else {
