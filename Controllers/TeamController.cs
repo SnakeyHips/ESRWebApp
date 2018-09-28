@@ -134,6 +134,27 @@ namespace ERSWebApp.Controllers
                 }
             }
         }
+        
+        [HttpGet]
+        [Route("GetTeamName")]
+        [Produces("application/json")]
+        public string GetTeamName([FromQuery]int id)
+        {
+            string query = "SELECT Name FROM TeamTable WHERE Id=@Id;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<string>(query, new { id });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
 
         [HttpPut]
         [Route("Update")]
