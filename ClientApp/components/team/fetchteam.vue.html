@@ -2,11 +2,15 @@
 	<v-layout column>
 		<v-flex xs12 class="elevation-1">
 			<v-toolbar flat class="tabletoolbar">
-				<v-toolbar-title>Teams</v-toolbar-title>
-				<v-spacer></v-spacer>
-				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
-				<v-spacer></v-spacer>
-				<v-btn flat color="secondary" v-on:click.native="createTeam">Create</v-btn>
+				<v-flex xs4>
+					<v-toolbar-title>Teams</v-toolbar-title>
+				</v-flex>
+				<v-flex xs4>
+					<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				</v-flex>
+				<v-flex xs4 class="text-xs-right">
+					<v-btn flat color="secondary" v-on:click.native="createTeam">Create</v-btn>
+				</v-flex>
 			</v-toolbar>
 			<v-data-table :headers="headers" :items="teams" :search="search" :loading="loading" item-key="id" expand>
 				<v-progress-linear slot="progress" color="primary" indeterminate />
