@@ -1,7 +1,6 @@
 <template>
 	<v-layout column>
 		<v-flex xs12 class="text-xs-center">
-			<h3>{{ employee.id }} - {{ employee.name }}</h3>
 			<v-menu lazy transition="scale-transition">
 				<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
 				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1"/>
@@ -13,9 +12,15 @@
 		</v-flex>
 		<v-flex xs12 class="elevation-1">
 			<v-toolbar flat class="tabletoolbar">
-				<v-toolbar-title>Sessions</v-toolbar-title>
-				<v-spacer></v-spacer>
-				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-flex>
+					<v-toolbar-title>{{ employee.id }} - {{ employee.name }}</v-toolbar-title>
+				</v-flex>
+				<v-flex>
+					<v-spacer></v-spacer>
+				</v-flex>
+				<v-flex>
+					<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				</v-flex>
 			</v-toolbar>
 			<v-data-table :headers="headers" :items="sessions" :search="search" :loading="loading" item-key="id" expand>
 				<v-progress-linear slot="progress" color="primary" indeterminate />
