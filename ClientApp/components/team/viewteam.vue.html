@@ -1,7 +1,6 @@
 <template>
 	<v-layout column>
 		<v-flex xs12 class="text-xs-center">
-			<h3>View Team</h3>
 			<v-menu lazy transition="scale-transition">
 				<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
 				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1"/>
@@ -13,25 +12,30 @@
 		</v-flex>
 		<v-flex xs12 class="elevation-1">
 			<v-toolbar flat class="tabletoolbar">
-				<v-toolbar-title>Sessions</v-toolbar-title>
-				<v-spacer></v-spacer>
-				<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				<v-flex>
+					<v-toolbar-title>{{ teamname }}</v-toolbar-title>
+				</v-flex>
+				<v-flex>
+					<v-spacer></v-spacer>
+				</v-flex>
+				<v-flex>
+					<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+				</v-flex>
 			</v-toolbar>
 			<v-data-table :headers="headers" :items="teamsites" :search="search" :loading="loading" item-key="id" expand>
 				<v-progress-linear slot="progress" color="primary" indeterminate />
 				<template slot="items" slot-scope="props">
-						<td>{{ props.item.date }}</td>
-						<td>{{ props.item.day }}</td>
-						<td><font v-bind:style="{ color: siteColour(props.item.sV1Site) }">{{ props.item.sV1Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.drI1Site) }">{{ props.item.drI1Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.drI2Site) }">{{ props.item.drI2Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.rN1Site) }">{{ props.item.rN1Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.rN2Site) }">{{ props.item.rN2Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.rN3Site) }">{{ props.item.rN3Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.ccA1Site) }">{{ props.item.ccA1Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.ccA2Site) }">{{ props.item.ccA2Site }}</font></td>
-						<td><font v-bind:style="{ color: siteColour(props.item.ccA3Site) }">{{ props.item.ccA3Site }}</font></td>
-					</tr>
+					<td>{{ props.item.date }}</td>
+					<td>{{ props.item.day }}</td>
+					<td><font v-bind:style="{ color: siteColour(props.item.sV1Site) }">{{ props.item.sV1Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.drI1Site) }">{{ props.item.drI1Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.drI2Site) }">{{ props.item.drI2Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.rN1Site) }">{{ props.item.rN1Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.rN2Site) }">{{ props.item.rN2Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.rN3Site) }">{{ props.item.rN3Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.ccA1Site) }">{{ props.item.ccA1Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.ccA2Site) }">{{ props.item.ccA2Site }}</font></td>
+					<td><font v-bind:style="{ color: siteColour(props.item.ccA3Site) }">{{ props.item.ccA3Site }}</font></td>
 				</template>
 			</v-data-table>
 			<v-alert :value="failed" type="error">Please enter valid dates!</v-alert>
