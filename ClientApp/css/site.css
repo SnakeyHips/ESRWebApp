@@ -18,21 +18,6 @@ table{
 	background-color: #212121 !important;
 }
 
-@media (max-width: 767px) {
-	/* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-	body {
-        padding-top: 50px;
-    }
-
-	.table{
-		overflow: auto;
-	}
-
-	.largetable{
-		height: 300px;
-	}
-}
-
 @media print {
 	.container.fluid {
 		padding: 0;
