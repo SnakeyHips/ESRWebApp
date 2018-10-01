@@ -1,7 +1,6 @@
 
 import './css/site.css';
 import 'vuetify/dist/vuetify.min.css';
-import 'event-source-polyfill/src/eventsource.min.js'
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuetify from 'vuetify';
