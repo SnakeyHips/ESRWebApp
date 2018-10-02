@@ -1,6 +1,6 @@
 <template>
 	<v-layout justify-center text-xs-center>
-		<v-flex lg4 sm6 xs8>
+		<v-flex lg4 md5 sm6 xs8>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<h3>Edit Session</h3>
 				<v-text-field v-model="dateFormatted" label="Date" :rules="[rules.required]" disabled box></v-text-field>
