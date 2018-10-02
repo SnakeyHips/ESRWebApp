@@ -73,7 +73,7 @@ namespace ERSWebApp.Controllers
                     else if (difference < 0)
                     {
                         t.NegHours = 0;
-                        t.COHours = difference;
+                        t.COHours = Math.Abs(difference);
                     }
                     else
                     {
