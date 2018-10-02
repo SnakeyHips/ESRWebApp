@@ -267,16 +267,55 @@ export default class RosterSessionComponent extends Vue {
 		this.mount = true;
 	}
 
-	setTeam() {
-		this.after.sV1Id = this.team.sV1Id;
-		this.after.drI1Id = this.team.drI1Id;
-		this.after.drI2Id = this.team.drI2Id;
-		this.after.rN1Id = this.team.rN1Id;
-		this.after.rN2Id = this.team.rN2Id;
-		this.after.rN3Id = this.team.rN3Id;
-		this.after.ccA1Id = this.team.ccA1Id;
-		this.after.ccA2Id = this.team.ccA2Id;
-		this.after.ccA3Id = this.team.ccA3Id;
+setTeam() {
+		if (this.searchTeam(this.team.sV1Id, this.svs)) {
+			this.after.sV1Id = this.team.sV1Id;
+		}
+		if (this.searchTeam(this.team.drI1Id, this.dris)) {
+			this.after.drI1Id = this.team.drI1Id;
+		}
+		if (this.searchTeam(this.team.drI1Id, this.dris)) {
+			if (!this.dri2selectdisable) {
+				this.after.drI2Id = this.team.drI2Id;
+			}
+		}
+		if (this.searchTeam(this.team.rN1Id, this.rns)) {
+			this.after.rN1Id = this.team.rN1Id;
+		}
+		if (this.searchTeam(this.team.rN2Id, this.rns)) {
+			if (!this.rn2selectdisable) {
+				this.after.rN2Id = this.team.rN2Id;
+			}
+		}
+		if (this.searchTeam(this.team.rN3Id, this.rns)) {
+			if (!this.rn3selectdisable) {
+				this.after.rN3Id = this.team.rN3Id;
+			}
+		}
+		if (this.searchTeam(this.team.ccA1Id, this.ccas)) {
+			this.after.ccA1Id = this.team.ccA1Id;
+		}
+		if (this.searchTeam(this.team.ccA2Id, this.ccas)) {
+			if (!this.cca2selectdisable) {
+				this.after.ccA2Id = this.team.ccA2Id;
+			}
+		}
+		if (this.searchTeam(this.team.ccA3Id, this.ccas)) {
+			if (!this.cca3selectdisable) {
+				this.after.ccA3Id = this.team.ccA3Id;
+			}
+		}
+	}
+
+	searchTeam(id: number, role: Employee[]) {
+		let match: boolean = false;
+		for (var i = 0; i < role.length; i++) {
+			if (role[i].id === id) {
+				match = true;
+				break
+			}
+		}
+		return match;
 	}
 
 	rosterSession() {
