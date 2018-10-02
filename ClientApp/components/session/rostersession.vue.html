@@ -1,23 +1,23 @@
 <template>
-	<v-container grid-list-xl fluid text-xs-center>
+	<v-container grid-list-xl text-xs-center v-if="!loading">
 		<h3>{{ after.day }} - {{ after.date }} - {{ after.site }}</h3>
 		<v-layout row wrap>
-			<v-flex xl2 lg2 md4 xs6>
+			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.time" label="Clinic Time" disabled />
 			</v-flex>
-			<v-flex xl2 lg2 md4 xs6>
+			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.type" label="Type" disabled />
 			</v-flex>
-			<v-flex xl2 lg2 md4 xs6>
+			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.lod" label="LOD" disabled />
 			</v-flex>
-			<v-flex xl2 lg2 md4 xs6>
+			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.chairs" label="Chairs" disabled />
 			</v-flex>
-			<v-flex xl2 lg2 md4 xs6>
+			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.occ" label="OCC" disabled />
 			</v-flex>
-			<v-flex xl2 lg2 md4 xs6>
+			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.estimate" label="Estimate" disabled />
 			</v-flex>
 		</v-layout>
@@ -27,133 +27,133 @@
 		<v-form ref="form" lazy-validation v-if="!holiday">
 			<h3>Roster</h3>
 			<v-layout justify-center>
-				<v-flex md6 xs10>
+				<v-flex md6 sm8 xs10>
 					<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="sv1" box v-model="after.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" v-on:change="sv1select" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.sV1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="sv1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.sV1UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" :disabled="sv1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.sV1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="sv1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="dri1" box v-model="after.drI1Id" :items="dris" label="Driver 1" item-text="name" item-value="id" v-on:change="dri1select" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.drI1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="dri1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.drI1UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" :disabled="dri1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.drI1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="dri1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="dri2" box v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" v-on:change="dri2select" :disabled="dri2selectdisable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.drI2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="dri2disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.drI2UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" :disabled="dri2disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.drI2OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="dri2disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="rn1" box v-model="after.rN1Id" :items="rns" label="RN 1" item-text="name" item-value="id" v-on:change="rn1select" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="rn1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN1UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" :disabled="rn1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="rn1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="rn2" box v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" v-on:change="rn2select" :disabled="rn2selectdisable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="rn2disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN2UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" :disabled="rn2disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN2OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="rn2disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="rn3" box v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" v-on:change="rn3select" :disabled="rn3selectdisable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="rn3disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN3UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" required :disabled="rn3disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.rN3OT" label="OT" :rules="[rules.decimal]" maxlength="5" required :disabled="rn3disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="cca1" box v-model="after.ccA1Id" :items="ccas" label="CCA 1" item-text="name" item-value="id" v-on:change="cca1select" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="cca1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA1UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" :disabled="cca1disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="cca1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="cca2" box v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" v-on:change="cca2select" :disabled="cca2selectdisable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="cca2disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA2UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" :disabled="cca2disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA2OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="cca2disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout row wrap>
-				<v-flex md3 xs6>
+			<v-layout justify-center row wrap>
+				<v-flex md3 sm6 xs12>
 					<v-select ref="cca3" box v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" v-on:change="cca3select" :disabled="cca3selectdisable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="cca3disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA3UNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" required :disabled="cca3disable" />
 				</v-flex>
-				<v-flex md3 xs6>
+				<v-flex md3 sm6 xs12>
 					<v-text-field box v-model="after.ccA3OT" label="OT" :rules="[rules.decimal]" maxlength="5" required :disabled="cca3disable" />
 				</v-flex>
 			</v-layout>
@@ -161,106 +161,106 @@
 		<v-form ref="form" lazy-validation v-if="holiday">
 			<h3>Roster</h3>
 			<v-layout justify-center>
-				<v-flex md6 xs10>
+				<v-flex md6 sm8 xs10>
 					<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="sv1" box v-model="after.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" v-on:change="sv1select" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.sV1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="sv1disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.sV1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="sv1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="dri1" box v-model="after.drI1Id" :items="dris" label="Driver 1" item-text="name" item-value="id" v-on:change="dri1select" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.drI1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="dri1disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.drI1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="dri1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="dri2" box v-model="after.drI2Id" :items="dris" label="Driver 2" item-text="name" item-value="id" v-on:change="dri2select" :disabled="dri2selectdisable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.drI2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="dri2disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.drI2OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="dri2disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="rn1" box v-model="after.rN1Id" :items="rns" label="RN 1" item-text="name" item-value="id" v-on:change="rn1select" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.rN1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="rn1disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.rN1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="rn1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="rn2" box v-model="after.rN2Id" :items="rns" label="RN 2" item-text="name" item-value="id" v-on:change="rn2select" :disabled="rn2selectdisable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.rN2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="rn2disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.rN2OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="rn2disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="rn3" box v-model="after.rN3Id" :items="rns" label="RN 3" item-text="name" item-value="id" v-on:change="rn3select" :disabled="rn3selectdisable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.rN3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="rn3disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.rN3OT" label="OT" :rules="[rules.decimal]" maxlength="5" required :disabled="rn3disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="cca1" box v-model="after.ccA1Id" :items="ccas" label="CCA 1" item-text="name" item-value="id" v-on:change="cca1select" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.ccA1LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="cca1disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.ccA1OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="cca1disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="cca2" box v-model="after.ccA2Id" :items="ccas" label="CCA 2" item-text="name" item-value="id" v-on:change="cca2select" :disabled="cca2selectdisable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.ccA2LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" :disabled="cca2disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.ccA2OT" label="OT" :rules="[rules.decimal]" maxlength="5" :disabled="cca2disable" />
 				</v-flex>
 			</v-layout>
-			<v-layout>
-				<v-flex xs4>
+			<v-layout justify-center row wrap>
+				<v-flex sm4 xs12>
 					<v-select ref="cca3" box v-model="after.ccA3Id" :items="ccas" label="CCA 3" item-text="name" item-value="id" v-on:change="cca3select" :disabled="cca3selectdisable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.ccA3LOD" label="LOD" :rules="[rules.decimal]" maxlength="5" required :disabled="cca3disable" />
 				</v-flex>
-				<v-flex xs4>
+				<v-flex sm4 xs12>
 					<v-text-field box v-model="after.ccA3OT" label="OT" :rules="[rules.decimal]" maxlength="5" required :disabled="cca3disable" />
 				</v-flex>
 			</v-layout>
@@ -272,6 +272,9 @@
 		</v-layout>
 		<v-alert :value="failed" type="error">{{ errorMessage }}</v-alert>
 	</v-container>
+	<v-layout column align-center v-else>
+		<v-progress-circular color="primary" :size="100" indeterminate />
+	</v-layout>
 </template>
 
 <script src="./rostersession.ts"></script>
