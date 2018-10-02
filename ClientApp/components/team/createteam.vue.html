@@ -1,6 +1,6 @@
 <template>
 	<v-layout justify-center text-xs-center>
-		<v-flex xl4 lg4 md6 xs8>
+		<v-flex lg4 sm6 xs8>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<h3>Create Team</h3>
 				<v-text-field v-model="team.name" label="Name" :rules="[rules.required]" box />
