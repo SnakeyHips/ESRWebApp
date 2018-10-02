@@ -1,6 +1,6 @@
 <template>
 	<v-layout justify-center text-xs-center>
-		<v-flex xl4 lg4 md6 xs8>
+		<v-flex lg4 sm6 xs8>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<h3>Edit Absence</h3>
 				<v-text-field v-model="after.staffId" label="Staff Id" :rules="[rules.required, rules.number]" maxlength="8" disabled box/>
