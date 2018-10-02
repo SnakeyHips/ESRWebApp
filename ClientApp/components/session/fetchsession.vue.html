@@ -1,12 +1,12 @@
 <template>
-	<v-layout column>
-		<v-flex xl4 lg4 md6 xs8 class="text-xs-center">
+	<v-layout column align-center>
+		<v-flex class="text-xs-center">
 			<v-menu lazy transition="scale-transition">
 				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box/>
 				<v-date-picker v-model="selecteddate.date" v-on:change="loadSessions" first-day-of-week="1"/>
 			</v-menu>
 		</v-flex>
-		<v-flex xs12>
+		<v-flex>
 			<v-card>
 				<v-toolbar flat class="tabletoolbar">
 					<v-flex xs4>
