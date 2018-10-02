@@ -24,14 +24,6 @@ table{
 		margin: 0;
 	}
 
-	.text-xs-center {
-		display: none;
-	}
-	
-	.v-text-field.v-text-field--enclosed {
-		display: none;
-	}
-
 	.v-toolbar {
 		display: none;
 	}
