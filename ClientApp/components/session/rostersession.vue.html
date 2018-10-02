@@ -1,5 +1,5 @@
 <template>
-	<v-container grid-list-xl text-xs-center v-if="!loading">
+	<v-container grid-list-xl text-xs-center>
 		<h3>{{ after.day }} - {{ after.date }} - {{ after.site }}</h3>
 		<v-layout row wrap>
 			<v-flex lg2 sm4 xs6>
@@ -266,15 +266,13 @@
 			</v-layout>
 		</v-form>
 		<v-layout justify-center>
-			<v-btn color="secondary" v-on:click="rosterSession">Submit</v-btn>
-			<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
-			<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
+			<v-btn color="secondary" v-on:click="rosterSession" :disabled="loading">Submit</v-btn>
+			<v-btn color="secondary" v-on:click="clear" :disabled="loading">Clear</v-btn>
+			<v-btn color="secondary" v-on:click="cancel" :disabled="loading">Cancel</v-btn>
 		</v-layout>
 		<v-alert :value="failed" type="error">{{ errorMessage }}</v-alert>
+		</v-dialog>
 	</v-container>
-	<v-layout column align-center v-else>
-		<v-progress-circular color="primary" :size="100" indeterminate />
-	</v-layout>
 </template>
 
 <script src="./rostersession.ts"></script>
