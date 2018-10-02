@@ -30,7 +30,7 @@ export default class RosterSessionComponent extends Vue {
 	test: string = "";
 	failed: boolean = false;
 	errorMessage: string = "";
-	mount: boolean = false;
+	loading: boolean = false;
 	holiday: boolean = false;
 	sv1disable: boolean = true;
 	dri1disable: boolean = true;
@@ -202,6 +202,7 @@ export default class RosterSessionComponent extends Vue {
 	ccas: Employee[] = [];
 
 	mounted() {
+		this.loading = true;
 		//Get session first
 		fetch('api/Session/GetById?id=' + this.$route.params.id)
 			.then(respone => respone.json() as Promise<Session>)
@@ -215,6 +216,7 @@ export default class RosterSessionComponent extends Vue {
 				this.loadAvailable();
 				this.loadTeams();
 				this.loadChairModel();
+				this.loading = false;
 			});
 	}
 
@@ -264,10 +266,9 @@ export default class RosterSessionComponent extends Vue {
 					break;
 			}
 		}
-		this.mount = true;
 	}
 
-setTeam() {
+	setTeam() {
 		if (this.searchTeam(this.team.sV1Id, this.svs)) {
 			this.after.sV1Id = this.team.sV1Id;
 		}
