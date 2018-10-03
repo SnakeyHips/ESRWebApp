@@ -9,16 +9,16 @@
 				<v-text-field box v-model="after.type" label="Type" disabled />
 			</v-flex>
 			<v-flex lg2 sm4 xs6>
-				<v-text-field box v-model="after.lod" label="LOD" disabled />
-			</v-flex>
-			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.chairs" label="Chairs" disabled />
 			</v-flex>
 			<v-flex lg2 sm4 xs6>
-				<v-text-field box v-model="after.occ" label="OCC" disabled />
+				<v-text-field box v-model="after.lod" label="LOD" :rules="[rules.required, rules.decimal]" />
 			</v-flex>
 			<v-flex lg2 sm4 xs6>
-				<v-text-field box v-model="after.estimate" label="Estimate" disabled />
+				<v-text-field box v-model="after.occ" label="OCC" :rules="[rules.required, rules.number]" />
+			</v-flex>
+			<v-flex lg2 sm4 xs6>
+				<v-text-field box v-model="after.estimate" label="Estimate" :rules="[rules.required, rules.number]" />
 			</v-flex>
 		</v-layout>
 		<v-text-field box v-model="after.note" label="Session Note"></v-text-field>
