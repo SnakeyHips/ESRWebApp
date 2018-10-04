@@ -3,11 +3,15 @@
 		<v-flex mb-4>
 			<v-card>
 				<v-toolbar flat class="tabletoolbar">
-					<v-toolbar-title>Special Dates</v-toolbar-title>
-					<v-spacer></v-spacer>
-					<v-text-field v-model="searchSpecialDate" append-icon="search" label="Search" single-line hide-details />
-					<v-spacer></v-spacer>
-					<v-btn flat color="secondary" v-on:click.native="createSpecialDate">Create</v-btn>
+					<v-flex xs4>
+						<v-toolbar-title>Special Dates</v-toolbar-title>
+					</v-flex>
+					<v-flex xs4>
+						<v-text-field v-model="searchSpecialDate" append-icon="search" label="Search" single-line hide-details />
+					</v-flex>
+					<v-flex xs4 class="text-xs-right">
+						<v-btn flat color="secondary" v-on:click.native="createSpecialDate">Create</v-btn>
+					</v-flex>
 				</v-toolbar>
 				<v-data-table :headers="headersSpecialDate" :items="specialdates" :search="searchSpecialDate" :loading="loadingSpecialDate" item-key="id" expand>
 					<v-progress-linear slot="progress" color="primary" indeterminate />
@@ -31,11 +35,15 @@
 		<v-flex mb-4>
 			<v-card>
 				<v-toolbar flat class="tabletoolbar">
-					<v-toolbar-title>Skills</v-toolbar-title>
-					<v-spacer></v-spacer>
-					<v-text-field v-model="searchSkill" append-icon="search" label="Search" single-line hide-details />
-					<v-spacer></v-spacer>
-					<v-btn flat color="secondary" v-on:click.native="createSkill">Create</v-btn>
+					<v-flex xs4>
+						<v-toolbar-title>Skills</v-toolbar-title>
+					</v-flex>
+					<v-flex xs4>
+						<v-text-field v-model="searchSkill" append-icon="search" label="Search" single-line hide-details />
+					</v-flex>
+					<v-flex xs4 class="text-xs-right">
+						<v-btn flat color="secondary" v-on:click.native="createSkill">Create</v-btn>
+					</v-flex>
 				</v-toolbar>
 				<v-data-table :headers="headersSkill" :items="skills" :search="searchSkill" :loading="loadingSkill" item-key="id" expand>
 					<v-progress-linear slot="progress" color="primary" indeterminate />
@@ -59,11 +67,15 @@
 		<v-flex>
 			<v-card>
 				<v-toolbar flat class="tabletoolbar">
-					<v-toolbar-title>Sites</v-toolbar-title>
-					<v-spacer></v-spacer>
-					<v-text-field v-model="searchSite" append-icon="search" label="Search" single-line hide-details />
-					<v-spacer></v-spacer>
-					<v-btn flat color="secondary" v-on:click.native="createSite">Create</v-btn>
+					<v-flex xs4>
+						<v-toolbar-title>Sites</v-toolbar-title>
+					</v-flex>
+					<v-flex xs4>
+						<v-text-field v-model="searchSite" append-icon="search" label="Search" single-line hide-details />
+					</v-flex>
+					<v-flex xs4 class="text-xs-right">
+						<v-btn flat color="secondary" v-on:click.native="createSite">Create</v-btn>
+					</v-flex>
 				</v-toolbar>
 				<v-data-table :headers="headersSite" :items="sites" :search="searchSite" :loading="loadingSite" item-key="id" expand>
 					<v-progress-linear slot="progress" color="primary" indeterminate />
