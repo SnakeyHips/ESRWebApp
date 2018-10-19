@@ -14,7 +14,8 @@
 					</v-btn>
 					<v-list>
 						<v-list-tile v-for="(item, index) in colours"
-									 v-on:click="themeColour(index)">
+							     	key="index"
+							 	v-on:click="themeColour(index)">
 						<v-avatar :color="item"></v-avatar>
 						</v-list-tile>
 					</v-list>
