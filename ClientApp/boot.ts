@@ -8,10 +8,10 @@ import Vuetify from 'vuetify';
 Vue.use(VueRouter);
 Vue.use(Vuetify, {
 	theme: {
-		primary: '#ed1c24',
-		secondary: '#f36368',
-		accent: '#af0e14', 
-		error: '#af0e14'
+		primary: 'ED1C24',
+		secondary: 'F36368',
+		accent: 'AF0E14', 
+		error: 'AF0E14'
 	}
 });
 
