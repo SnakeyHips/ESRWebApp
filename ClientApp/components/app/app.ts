@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { SelectedDate } from '../../models/selecteddate';
+import { getCookie, setCookie } from 'tiny-cookie';
+
 
 @Component({
 	components: {
@@ -14,7 +16,18 @@ export default class AppComponent extends Vue {
  ];
 	selecteddate: SelectedDate = new SelectedDate();
 
+	mounted() {
+		this.themeColour(Number(getCookie('ers-colour')));
+		this.dark = JSON.parse(getCookie('ers-dark'));
+	}
+
+	themeDark() {
+		this.dark = !this.dark;
+		setCookie('ers-dark', this.dark);
+	}
+
 	themeColour(colour: number) {
+		setCookie('ers-colour', colour);
 		switch (colour) {
 			case 0:
 				this.$vuetify.theme.primary = "ED1C24";
