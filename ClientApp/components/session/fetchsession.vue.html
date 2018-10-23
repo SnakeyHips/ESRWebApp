@@ -112,7 +112,6 @@
 								<v-list-tile v-on:click.native="createSession">
 									<v-list-tile-title>Create</v-list-tile-title>
 								</v-list-tile>
-
 								<v-dialog v-model="notedialog" width="500">
 									<v-list-tile slot="activator">
 										<v-list-tile-title>Note</v-list-tile-title>
@@ -120,7 +119,7 @@
 									<v-card>
 										<v-card-title class="headline" primary-title>Session Note</v-card-title>
 										<v-card-text>{{ props.item.note }}</v-card-text>
-										<v-divider />
+										<v-divider class="ma-0"/>
 										<v-card-actions>
 											<v-spacer />
 											<v-btn color="primary" flat @click="notedialog = false">OK</v-btn>
@@ -136,7 +135,6 @@
 									</v-list-tile>
 									<v-card>
 										<v-card-title class="headline" primary-title>Employees</v-card-title>
-										<v-divider />
 										<v-list dense>
 											<v-list-tile>
 												<v-list-tile-content>SV1:</v-list-tile-content>
@@ -175,7 +173,7 @@
 												<v-list-tile-content class="align-end">{{ props.item.ccA3Name }}</v-list-tile-content>
 											</v-list-tile>
 										</v-list>
-										<v-divider />
+										<v-divider class="ma-0"/>
 										<v-card-actions>
 											<v-spacer />
 											<v-btn color="primary" flat @click="viewdialog = false">OK</v-btn>
@@ -191,7 +189,7 @@
 							</v-list>
 						</v-menu>
 					</v-card-title>
-					<v-divider />
+					<v-divider class="ma-0"/>
 					<v-list dense>
 						<v-list-tile>
 							<v-list-tile-content>Clinic Time:</v-list-tile-content>
