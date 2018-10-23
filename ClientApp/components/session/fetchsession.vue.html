@@ -21,7 +21,7 @@
 				</v-toolbar>
 				<v-data-table :headers="headers" :items="sessions" :search="search" :loading="loading" item-key="id" expand>
 					<v-progress-linear slot="progress" color="primary" indeterminate />
-					<template slot="items" slot-scope="props"> 
+					<template slot="items" slot-scope="props">
 						<tr @click="props.expanded = !props.expanded">
 							<td><font v-bind:style="{ color: stateColour(props.item.state) }">{{ props.item.site }}</font></td>
 							<td>{{ props.item.time }}</td>
@@ -66,7 +66,7 @@
 								</table>
 							</v-layout>
 							<v-layout justify-center>
-								<v-dialog v-model="notedialog" width="500">
+								<v-dialog v-model="notedialog[props.item.id]" width="500" :key="props.item.id">
 									<v-btn flat color="secondary" slot="activator">Note</v-btn>
 									<v-card>
 										<v-card-title class="headline" primary-title>Session Note</v-card-title>
@@ -74,7 +74,7 @@
 										<v-divider />
 										<v-card-actions>
 											<v-spacer />
-											<v-btn color="primary" flat @click="notedialog = false">OK</v-btn>
+											<v-btn color="primary" flat @click="$set(notedialog, props.item.id, false)">OK</v-btn>
 										</v-card-actions>
 									</v-card>
 								</v-dialog>
@@ -112,8 +112,73 @@
 								<v-list-tile v-on:click.native="createSession">
 									<v-list-tile-title>Create</v-list-tile-title>
 								</v-list-tile>
+								<v-list-tile @click="$set(notedialog, props.item.id, true)">
+									<v-list-tile-title>Note</v-list-tile-title>
+									<v-dialog v-model="notedialog[props.item.id]" lazy :key="props.item.id">
+										<v-card>
+											<v-card-title class="headline" primary-title>Session Note</v-card-title>
+											<v-card-text>{{ props.item.note }}</v-card-text>
+											<v-divider class="ma-0" />
+											<v-card-actions>
+												<v-spacer />
+												<v-btn color="primary" flat @click="$set(notedialog, props.item.id, false)">OK</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-dialog>
+								</v-list-tile>
 								<v-list-tile v-on:click.native="rosterSession(props.item.id)">
 									<v-list-tile-title>Roster</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile @click="$set(viewdialog, props.item.id, true)">
+									<v-list-tile-title>View</v-list-tile-title>
+									<v-dialog v-model="viewdialog[props.item.id]" lazy :key="props.item.id">
+										<v-card>
+											<v-card-title class="headline" primary-title>Employees</v-card-title>
+											<v-list dense>
+												<v-list-tile>
+													<v-list-tile-content>SV1:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.sV1Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>DRI1:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.drI1Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>DRI2:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.drI2Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>RN1:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.rN1Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>RN2:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.rN2Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>RN3:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.rN3Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>CCA1:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.ccA1Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>CCA2:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.ccA2Name }}</v-list-tile-content>
+												</v-list-tile>
+												<v-list-tile>
+													<v-list-tile-content>CCA3:</v-list-tile-content>
+													<v-list-tile-content class="align-end">{{ props.item.ccA3Name }}</v-list-tile-content>
+												</v-list-tile>
+											</v-list>
+											<v-divider class="ma-0" />
+											<v-card-actions>
+												<v-spacer />
+												<v-btn color="primary" flat @click="$set(viewdialog, props.item.id, false)">OK</v-btn>
+											</v-card-actions>
+										</v-card>
+									</v-dialog>
 								</v-list-tile>
 								<v-list-tile v-on:click.native="editSession(props.item.id)">
 									<v-list-tile-title>Edit</v-list-tile-title>
