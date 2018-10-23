@@ -1,9 +1,9 @@
 <template>
-	<v-layout row wrap justify-center>
+	<v-layout row wrap justify-center v-if="$vuetify.breakpoint.smAndUp">
 		<v-flex class="text-xs-center" xs11>
 			<v-menu lazy transition="scale-transition">
-				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box/>
-				<v-date-picker v-model="selecteddate.date" v-on:change="loadSessions" first-day-of-week="1"/>
+				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
+				<v-date-picker v-model="selecteddate.date" v-on:change="loadSessions" first-day-of-week="1" />
 			</v-menu>
 		</v-flex>
 		<v-flex xs11>
@@ -87,6 +87,91 @@
 				</v-data-table>
 			</v-card>
 		</v-flex>
+	</v-layout>
+	<v-layout v-else column>
+		<v-flex class="text-xs-center mb-4" xs12>
+			<h4>Sessions</h4>
+			<v-divider />
+			<v-menu lazy transition="scale-transition" full-width>
+				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
+				<v-date-picker v-model="selecteddate.date" v-on:change="loadSessions" first-day-of-week="1" full-width />
+			</v-menu>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+		</v-flex>
+		<v-data-iterator :items="sessions" :search="search" :loading="loading" row wrap>
+			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
+				<v-card>
+					<v-card-title>
+						<h4>{{ props.item.site }}</h4>
+						<v-spacer />
+						<v-menu left>
+							<v-btn slot="activator" icon class="ma-0">
+								<v-icon>more_vert</v-icon>
+							</v-btn>
+							<v-list>
+								<v-list-tile v-on:click.native="createSession">
+									<v-list-tile-title>Create</v-list-tile-title>
+								</v-list-tile>
+								<v-dialog v-model="notedialog" width="500">
+									<v-list-tile slot="activator">
+										<v-list-tile-title>Note</v-list-tile-title>
+									</v-list-tile>
+									<v-card>
+										<v-card-title class="headline" primary-title>Session Note</v-card-title>
+										<v-card-text>{{ props.item.note }}</v-card-text>
+										<v-divider />
+										<v-card-actions>
+											<v-spacer />
+											<v-btn color="primary" flat @click="notedialog = false">OK</v-btn>
+										</v-card-actions>
+									</v-card>
+								</v-dialog>
+								<v-list-tile v-on:click.native="rosterSession(props.item.id)">
+									<v-list-tile-title>Roster</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="editSession(props.item.id)">
+									<v-list-tile-title>Edit</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="deleteSession(props.item.id)">
+									<v-list-tile-title>Delete</v-list-tile-title>
+								</v-list-tile>
+							</v-list>
+						</v-menu>
+					</v-card-title>
+					<v-divider class="ma-0" />
+					<v-list dense>
+						<v-list-tile>
+							<v-list-tile-content>Clinic Time:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.time }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Type:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.type }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>LOD:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.lod }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Chairs:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.chairs }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>OCC:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.occ }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Estimate:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.estimate }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Staff Count:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.staffCount }}</v-list-tile-content>
+						</v-list-tile>
+					</v-list>
+				</v-card>
+			</v-flex>
+		</v-data-iterator>
 	</v-layout>
 </template>
 
