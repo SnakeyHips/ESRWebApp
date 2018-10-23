@@ -1,13 +1,13 @@
 <template>
-	<v-layout row wrap justify-center>
+	<v-layout row wrap justify-center v-if="$vuetify.breakpoint.smAndUp">
 		<v-flex class="text-xs-center" xs11>
 			<v-menu lazy transition="scale-transition">
 				<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
-				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1"/>
+				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1" />
 			</v-menu>
 			<v-menu lazy transition="scale-transition">
 				<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
-				<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1"/>
+				<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1" />
 			</v-menu>
 		</v-flex>
 		<v-flex xs11>
@@ -38,6 +38,53 @@
 				<v-alert :value="failed" type="error">Please enter valid dates!</v-alert>
 			</v-card>
 		</v-flex>
+	</v-layout>
+	<v-layout v-else column>
+		<v-flex class="text-xs-center mb-4" xs12>
+			<h4>{{ employee.id }} - {{ employee.name }}</h4>
+			<v-divider />
+			<v-menu lazy transition="scale-transition" full-width>
+				<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
+				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1" full-width />
+			</v-menu>
+			<v-menu lazy transition="scale-transition" full-width>
+				<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
+				<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1" full-width />
+			</v-menu>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+		</v-flex>
+		<v-data-iterator :items="sessions" :search="search" :loading="loading" row wrap>
+			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
+				<v-card>
+					<v-card-title>
+						<h4>{{ props.item.day }} - {{ props.item.date }}</h4>
+					</v-card-title>
+					<v-divider class="ma-0" />
+					<v-list dense>
+						<v-list-tile>
+							<v-list-tile-content>Site:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.site }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Time:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.time }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Chairs:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.chairs }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>OCC:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.occ }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Estimate:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.estimate }}</v-list-tile-content>
+						</v-list-tile>
+					</v-list>
+				</v-card>
+			</v-flex>
+		</v-data-iterator>
 	</v-layout>
 </template>
 
