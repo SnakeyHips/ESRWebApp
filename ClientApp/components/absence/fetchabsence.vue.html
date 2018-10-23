@@ -1,9 +1,9 @@
 <template>
-	<v-layout row wrap justify-center>
+	<v-layout row wrap justify-center v-if="$vuetify.breakpoint.smAndUp">
 		<v-flex class="text-xs-center" xs11>
 			<v-menu lazy transition="scale-transition">
 				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
-				<v-date-picker v-model="selecteddate.date" v-on:change="loadAbsences" first-day-of-week="1"/>
+				<v-date-picker v-model="selecteddate.date" v-on:change="loadAbsences" first-day-of-week="1" />
 			</v-menu>
 		</v-flex>
 		<v-flex xs11>
@@ -42,6 +42,66 @@
 				</v-data-table>
 			</v-card>
 		</v-flex>
+	</v-layout>
+	<v-layout v-else column>
+		<v-flex class="text-xs-center mb-4" xs12>
+			<h4>Absences</h4>
+			<v-divider />
+			<v-menu lazy transition="scale-transition" full-width>
+				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
+				<v-date-picker v-model="selecteddate.date" v-on:change="loadAbsences" first-day-of-week="1" full-width />
+			</v-menu>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+		</v-flex>
+		<v-data-iterator :items="absences" :search="search" :loading="loading" row wrap>
+			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
+				<v-card>
+					<v-card-title>
+						<h4>{{ props.item.staffId }} - {{ props.item.staffName }}</h4>
+						<v-spacer />
+						<v-menu left>
+							<v-btn slot="activator" icon class="ma-0">
+								<v-icon>more_vert</v-icon>
+							</v-btn>
+							<v-list>
+								<v-list-tile v-on:click.native="createAbsence">
+									<v-list-tile-title>Create</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="editAbsence(props.item.id)">
+									<v-list-tile-title>Edit</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="deleteAbsence(props.item.id)">
+									<v-list-tile-title>Delete</v-list-tile-title>
+								</v-list-tile>
+							</v-list>
+						</v-menu>
+					</v-card-title>
+					<v-divider class="ma-0" />
+					<v-list dense>
+						<v-list-tile>
+							<v-list-tile-content>Staff Name:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.time }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Type:</v-list-tile-content>
+							<v-list-tile-content class="align-end"><font v-bind:style="{ color: typeColour(props.item.type) }">{{ props.item.type }}</font></v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Start Date:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.startDate }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>End Date:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.endDate }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Hours:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.hours }}</v-list-tile-content>
+						</v-list-tile>
+					</v-list>
+				</v-card>
+			</v-flex>
+		</v-data-iterator>
 	</v-layout>
 </template>
 
