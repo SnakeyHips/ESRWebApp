@@ -102,7 +102,7 @@
 		<v-flex class="text-xs-center mb-4" xs12>
 			<h4>Special Dates</h4>
 			<v-divider />
-			<v-text-field v-model="searchSpecialDate" append-icon="search" label="Search" single-line hide-details />
+			<v-text-field v-model="searchSpecialDate" append-icon="search" label="Search" single-line hide-details box/>
 		</v-flex>
 		<v-data-iterator :items="specialdates" :search="searchSpecialDate" :loading="loadingSpecialDate" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
@@ -140,7 +140,7 @@
 		<v-flex class="text-xs-center mt-4 mb-4" xs12>
 			<h4>Skills</h4>
 			<v-divider />
-			<v-text-field v-model="searchSkill" append-icon="search" label="Search" single-line hide-details />
+			<v-text-field v-model="searchSkill" append-icon="search" label="Search" single-line hide-details box/>
 		</v-flex>
 		<v-data-iterator :items="skills" :search="searchSkill" :loading="loadingSkill" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
@@ -178,7 +178,7 @@
 		<v-flex class="text-xs-center mt-4 mb-4" xs12>
 			<h4>Sites</h4>
 			<v-divider />
-			<v-text-field v-model="searchSite" append-icon="search" label="Search" single-line hide-details />
+			<v-text-field v-model="searchSite" append-icon="search" label="Search" single-line hide-details box/>
 		</v-flex>
 		<v-data-iterator :items="sites" :search="searchSite" :loading="loadingSite" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
