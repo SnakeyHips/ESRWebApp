@@ -1,5 +1,5 @@
 <template>
-	<v-layout row wrap justify-center>
+	<v-layout row wrap justify-center v-if="$vuetify.breakpoint.smAndUp">
 		<v-flex mb-4 xs11>
 			<v-card>
 				<v-toolbar flat class="tabletoolbar">
@@ -97,6 +97,126 @@
 				</v-data-table>
 			</v-card>
 		</v-flex>
+	</v-layout>
+	<v-layout v-else column>
+		<v-flex class="text-xs-center mb-4" xs12>
+			<h4>Special Dates</h4>
+			<v-divider />
+			<v-text-field v-model="searchSpecialDate" append-icon="search" label="Search" single-line hide-details />
+		</v-flex>
+		<v-data-iterator :items="specialdates" :search="searchSpecialDate" :loading="loadingSpecialDate" row wrap>
+			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
+				<v-card>
+					<v-card-title>
+						<h4>{{ props.item.name }}</h4>
+						<v-spacer />
+						<v-menu left>
+							<v-btn slot="activator" icon class="ma-0">
+								<v-icon>more_vert</v-icon>
+							</v-btn>
+							<v-list>
+								<v-list-tile v-on:click.native="createSpecialDate">
+									<v-list-tile-title>Create</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="editSpecialDate(props.item.id)">
+									<v-list-tile-title>Edit</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="deleteSpecialDate(props.item.id)">
+									<v-list-tile-title>Delete</v-list-tile-title>
+								</v-list-tile>
+							</v-list>
+						</v-menu>
+					</v-card-title>
+					<v-divider class="ma-0" />
+					<v-list dense>
+						<v-list-tile>
+							<v-list-tile-content>Date:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.date }}</v-list-tile-content>
+						</v-list-tile>
+					</v-list>
+				</v-card>
+			</v-flex>
+		</v-data-iterator>
+		<v-flex class="text-xs-center mt-4 mb-4" xs12>
+			<h4>Skills</h4>
+			<v-divider />
+			<v-text-field v-model="searchSkill" append-icon="search" label="Search" single-line hide-details />
+		</v-flex>
+		<v-data-iterator :items="skills" :search="searchSkill" :loading="loadingSkill" row wrap>
+			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
+				<v-card>
+					<v-card-title>
+						<h4>{{ props.item.name }}</h4>
+						<v-spacer />
+						<v-menu left>
+							<v-btn slot="activator" icon class="ma-0">
+								<v-icon>more_vert</v-icon>
+							</v-btn>
+							<v-list>
+								<v-list-tile v-on:click.native="createSkill">
+									<v-list-tile-title>Create</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="editSkill(props.item.id)">
+									<v-list-tile-title>Edit</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="deleteSkill(props.item.id)">
+									<v-list-tile-title>Delete</v-list-tile-title>
+								</v-list-tile>
+							</v-list>
+						</v-menu>
+					</v-card-title>
+					<v-divider class="ma-0" />
+					<v-list dense>
+						<v-list-tile>
+							<v-list-tile-content>Role:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.role }}</v-list-tile-content>
+						</v-list-tile>
+					</v-list>
+				</v-card>
+			</v-flex>
+		</v-data-iterator>
+		<v-flex class="text-xs-center mt-4 mb-4" xs12>
+			<h4>Sites</h4>
+			<v-divider />
+			<v-text-field v-model="searchSite" append-icon="search" label="Search" single-line hide-details />
+		</v-flex>
+		<v-data-iterator :items="sites" :search="searchSite" :loading="loadingSite" row wrap>
+			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
+				<v-card>
+					<v-card-title>
+						<h4>{{ props.item.name }}</h4>
+						<v-spacer />
+						<v-menu left>
+							<v-btn slot="activator" icon class="ma-0">
+								<v-icon>more_vert</v-icon>
+							</v-btn>
+							<v-list>
+								<v-list-tile v-on:click.native="createSite">
+									<v-list-tile-title>Create</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="editSite(props.item.id)">
+									<v-list-tile-title>Edit</v-list-tile-title>
+								</v-list-tile>
+								<v-list-tile v-on:click.native="deleteSite(props.item.id)">
+									<v-list-tile-title>Delete</v-list-tile-title>
+								</v-list-tile>
+							</v-list>
+						</v-menu>
+					</v-card-title>
+					<v-divider class="ma-0" />
+					<v-list dense>
+						<v-list-tile>
+							<v-list-tile-content>Type:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.type }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Times:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.times }}</v-list-tile-content>
+						</v-list-tile>
+					</v-list>
+				</v-card>
+			</v-flex>
+		</v-data-iterator>
 	</v-layout>
 </template>
 
