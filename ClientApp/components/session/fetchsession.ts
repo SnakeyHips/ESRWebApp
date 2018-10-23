@@ -10,7 +10,8 @@ export default class FetchSessionComponent extends Vue {
 	sessions: Session[] = [];
 	date: string = "";
 	loading: boolean = false;
-	notedialog: boolean = false;
+	viewdialog: object = {};
+	notedialog: object = {};
 	search: string = "";
 	headers: object[] = [
 		{ text: 'Site', value: 'site' },
