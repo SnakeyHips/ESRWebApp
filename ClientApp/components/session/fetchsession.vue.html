@@ -96,7 +96,7 @@
 				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
 				<v-date-picker v-model="selecteddate.date" v-on:change="loadSessions" first-day-of-week="1" full-width />
 			</v-menu>
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details />
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box/>
 		</v-flex>
 		<v-data-iterator :items="sessions" :search="search" :loading="loading" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
