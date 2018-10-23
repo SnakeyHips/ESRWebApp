@@ -10,10 +10,6 @@ table{
 	background-color: #424242 !important;
 }
 
-.v-divider{
-	margin: 0;
-}
-
 @media print {
 	.container.fluid {
 		padding: 0;
