@@ -71,7 +71,6 @@
 									<v-card>
 										<v-card-title class="headline" primary-title>Session Note</v-card-title>
 										<v-card-text>{{ props.item.note }}</v-card-text>
-										<v-divider />
 										<v-card-actions>
 											<v-spacer />
 											<v-btn color="primary" flat @click="$set(notedialog, props.item.id, false)">OK</v-btn>
@@ -118,7 +117,6 @@
 										<v-card>
 											<v-card-title class="headline" primary-title>Session Note</v-card-title>
 											<v-card-text>{{ props.item.note }}</v-card-text>
-											<v-divider class="ma-0" />
 											<v-card-actions>
 												<v-spacer />
 												<v-btn color="primary" flat @click="$set(notedialog, props.item.id, false)">OK</v-btn>
@@ -172,7 +170,6 @@
 													<v-list-tile-content class="align-end">{{ props.item.ccA3Name }}</v-list-tile-content>
 												</v-list-tile>
 											</v-list>
-											<v-divider class="ma-0" />
 											<v-card-actions>
 												<v-spacer />
 												<v-btn color="primary" flat @click="$set(viewdialog, props.item.id, false)">OK</v-btn>
