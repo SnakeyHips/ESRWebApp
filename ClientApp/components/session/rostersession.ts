@@ -302,39 +302,48 @@ export default class RosterSessionComponent extends Vue {
 	setTeam() {
 		if (this.searchTeam(this.team.sV1Id, this.svs)) {
 			this.after.sV1Id = this.team.sV1Id;
+			this.sv1select();
 		}
 		if (this.searchTeam(this.team.drI1Id, this.dris)) {
 			this.after.drI1Id = this.team.drI1Id;
+			this.dri1select();
 		}
 		if (this.searchTeam(this.team.drI1Id, this.dris)) {
 			if (!this.dri2selectdisable) {
 				this.after.drI2Id = this.team.drI2Id;
+				this.dri2select();
 			}
 		}
 		if (this.searchTeam(this.team.rN1Id, this.rns)) {
 			this.after.rN1Id = this.team.rN1Id;
+			this.rn1select();
 		}
 		if (this.searchTeam(this.team.rN2Id, this.rns)) {
 			if (!this.rn2selectdisable) {
 				this.after.rN2Id = this.team.rN2Id;
+				this.rn2select();
 			}
 		}
 		if (this.searchTeam(this.team.rN3Id, this.rns)) {
 			if (!this.rn3selectdisable) {
 				this.after.rN3Id = this.team.rN3Id;
+				this.rn3select();
 			}
 		}
 		if (this.searchTeam(this.team.ccA1Id, this.ccas)) {
 			this.after.ccA1Id = this.team.ccA1Id;
+			this.cca1select();
 		}
 		if (this.searchTeam(this.team.ccA2Id, this.ccas)) {
 			if (!this.cca2selectdisable) {
 				this.after.ccA2Id = this.team.ccA2Id;
+				this.cca2select();
 			}
 		}
 		if (this.searchTeam(this.team.ccA3Id, this.ccas)) {
 			if (!this.cca3selectdisable) {
 				this.after.ccA3Id = this.team.ccA3Id;
+				this.cca3select();
 			}
 		}
 	}
