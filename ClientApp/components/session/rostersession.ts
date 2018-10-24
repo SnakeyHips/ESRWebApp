@@ -216,6 +216,7 @@ export default class RosterSessionComponent extends Vue {
 				this.loadAvailable();
 				this.loadTeams();
 				this.loadChairModel();
+				this.checkDisables();
 				this.loading = false;
 			});
 	}
@@ -246,6 +247,36 @@ export default class RosterSessionComponent extends Vue {
 				this.rn2selectdisable = true;
 				this.cca2selectdisable = true;
 			}
+		}
+	}
+
+	checkDisables() {
+		if (this.after.sV1Id > 0) {
+			this.sv1disable = false;
+		}
+		if (this.after.drI1Id > 0) {
+			this.dri1disable = false;
+		}
+		if (this.after.drI2Id > 0) {
+			this.dri2disable = false;
+		}
+		if (this.after.rN1Id > 0) {
+			this.rn1disable = false;
+		}
+		if (this.after.rN2Id > 0) {
+			this.rn2disable = false;
+		}
+		if (this.after.rN3Id > 0) {
+			this.rn3disable = false;
+		}
+		if (this.after.ccA1Id > 0) {
+			this.cca1disable = false;
+		}
+		if (this.after.ccA2Id > 0) {
+			this.cca2disable = false;
+		}
+		if (this.after.ccA3Id > 0) {
+			this.cca3disable = false;
 		}
 	}
 
