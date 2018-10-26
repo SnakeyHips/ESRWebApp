@@ -19,6 +19,10 @@ export default class FetchAbsenceComponent extends Vue {
 		{ text: 'Hours', value: 'hours' },
 	];
 
+	mounted() {
+		this.loadAbsences();
+	}
+
 	loadAbsences() {
 		this.loading = true;
 		this.dateFormatted = new Date(this.selecteddate.date).toLocaleDateString();
@@ -29,7 +33,7 @@ export default class FetchAbsenceComponent extends Vue {
 				this.loading = false;
 			});
 	}
-	
+
 	typeColour(type: string) {
 		switch (type) {
 			case "Day Off":
@@ -43,6 +47,10 @@ export default class FetchAbsenceComponent extends Vue {
 			case "Training":
 				return "CornflowerBlue";
 		}
+	}
+
+	dateFormat(date: string) {
+		return new Date(date).toLocaleDateString();
 	}
 
 	createAbsence() {
@@ -64,7 +72,7 @@ export default class FetchAbsenceComponent extends Vue {
 					if (data < 1) {
 						alert("Failed to delete absence. Please make sure you are still connected?");
 					} else {
-						this.loadAbsences(this.date);
+						this.loadAbsences();
 					}
 				})
 		}
