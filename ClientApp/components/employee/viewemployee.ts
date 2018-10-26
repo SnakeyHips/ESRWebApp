@@ -52,12 +52,16 @@ export default class ViewEmployeeComponent extends Vue {
 			});
 	}
 
+	dateFormat(date: string) {
+		return new Date(date).toLocaleDateString();
+	}
+
 	loadSessions() {
 		if (this.startdate != "") {
-			this.startDateFormatted = new Date(this.startdate).toLocaleDateString();
+			this.startDateFormatted = this.dateFormat(this.startdate);
 		}
 		if (this.enddate != "") {
-			this.endDateFormatted = new Date(this.enddate).toLocaleDateString();
+			this.endDateFormatted = this.dateFormat(this.enddate);
 		}
 		if (this.startdate != "" && this.enddate != "") {
 			if (this.enddate >= this.startdate) {
