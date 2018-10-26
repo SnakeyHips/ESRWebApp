@@ -26,8 +26,8 @@
 							<td>{{ props.item.staffId }}</td>
 							<td>{{ props.item.staffName }}</td>
 							<td><font v-bind:style="{ color: typeColour(props.item.type) }">{{ props.item.type }}</font></td>
-							<td>{{ props.item.startDate }}</td>
-							<td>{{ props.item.endDate }}</td>
+							<td>{{ dateFormat(props.item.startDate) }}</td>
+							<td>{{ dateFormat(props.item.endDate) }}</td>
 							<td>{{ props.item.hours }}</td>
 						</tr>
 					</template>
