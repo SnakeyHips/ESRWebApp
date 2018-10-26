@@ -97,4 +97,8 @@ export default class ViewTeamComponent extends Vue {
 				return "CornflowerBlue";
 		}
 	}
+	
+	dateFormat(date: string) {
+		return new Date(date).toLocaleDateString();
+	}
 }
