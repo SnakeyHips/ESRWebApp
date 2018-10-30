@@ -11,6 +11,9 @@ export default class FetchEmployeeComponent extends Vue {
 	date: string = "";
 	loading: boolean = false;
 	search: string = "";
+	failed: boolean = false;
+	dialog: boolean = false;
+	selected: number = 0;
 	headers: object[] = [
 		{ text: 'Id', value: 'id' },
 		{ text: 'Name', value: 'name' },
@@ -24,7 +27,7 @@ export default class FetchEmployeeComponent extends Vue {
 	];
 
 	mounted() {
-		this.loadEmployees(t);
+		this.loadEmployees();
 	}
 
 	loadEmployees() {
@@ -37,7 +40,7 @@ export default class FetchEmployeeComponent extends Vue {
 				this.loading = false;
 			});
 	}
-	
+
 	statusColour(type: string) {
 		switch (type) {
 			case "Day Off":
@@ -60,25 +63,30 @@ export default class FetchEmployeeComponent extends Vue {
 	editEmployee(id: number) {
 		this.$router.push("/editemployee/" + id);
 	}
-	
+
 	viewEmployee(id: number) {
 		this.$router.push("/viewemployee/" + id);
 	}
 
-	deleteEmployee(id: number) {
-		var ans = confirm("Do you want to delete Employee " + id + "?");
-		if (ans) {
-			fetch('api/Employee/Delete?id=' + id, {
-				method: 'DELETE'
+	openDelete(selected: number) {
+		this.selected = selected;
+		this.dialog = true;
+	}
+
+	deleteEmployee() {
+		this.failed = false;
+		this.dialog = false;
+		console.log(this.selected);
+		fetch('api/Employee/Delete?id=' + this.selected, {
+			method: 'DELETE'
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.failed = true;
+				} else {
+					this.loadEmployees();
+				}
 			})
-				.then(response => response.json() as Promise<number>)
-				.then(data => {
-					if (data < 1) {
-						alert("Failed to delete employee. Please make sure you are still connected.");
-					} else {
-						this.loadEmployees();
-					}
-				})
-		}
 	}
 }
