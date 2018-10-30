@@ -66,26 +66,40 @@
 								</table>
 							</v-layout>
 							<v-layout justify-center>
-								<v-dialog v-model="notedialog[props.item.id]" width="500" :key="props.item.id">
-									<v-btn flat color="secondary" slot="activator">Note</v-btn>
-									<v-card>
-										<v-card-title class="headline" primary-title>Session Note</v-card-title>
-										<v-card-text>{{ props.item.note }}</v-card-text>
-										<v-card-actions>
-											<v-spacer />
-											<v-btn color="primary" flat @click="$set(notedialog, props.item.id, false)">OK</v-btn>
-										</v-card-actions>
-									</v-card>
-								</v-dialog>
+								<v-btn flat color="secondary" v-on:click.native="openNote(props.item)">Note</v-btn>
 								<v-btn flat color="secondary" v-on:click.native="rosterSession(props.item.id)">Roster</v-btn>
 								<v-btn flat color="secondary" v-on:click.native="editSession(props.item)">Edit</v-btn>
-								<v-btn flat color="secondary" v-on:click.native="deleteSession(props.item)">Delete</v-btn>
+								<v-btn flat color="secondary" v-on:click.native="openDelete(props.item)">Delete</v-btn>
 							</v-layout>
 						</v-card>
 					</template>
 				</v-data-table>
 			</v-card>
 		</v-flex>
+		<v-dialog v-model="notedialog" max-width="500">
+			<v-card>
+				<v-card-title class="headline" primary-title>Session Note</v-card-title>
+				<v-card-text>{{ selected.note }}</v-card-text>
+				<v-card-actions>
+					<v-spacer />
+					<v-btn color="primary" flat @click="notedialog = false">OK</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<v-dialog v-model="deletedialog" max-width="290">
+			<v-card>
+				<v-card-title class="headline">
+					Delete session?
+				</v-card-title>
+				<v-card-text>Are you sure you want to delete this session?</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="primary" flat @click.native="deletedialog = false">Cancel</v-btn>
+					<v-btn color="primary" flat v-on:click.native="deleteSession">Accept</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<v-snackbar v-model="failed" color="red" timeout="5000">{{ errorMessage }}<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 	</v-layout>
 	<v-layout v-else column>
 		<v-flex class="text-xs-center mb-4" xs12>
@@ -95,7 +109,7 @@
 				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
 				<v-date-picker v-model="selecteddate.date" v-on:change="loadSessions" first-day-of-week="1" full-width />
 			</v-menu>
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box />
 		</v-flex>
 		<v-data-iterator :items="sessions" :search="search" :loading="loading" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
@@ -111,82 +125,27 @@
 								<v-list-tile v-on:click.native="createSession">
 									<v-list-tile-title>Create</v-list-tile-title>
 								</v-list-tile>
-								<v-list-tile @click="$set(notedialog, props.item.id, true)">
+								<v-list-tile v-on:click.native="openNote(props.item)">
 									<v-list-tile-title>Note</v-list-tile-title>
-									<v-dialog v-model="notedialog[props.item.id]" lazy :key="props.item.id">
-										<v-card>
-											<v-card-title class="headline" primary-title>Session Note</v-card-title>
-											<v-card-text>{{ props.item.note }}</v-card-text>
-											<v-card-actions>
-												<v-spacer />
-												<v-btn color="primary" flat @click="$set(notedialog, props.item.id, false)">OK</v-btn>
-											</v-card-actions>
-										</v-card>
-									</v-dialog>
+
 								</v-list-tile>
 								<v-list-tile v-on:click.native="rosterSession(props.item.id)">
 									<v-list-tile-title>Roster</v-list-tile-title>
 								</v-list-tile>
-								<v-list-tile @click="$set(viewdialog, props.item.id, true)">
+								<v-list-tile v-on:click.native="openView(props.item)">
 									<v-list-tile-title>View</v-list-tile-title>
-									<v-dialog v-model="viewdialog[props.item.id]" lazy :key="props.item.id">
-										<v-card>
-											<v-card-title class="headline" primary-title>Employees</v-card-title>
-											<v-list dense>
-												<v-list-tile>
-													<v-list-tile-content>SV1:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.sV1Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>DRI1:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.drI1Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>DRI2:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.drI2Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>RN1:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.rN1Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>RN2:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.rN2Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>RN3:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.rN3Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>CCA1:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.ccA1Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>CCA2:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.ccA2Name }}</v-list-tile-content>
-												</v-list-tile>
-												<v-list-tile>
-													<v-list-tile-content>CCA3:</v-list-tile-content>
-													<v-list-tile-content class="align-end">{{ props.item.ccA3Name }}</v-list-tile-content>
-												</v-list-tile>
-											</v-list>
-											<v-card-actions>
-												<v-spacer />
-												<v-btn color="primary" flat @click="$set(viewdialog, props.item.id, false)">OK</v-btn>
-											</v-card-actions>
-										</v-card>
-									</v-dialog>
+
 								</v-list-tile>
-								<v-list-tile v-on:click.native="editSession(props.item.id)">
+								<v-list-tile v-on:click.native="editSession(props.item)">
 									<v-list-tile-title>Edit</v-list-tile-title>
 								</v-list-tile>
-								<v-list-tile v-on:click.native="deleteSession(props.item.id)">
+								<v-list-tile v-on:click.native="openDelete(props.item)">
 									<v-list-tile-title>Delete</v-list-tile-title>
 								</v-list-tile>
 							</v-list>
 						</v-menu>
 					</v-card-title>
-					<v-divider class="ma-0"/>
+					<v-divider class="ma-0" />
 					<v-list dense>
 						<v-list-tile>
 							<v-list-tile-content>Clinic Time:</v-list-tile-content>
@@ -220,7 +179,79 @@
 				</v-card>
 			</v-flex>
 		</v-data-iterator>
+		<v-dialog v-model="notedialog">
+			<v-card>
+				<v-card-title class="headline" primary-title>Session Note</v-card-title>
+				<v-card-text>{{ selected.note }}</v-card-text>
+				<v-card-actions>
+					<v-spacer />
+					<v-btn color="primary" flat @click="notedialog = false">OK</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<v-dialog v-model="viewdialog">
+			<v-card>
+				<v-card-title class="headline" primary-title>Employees</v-card-title>
+				<v-list dense>
+					<v-list-tile>
+						<v-list-tile-content>SV1:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.sV1Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>DRI1:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.drI1Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>DRI2:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.drI2Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>RN1:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.rN1Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>RN2:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.rN2Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>RN3:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.rN3Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>CCA1:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.ccA1Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>CCA2:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.ccA2Name }}</v-list-tile-content>
+					</v-list-tile>
+					<v-list-tile>
+						<v-list-tile-content>CCA3:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ selected.ccA3Name }}</v-list-tile-content>
+					</v-list-tile>
+				</v-list>
+				<v-card-actions>
+					<v-spacer />
+					<v-btn color="primary" flat @click="viewdialog = false">OK</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<v-dialog v-model="deletedialog" max-width="290">
+			<v-card>
+				<v-card-title class="headline">
+					Delete session?
+				</v-card-title>
+				<v-card-text>Are you sure you want to delete this session?</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="primary" flat @click.native="deletedialog = false">Cancel</v-btn>
+					<v-btn color="primary" flat v-on:click.native="deleteSession">Accept</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<v-snackbar v-model="failed" color="red" timeout="5000">{{ errorMessage }}<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 	</v-layout>
+	
 </template>
 
 <script src="./fetchsession.ts"></script>
