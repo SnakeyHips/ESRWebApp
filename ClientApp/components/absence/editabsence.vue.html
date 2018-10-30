@@ -17,8 +17,7 @@
 				<v-text-field v-model="after.hours" label="Hours" :rules="[rules.required, rules.decimal]" maxlength="5" box/>
 				<v-btn color="secondary" v-on:click="editAbsence">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
-				<v-alert :value="failed" type="error">Failed to update absence!</v-alert>
-			</v-form>
+<v-snackbar v-model="failed" color="red" top multi-line timeout="5000">Failed to edit absence!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>			</v-form>
 			<v-progress-circular v-else color="primary" indeterminate />
 		</v-flex>
 	</v-layout>
