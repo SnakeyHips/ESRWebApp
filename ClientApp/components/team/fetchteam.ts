@@ -8,6 +8,9 @@ export default class FetchTeamComponent extends Vue {
 	date: string = "";
 	loading: boolean = false;
 	search: string = "";
+	failed: boolean = false;
+	dialog: boolean = false;
+	selected: number = 0;
 	headers: object[] = [
 		{ text: 'Name', value: 'name' },
 		{ text: 'SV1', value: 'sV1Name' },
@@ -47,20 +50,25 @@ export default class FetchTeamComponent extends Vue {
 		this.$router.push("/viewteam/" + id);
 	}
 
-	deleteTeam(id: number) {
-		var ans = confirm("Do you want to delete this Team?");
-		if (ans) {
-			fetch('api/Team/Team?id=' + id, {
-				method: 'DELETE'
-			})
-				.then(response => response.json() as Promise<number>)
-				.then(data => {
-					if (data < 1) {
-						alert("Failed to delete team. Please make sure you are still connected.");
-					} else {
-						this.loadTeams();
-					}
-				})
-		}
+	openDelete(selected: number) {
+		this.selected = selected;
+		this.dialog = true;
+	}
+
+	deleteTeam() {
+		this.failed = false;
+		this.dialog = false;
+		console.log(this.selected);
+		//fetch('api/Team/Team?id=' + this.selected, {
+		//	method: 'DELETE'
+		//})
+		//	.then(response => response.json() as Promise<number>)
+		//	.then(data => {
+		//		if (data < 1) {
+		//			this.failed = true;
+		//		} else {
+		//			this.loadTeams();
+		//		}
+		//	})
 	}
 }
