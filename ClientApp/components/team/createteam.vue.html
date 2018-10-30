@@ -16,7 +16,7 @@
 				<v-btn color="secondary" v-on:click="createTeam">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
-				<v-snackbar v-model="failed" color="red" timeout="5000">{{ errorMessage }}<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+				<v-snackbar v-model="failed" color="red">{{ errorMessage }}<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 			</v-form>
 			<v-progress-circular v-else color="primary" indeterminate />
 		</v-flex>
