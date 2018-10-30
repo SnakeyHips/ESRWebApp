@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import { Component, Prop } from 'vue-property-decorator';
 import { SpecialDate } from '../../models/specialdate';
 import { Skill } from '../../models/skill';
 import { Site } from '../../models/site';
@@ -15,6 +15,14 @@ export default class FetchAbsenceComponent extends Vue {
 	searchSpecialDate: string = "";
 	searchSkill: string = "";
 	searchSite: string = "";
+	failed: boolean = false;
+	errorMessage: string = "";
+	dialog: boolean = false;
+	dialogMessage: string = "";
+	selectedSwitch: number = 0;
+	selectedSpecialDate: number = 0;
+	selectedSkill: number = 0;
+	selectedSite: number = 0;
 
 	headersSpecialDate: object[] = [
 		{ text: 'Name', value: 'name' },
@@ -92,54 +100,89 @@ export default class FetchAbsenceComponent extends Vue {
 		this.$router.push("/editsite/" + id);
 	}
 
-	deleteSpecialDate(id: number) {
-		var ans = confirm("Do you want to delete this Special Date?");
-		if (ans) {
-			fetch('api/Admin/DeleteSpecialDate?id=' + id, {
-				method: 'DELETE'
-			})
-				.then(response => response.json() as Promise<number>)
-				.then(data => {
-					if (data < 1) {
-						alert("Failed to delete Special Date. Please make sure you are still connected?");
-					} else {
-						this.loadSpecialDates();
-					}
-				})
+	openSpecialDateDelete(selected: number) {
+		this.selectedSpecialDate = selected;
+		this.selectedSwitch = 0;
+		this.dialogMessage = "Are you sure you want to delete this special date?";
+		this.dialog = true;
+	}
+
+	openSkillDelete(selected: number) {
+		this.selectedSkill = selected;
+		this.selectedSwitch = 1;
+		this.dialogMessage = "Are you sure you want to delete this skill?";
+		this.dialog = true;
+	}
+
+	openSiteDelete(selected: number) {
+		this.selectedSite = selected;
+		this.selectedSwitch = 2;
+		this.dialogMessage = "Are you sure you want to delete this site?";
+		this.dialog = true;
+	}
+
+	deleteSwitch() {
+		switch (this.selectedSwitch) {
+			case 0:
+				this.deleteSpecialDate();
+				break;
+			case 1:
+				this.deleteSkill();
+				break;
+			case 2:
+				this.deleteSite();
+				break;
 		}
 	}
 
-	deleteSkill(id: number) {
-		var ans = confirm("Do you want to delete this Skill?");
-		if (ans) {
-			fetch('api/Admin/DeleteSkill?id=' + id, {
-				method: 'DELETE'
+	deleteSpecialDate() {
+		this.failed = false;
+		this.dialog = false;
+		fetch('api/Admin/DeleteSpecialDate?id=' + this.selectedSpecialDate, {
+			method: 'DELETE'
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.errorMessage = "Failed to delete special date!";
+					this.failed = true;
+				} else {
+					this.loadSpecialDates();
+				}
 			})
-				.then(response => response.json() as Promise<number>)
-				.then(data => {
-					if (data < 1) {
-						alert("Failed to delete Skill. Please make sure you are still connected?");
-					} else {
-						this.loadSkills();
-					}
-				})
-		}
 	}
 
-	deleteSite(id: number) {
-		var ans = confirm("Do you want to delete this Site?");
-		if (ans) {
-			fetch('api/Admin/DeleteSite?id=' + id, {
-				method: 'DELETE'
+	deleteSkill() {
+		this.failed = false;
+		this.dialog = false;
+		fetch('api/Admin/DeleteSkill?id=' + this.selectedSkill, {
+			method: 'DELETE'
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.errorMessage = "Failed to delete skill!";
+					this.failed = true;
+				} else {
+					this.loadSkills();
+				}
 			})
-				.then(response => response.json() as Promise<number>)
-				.then(data => {
-					if (data < 1) {
-						alert("Failed to delete Site. Please make sure you are still connected?");
-					} else {
-						this.loadSites();
-					}
-				})
-		}
+	}
+
+	deleteSite() {
+		this.failed = false;
+		this.dialog = false;
+		fetch('api/Admin/DeleteSite?id=' + this.selectedSite, {
+			method: 'DELETE'
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.errorMessage = "Failed to delete site!";
+					this.failed = true;
+				} else {
+					this.loadSites();
+				}
+			})
 	}
 }
