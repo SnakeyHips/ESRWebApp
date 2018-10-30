@@ -13,7 +13,7 @@
 				<v-text-field v-model="session.estimate" label="Estimate" :rules="[rules.required, rules.number]" maxlength="2" box/>
 				<v-btn color="secondary" v-on:click="editSession">Submit</v-btn>
 				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
-				<v-snackbar v-model="failed" color="red" top multi-line timeout="5000">Failed to edit session!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+				<v-snackbar v-model="failed" color="red" timeout="5000">Failed to edit session!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 			</v-form>
 			<v-progress-circular v-else color="primary" indeterminate />
 		</v-flex>
