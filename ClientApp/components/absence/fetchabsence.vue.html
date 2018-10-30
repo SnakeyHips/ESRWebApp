@@ -54,7 +54,7 @@
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
-			<v-snackbar v-model="failed" color="red" timeout="5000">Failed to delete absence!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+			<v-snackbar v-model="failed" color="red">Failed to delete absence!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 		</v-flex>
 	</v-layout>
 	<v-layout v-else column>
@@ -129,7 +129,7 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
-		<v-snackbar v-model="failed" color="red" timeout="5000">Failed to delete absence!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+		<v-snackbar v-model="failed" color="red">Failed to delete absence!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 	</v-layout>
 </template>
 
