@@ -35,7 +35,7 @@
 						<td>{{ props.item.estimate }}</td>
 					</template>
 				</v-data-table>
-				<v-alert :value="failed" type="error">Please enter valid dates!</v-alert>
+				<v-snackbar v-model="failed" color="red" timeout="5000">Please enter valid dates!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 			</v-card>
 		</v-flex>
 	</v-layout>
@@ -51,7 +51,7 @@
 				<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
 				<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1" full-width />
 			</v-menu>
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box />
 		</v-flex>
 		<v-data-iterator :items="sessions" :search="search" :loading="loading" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
@@ -59,7 +59,7 @@
 					<v-card-title>
 						<h4>{{ props.item.day }} - {{ props.item.date }}</h4>
 					</v-card-title>
-					<v-divider class="ma-0"/>
+					<v-divider class="ma-0" />
 					<v-list dense>
 						<v-list-tile>
 							<v-list-tile-content>Site:</v-list-tile-content>
@@ -85,6 +85,7 @@
 				</v-card>
 			</v-flex>
 		</v-data-iterator>
+		<v-snackbar v-model="failed" color="red" timeout="5000">Please enter valid dates!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 	</v-layout>
 </template>
 
