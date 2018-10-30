@@ -35,12 +35,26 @@
 						<v-card flat="flat">
 							<v-layout justify-center>
 								<v-btn color="secondary" flat v-on:click.native="editAbsence(props.item.id)">Edit</v-btn>
-								<v-btn color="secondary" flat v-on:click.native="deleteAbsence(props.item.id)">Delete</v-btn>
+								<v-btn color="secondary" flat v-on:click.native="openDelete(props.item)">Delete</v-btn>
 							</v-layout>
 						</v-card>
 					</template>
 				</v-data-table>
 			</v-card>
+			<v-dialog v-model="dialog" max-width="290">
+				<v-card>
+					<v-card-title class="headline">
+						Delete absence?
+					</v-card-title>
+					<v-card-text>Are you sure you want to delete this absence?</v-card-text>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="primary" flat @click.native="dialog = false">Cancel</v-btn>
+						<v-btn color="primary" flat v-on:click.native="deleteAbsence">Accept</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+			<v-snackbar v-model="failed" color="red" timeout="5000">Failed to delete absence!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 		</v-flex>
 	</v-layout>
 	<v-layout v-else column>
@@ -51,7 +65,7 @@
 				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
 				<v-date-picker v-model="selecteddate.date" v-on:change="loadAbsences" first-day-of-week="1" full-width />
 			</v-menu>
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box/>
+			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box />
 		</v-flex>
 		<v-data-iterator :items="absences" :search="search" :loading="loading" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
@@ -70,13 +84,13 @@
 								<v-list-tile v-on:click.native="editAbsence(props.item.id)">
 									<v-list-tile-title>Edit</v-list-tile-title>
 								</v-list-tile>
-								<v-list-tile v-on:click.native="deleteAbsence(props.item.id)">
+								<v-list-tile v-on:click.native="openDelete(props.item)">
 									<v-list-tile-title>Delete</v-list-tile-title>
 								</v-list-tile>
 							</v-list>
 						</v-menu>
 					</v-card-title>
-					<v-divider class="ma-0"/>
+					<v-divider class="ma-0" />
 					<v-list dense>
 						<v-list-tile>
 							<v-list-tile-content>Staff Name:</v-list-tile-content>
@@ -102,6 +116,20 @@
 				</v-card>
 			</v-flex>
 		</v-data-iterator>
+		<v-dialog v-model="dialog" max-width="290">
+			<v-card>
+				<v-card-title class="headline">
+					Delete absence?
+				</v-card-title>
+				<v-card-text>Are you sure you want to delete this absence?</v-card-text>
+				<v-card-actions>
+					<v-spacer></v-spacer>
+					<v-btn color="primary" flat @click.native="dialog = false">Cancel</v-btn>
+					<v-btn color="primary" flat v-on:click.native="deleteAbsence">Accept</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+		<v-snackbar v-model="failed" color="red" timeout="5000">Failed to delete absence!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 	</v-layout>
 </template>
 
