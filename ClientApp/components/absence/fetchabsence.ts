@@ -10,6 +10,8 @@ export default class FetchAbsenceComponent extends Vue {
 	absences: Absence[] = [];
 	loading: boolean = false;
 	search: string = "";
+	failed: boolean = false;
+	dialog: boolean = false;
 	headers: object[] = [
 		{ text: 'Staff Id', value: 'staffId' },
 		{ text: 'Staff Name', value: 'staffName' },
@@ -61,20 +63,20 @@ export default class FetchAbsenceComponent extends Vue {
 		this.$router.push("/editabsence/" + id);
 	}
 
-	deleteAbsence(id: number) {
-		var ans = confirm("Do you want to delete Absence " + id + "?");
-		if (ans) {
-			fetch('api/Absence/Delete?id=' + id, {
-				method: 'DELETE'
+	deleteAbsence(absence: Absence) {
+		this.failed = false;
+		this.dialog = false;
+		fetch('api/Absence/Delete', {
+			method: 'DELETE',
+			body: JSON.stringify(absence)
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.failed = true;
+				} else {
+					this.loadAbsences();
+				}
 			})
-				.then(response => response.json() as Promise<number>)
-				.then(data => {
-					if (data < 1) {
-						alert("Failed to delete absence. Please make sure you are still connected?");
-					} else {
-						this.loadAbsences();
-					}
-				})
-		}
 	}
 }
