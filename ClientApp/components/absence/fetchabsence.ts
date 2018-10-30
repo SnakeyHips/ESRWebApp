@@ -21,6 +21,16 @@ export default class FetchAbsenceComponent extends Vue {
 		{ text: 'Hours', value: 'hours' },
 	];
 
+	selected: Absence = {
+		id: 0,
+		staffId: 0,
+		staffName: "",
+		type: "",
+		startDate: "",
+		endDate: "",
+		hours: 0
+	}
+
 	mounted() {
 		this.loadAbsences();
 	}
@@ -63,12 +73,17 @@ export default class FetchAbsenceComponent extends Vue {
 		this.$router.push("/editabsence/" + id);
 	}
 
-	deleteAbsence(absence: Absence) {
+	openDelete(selected: Absence) {
+		this.selected = selected;
+		this.dialog = true;
+	}
+
+	deleteAbsence() {
 		this.failed = false;
 		this.dialog = false;
 		fetch('api/Absence/Delete', {
 			method: 'DELETE',
-			body: JSON.stringify(absence)
+			body: JSON.stringify(this.selected)
 		})
 			.then(response => response.json() as Promise<number>)
 			.then(data => {
