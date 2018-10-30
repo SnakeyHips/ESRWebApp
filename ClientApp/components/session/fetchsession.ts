@@ -8,10 +8,12 @@ export default class FetchSessionComponent extends Vue {
 	@Prop(SelectedDate) selecteddate!: SelectedDate;
 	dateFormatted: string = new Date(this.selecteddate.date).toLocaleDateString();
 	sessions: Session[] = [];
-	date: string = "";
 	loading: boolean = false;
-	viewdialog: object = {};
-	notedialog: object = {};
+	deletedialog: boolean = false;
+	viewdialog: boolean = false;
+	notedialog: boolean = false;
+	failed: boolean = false;
+	errorMessage: string = "";
 	search: string = "";
 	headers: object[] = [
 		{ text: 'Site', value: 'site' },
@@ -23,6 +25,68 @@ export default class FetchSessionComponent extends Vue {
 		{ text: 'Estimate', value: 'estimate' },
 		{ text: 'Staff Count', value: 'staffCount' },
 	];
+
+	selected: Session = {
+		id: 0,
+		date: "",
+		day: "",
+		type: "",
+		site: "",
+		time: "",
+		lod: 0,
+		chairs: 0,
+		occ: 0,
+		estimate: 0,
+		holiday: 0,
+		note: "",
+		sV1Id: 0,
+		sV1Name: "",
+		sV1LOD: 0,
+		sV1UNS: 0,
+		sV1OT: 0,
+		drI1Id: 0,
+		drI1Name: "",
+		drI1LOD: 0,
+		drI1UNS: 0,
+		drI1OT: 0,
+		drI2Id: 0,
+		drI2Name: "",
+		drI2LOD: 0,
+		drI2UNS: 0,
+		drI2OT: 0,
+		rN1Id: 0,
+		rN1Name: "",
+		rN1LOD: 0,
+		rN1UNS: 0,
+		rN1OT: 0,
+		rN2Id: 0,
+		rN2Name: "",
+		rN2LOD: 0,
+		rN2UNS: 0,
+		rN2OT: 0,
+		rN3Id: 0,
+		rN3Name: "",
+		rN3LOD: 0,
+		rN3UNS: 0,
+		rN3OT: 0,
+		ccA1Id: 0,
+		ccA1Name: "",
+		ccA1LOD: 0,
+		ccA1UNS: 0,
+		ccA1OT: 0,
+		ccA2Id: 0,
+		ccA2Name: "",
+		ccA2LOD: 0,
+		ccA2UNS: 0,
+		ccA2OT: 0,
+		ccA3Id: 0,
+		ccA3Name: "",
+		ccA3LOD: 0,
+		ccA3UNS: 0,
+		ccA3OT: 0,
+		staffCount: 0,
+		state: 0
+	}
 
 	mounted() {
 		this.loadSessions();
@@ -38,7 +102,7 @@ export default class FetchSessionComponent extends Vue {
 				this.loading = false;
 			});
 	}
-	
+
 	stateColour(state: number) {
 		switch (state) {
 			case 0:
@@ -46,6 +110,10 @@ export default class FetchSessionComponent extends Vue {
 			case 2:
 				return 'red';
 		}
+	}
+
+	dateFormat() {
+		return new Date(this.selecteddate.date).getDate().toString();
 	}
 
 	createSession() {
@@ -56,41 +124,53 @@ export default class FetchSessionComponent extends Vue {
 		this.$router.push("/rostersession/" + id);
 	}
 
-	editSession(session: Session) {
-		if (session.sV1Id === 0 && session.drI1Id === 0 && session.drI2Id === 0 &&
-			session.rN1Id === 0 && session.rN2Id === 0 && session.rN3Id === 0 &&
-			session.ccA1Id === 0 && session.ccA2Id === 0 && session.ccA3Id === 0) {
-			this.$router.push("/editsession/" + session.id);
+	editSession(selected: Session) {
+		if (selected.sV1Id === 0 && selected.drI1Id === 0 && selected.drI2Id === 0 &&
+			selected.rN1Id === 0 && selected.rN2Id === 0 && selected.rN3Id === 0 &&
+			selected.ccA1Id === 0 && selected.ccA2Id === 0 && selected.ccA3Id === 0) {
+			this.$router.push("/editsession/" + selected.id);
 		} else {
-			alert("Please unroster staff before editing session!");
+			this.errorMessage = "Please unroster staff before editing session!";
+			this.failed = true;
 		}
 	}
 
-	overview() {
-		let overview = this.$router.resolve({ path: "/overviewsession" });
-		window.open(overview.href, '_blank');
+	openNote(selected: Session) {
+		this.selected = selected;
+		this.notedialog = true;
 	}
 
-	deleteSession(session: Session) {
-		if (session.sV1Id === 0 && session.drI1Id === 0 && session.drI2Id === 0 &&
-			session.rN1Id === 0 && session.rN2Id === 0 && session.rN3Id === 0 &&
-			session.ccA1Id === 0 && session.ccA2Id === 0 && session.ccA3Id === 0) {
-			var ans = confirm("Do you want to delete this Session?");
-			if (ans) {
-				fetch('api/Session/Delete?id=' + session.id, {
-					method: 'DELETE'
-				})
-					.then(response => response.json() as Promise<number>)
-					.then(data => {
-						if (data < 1) {
-							alert("Failed to delete Session. Please make sure you are still connected.");
-						} else {
-							this.loadSessions(this.date);
-						}
-					})
-			}
+	openView(selected: Session) {
+		this.selected = selected;
+		this.viewdialog = true;
+	}
+
+	openDelete(selected: Session) {
+		if (selected.sV1Id === 0 && selected.drI1Id === 0 && selected.drI2Id === 0 &&
+			selected.rN1Id === 0 && selected.rN2Id === 0 && selected.rN3Id === 0 &&
+			selected.ccA1Id === 0 && selected.ccA2Id === 0 && selected.ccA3Id === 0) {
+			this.selected = selected;
+			this.deletedialog = true;
 		} else {
-			alert("Please unroster staff before deleting session!");
+			this.errorMessage = "Please unroster staff before deleting session!";
+			this.failed = true;
 		}
+	}
+
+	deleteSession() {
+		this.failed = false;
+		this.deletedialog = false;
+		fetch('api/Session/Delete?id=' + this.selected.id, {
+			method: 'DELETE'
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.errorMessage = "Failed to delete session!";
+					this.failed = true;
+				} else {
+					this.loadSessions();
+				}
+			})
 	}
 }
