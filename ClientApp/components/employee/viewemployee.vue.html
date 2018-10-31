@@ -35,7 +35,7 @@
 						<td>{{ props.item.estimate }}</td>
 					</template>
 				</v-data-table>
-				<v-snackbar v-model="failed" color="red">Please enter valid dates!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+				<v-snackbar v-model="failed" color="error">Please enter valid dates!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 			</v-card>
 		</v-flex>
 	</v-layout>
@@ -85,7 +85,7 @@
 				</v-card>
 			</v-flex>
 		</v-data-iterator>
-		<v-snackbar v-model="failed" color="red">Please enter valid dates!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+		<v-snackbar v-model="failed" color="error">Please enter valid dates!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 	</v-layout>
 </template>
 
