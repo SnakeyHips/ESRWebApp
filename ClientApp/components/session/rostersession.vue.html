@@ -266,9 +266,9 @@
 			</v-layout>
 		</v-form>
 		<v-layout justify-center>
-			<v-btn color="secondary" v-on:click="rosterSession" :disabled="loading">Submit</v-btn>
-			<v-btn color="secondary" v-on:click="clear" :disabled="loading">Clear</v-btn>
-			<v-btn color="secondary" v-on:click="cancel" :disabled="loading">Cancel</v-btn>
+			<v-btn color="accent" v-on:click="rosterSession" :disabled="loading">Submit</v-btn>
+			<v-btn color="accent" v-on:click="clear" :disabled="loading">Clear</v-btn>
+			<v-btn color="accent" v-on:click="cancel" :disabled="loading">Cancel</v-btn>
 		</v-layout>
 		<v-snackbar v-model="failed" color="error">{{ errorMessage }}<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 	</v-container>
