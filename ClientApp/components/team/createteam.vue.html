@@ -13,9 +13,9 @@
 				<v-select box ref="cca1" v-model="team.ccA1Id" :items="ccas" label="CCA1" item-text="name" item-value="id" :rules="[rules.required]" />
 				<v-select box ref="cca2" v-model="team.ccA2Id" :items="ccas" label="CCA2" item-text="name" item-value="id" :rules="[rules.required]" />
 				<v-select box ref="cca3" v-model="team.ccA3Id" :items="ccas" label="CCA3" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-btn color="secondary" v-on:click="createTeam">Submit</v-btn>
-				<v-btn color="secondary" v-on:click="clear">Clear</v-btn>
-				<v-btn color="secondary" v-on:click="cancel">Cancel</v-btn>
+				<v-btn color="accent" v-on:click="createTeam">Submit</v-btn>
+				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
+				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
 				<v-snackbar v-model="failed" color="error">{{ errorMessage }}<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
 			</v-form>
 			<v-progress-circular v-else color="primary" indeterminate />
