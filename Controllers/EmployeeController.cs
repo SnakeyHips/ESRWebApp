@@ -164,9 +164,19 @@ namespace ERSWebApp.Controllers
             List<Employee> available = new List<Employee>();
             foreach (Employee e in GetEmployees(date))
             {
-                if (e.Status == "Okay" && e.WorkPattern.Contains(day.Substring(0, 3)))
+                if (e.WorkPattern.Contains(day.Substring(0, 3)))
                 {
-                    available.Add(e);
+                    if (e.Status == "Okay")
+                    {
+                        available.Add(e);
+                    }
+                    else
+                    {
+                        if (e.Status.Contains("Part"))
+                        {
+                            available.Add(e);
+                        }
+                    }
                 }
             }
             return available;
@@ -182,6 +192,10 @@ namespace ERSWebApp.Controllers
                     if (absences[j].StaffId == employees[i].Id)
                     {
                         status = absences[j].Type;
+                        if(absences[j].PartDay == "Yes")
+                        {
+                            status += " - Part";
+                        }
                         break;
                     }
                 }
