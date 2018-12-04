@@ -28,6 +28,7 @@
 							<td><font v-bind:style="{ color: typeColour(props.item.type) }">{{ props.item.type }}</font></td>
 							<td>{{ dateFormat(props.item.startDate) }}</td>
 							<td>{{ dateFormat(props.item.endDate) }}</td>
+							<td>{{ props.item.partDay }}</td>
 							<td>{{ props.item.hours }}</td>
 						</tr>
 					</template>
@@ -107,6 +108,10 @@
 						<v-list-tile>
 							<v-list-tile-content>End Date:</v-list-tile-content>
 							<v-list-tile-content class="align-end">{{ props.item.endDate }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Part Day:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.partDay }}</v-list-tile-content>
 						</v-list-tile>
 						<v-list-tile>
 							<v-list-tile-content>Hours:</v-list-tile-content>
