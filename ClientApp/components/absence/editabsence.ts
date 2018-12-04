@@ -21,6 +21,7 @@ export default class EditAbsenceComponent extends Vue {
 		type: "",
 		startDate: "",
 		endDate: "",
+		partDay: "",
 		hours: 0
 	}
 
@@ -31,6 +32,7 @@ export default class EditAbsenceComponent extends Vue {
 		type: "",
 		startDate: "",
 		endDate: "",
+		partDay: "",
 		hours: 0
 	}
 
@@ -39,6 +41,7 @@ export default class EditAbsenceComponent extends Vue {
 	loading: boolean = false;
 	failed: boolean = false;
 	types: string[] = ["Day Off", "Annual Leave", "Sick Leave", "Special Leave", "Training"];
+	partDays: string[] = ["Yes", "No"];
 
 	mounted() {
 		this.loading = true;
@@ -48,7 +51,8 @@ export default class EditAbsenceComponent extends Vue {
 				this.before = JSON.parse(JSON.stringify(data));
 				this.after = data;
 				this.formatStartDate();
-				this.formatEndDate()				this.loading = false;
+				this.formatEndDate();
+				this.loading = false;
 			});
 	}
 
