@@ -185,13 +185,21 @@ namespace ERSWebApp.Controllers
 
         public static string GetStaffStatus(int staffid, string date)
         {
-            string query = "SELECT Type FROM AbsenceTable WHERE StaffId=@StaffId AND @Date BETWEEN StartDate AND EndDate;";
+            string query = "SELECT * FROM AbsenceTable WHERE StaffId=@StaffId AND @Date BETWEEN StartDate AND EndDate;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
                 {
                     conn.Open();
-                    return conn.QueryFirstOrDefault<string>(query, new { staffid, date });
+                    Absence temp = conn.QueryFirstOrDefault<Absence>(query, new { staffid, date });
+                    if(temp.PartDay == "Yes")
+                    {
+                        return temp.Type + " - Part";
+                    }
+                    else
+                    {
+                        return temp.Type;
+                    }
                 }
                 catch (Exception ex)
                 {
