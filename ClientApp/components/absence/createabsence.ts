@@ -22,6 +22,7 @@ export default class CreateAbsenceComponent extends Vue {
 		type: "",
 		startDate: "",
 		endDate: "",
+		partDay: "",
 		hours: 0
 	}
 
@@ -31,6 +32,7 @@ export default class CreateAbsenceComponent extends Vue {
 	loading: boolean = false;
 	failed: boolean = false;
 	types: string[] = ["Day Off", "Annual Leave", "Sick Leave", "Special Leave", "Training"];
+	partDays: string[] = ["Yes", "No"];
 
 	createAbsence() {
 		this.failed = false;
