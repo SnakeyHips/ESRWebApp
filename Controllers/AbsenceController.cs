@@ -71,8 +71,8 @@ namespace ERSWebApp.Controllers
             if (absence != null)
             {
                 string query = "IF NOT EXISTS (SELECT * FROM AbsenceTable WHERE StaffId=@StaffId AND StartDate=@StartDate) " +
-                "INSERT INTO AbsenceTable (StaffId, StaffName, Type, StartDate, EndDate, Hours)" +
-                "VALUES (@StaffId, @StaffName, @Type, @StartDate, @EndDate, @Hours);";
+                "INSERT INTO AbsenceTable (StaffId, StaffName, Type, StartDate, EndDate, PartDay, Hours)" +
+                "VALUES (@StaffId, @StaffName, @Type, @StartDate, @EndDate, @PartDay, @Hours);";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
@@ -110,7 +110,7 @@ namespace ERSWebApp.Controllers
             if (after != null)
             {
                 string query = "UPDATE AbsenceTable" +
-                " SET Type=@Type, EndDate=@EndDate, Hours=@Hours WHERE Id=@Id;";
+                " SET Type=@Type, EndDate=@EndDate, PartDay=@PartDay, Hours=@Hours WHERE Id=@Id;";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
