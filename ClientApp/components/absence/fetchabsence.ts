@@ -18,6 +18,7 @@ export default class FetchAbsenceComponent extends Vue {
 		{ text: 'Type', value: 'type' },
 		{ text: 'Start Date', value: 'startDate' },
 		{ text: 'End Date', value: 'endDate' },
+		{ text: 'Part Day', value: 'partDate' },
 		{ text: 'Hours', value: 'hours' },
 	];
 
@@ -28,6 +29,7 @@ export default class FetchAbsenceComponent extends Vue {
 		type: "",
 		startDate: "",
 		endDate: "",
+		partDay: "",
 		hours: 0
 	}
 
