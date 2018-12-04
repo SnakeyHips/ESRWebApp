@@ -14,6 +14,7 @@
 					<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" :rules="[rules.required]" readonly box/>
 					<v-date-picker v-model="absence.endDate" v-on:change="formatEndDate" first-day-of-week="1"/>
 				</v-menu>
+				<v-select v-model="absence.partDay" :items="partDays" label="Part day" :rules="[rules.required]" box/>
 				<v-text-field v-model="absence.hours" label="Hours" :rules="[rules.required, rules.decimal]"  maxlength="5" box/>
 				<v-btn color="accent" v-on:click="createAbsence">Submit</v-btn>
 				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
