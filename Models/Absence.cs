@@ -8,6 +8,7 @@ namespace ERSWebApp.Models
         public string Type { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public string PartDay { get; set; }
         public double Hours { get; set; }
     }
 }
