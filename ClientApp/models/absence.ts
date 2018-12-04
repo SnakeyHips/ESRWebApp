@@ -5,5 +5,6 @@ export interface Absence {
 	type: string;
 	startDate: string;
 	endDate: string;
+	partDay: string;
 	hours: number;
 }
