@@ -69,7 +69,8 @@ namespace ERSWebApp.Controllers
                         {
                             SessionEmployee employee = new SessionEmployee();
                             employee.EmployeeName = member.EmployeeName;
-                            List<string> sites = conn.Query<string>(query, new { date, member.EmployeeId }).ToList();
+                            List<string> sites = new List<string>();
+                            sites = conn.Query<string>(query, new { date, member.EmployeeId }).ToList();
                             if (sites.Count < 1)
                             {
                                 employee.SessionSite = AbsenceController.GetStaffStatus(member.EmployeeId, date);
