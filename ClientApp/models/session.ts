@@ -1,4 +1,6 @@
-﻿export interface Session {
+﻿import { SessionEmployee } from "./sessionemployee";
+
+export interface Session {
 	id: number;
 	date: string;
 	day: string;
@@ -11,51 +13,7 @@
 	estimate: number;
 	holiday: number;
 	note: string;
-	sV1Id: number;
-	sV1Name: string;
-	sV1LOD: number;
-	sV1UNS: number;
-	sV1OT: number;
-	drI1Id: number;
-	drI1Name: string;
-	drI1LOD: number;
-	drI1UNS: number;
-	drI1OT: number;
-	drI2Id: number;
-	drI2Name: string;
-	drI2LOD: number;
-	drI2UNS: number;
-	drI2OT: number;
-	rN1Id: number;
-	rN1Name: string;
-	rN1LOD: number;
-	rN1UNS: number;
-	rN1OT: number;
-	rN2Id: number;
-	rN2Name: string;
-	rN2LOD: number;
-	rN2UNS: number;
-	rN2OT: number;
-	rN3Id: number;
-	rN3Name: string;
-	rN3LOD: number;
-	rN3UNS: number;
-	rN3OT: number;
-	ccA1Id: number;
-	ccA1Name: string;
-	ccA1LOD: number;
-	ccA1UNS: number;
-	ccA1OT: number;
-	ccA2Id: number;
-	ccA2Name: string;
-	ccA2LOD: number;
-	ccA2UNS: number;
-	ccA2OT: number;
-	ccA3Id: number;
-	ccA3Name: string;
-	ccA3LOD: number;
-	ccA3UNS: number;
-	ccA3OT: number;
 	staffCount: number;
 	state: number;
+	employees: SessionEmployee[];
 }

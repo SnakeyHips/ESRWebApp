@@ -1,5 +1,5 @@
-export interface SpecialDate {
-	id: number,
-	name: string,
-	date: string
+﻿export interface SpecialDate {
+	id: number;
+	name: string;
+	date: string;
 }

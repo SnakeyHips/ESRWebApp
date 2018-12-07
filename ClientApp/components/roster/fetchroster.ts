@@ -20,7 +20,7 @@ export default class FetchRosterComponent extends Vue {
 		{ text: 'HighRateU', value: 'highRateUHours' },
 		{ text: 'Overtime', value: 'overtimeHours' },
 		{ text: 'Neg', value: 'negHours' },
-		{ text: 'OC', value: 'coHours' },
+		{ text: 'CO', value: 'coHours' },
 	];
 
 	mounted() {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,6 +7,7 @@ using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Newtonsoft.Json;
+using System.Dynamic;
 
 namespace ERSWebApp.Controllers
 {
@@ -18,12 +19,18 @@ namespace ERSWebApp.Controllers
         public List<Team> GetTeams()
         {
             string query = "SELECT * FROM TeamTable;";
+            string queryList = "SELECT * From TeamMemberTable WHERE TeamId=@Id";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
                 {
                     conn.Open();
-                    return conn.Query<Team>(query).ToList();
+                    List<Team> temp = conn.Query<Team>(query).ToList();
+                    foreach (Team t in temp)
+                    {
+                        t.Members = conn.Query<TeamMember>(queryList, new { t.Id }).ToList();
+                    }
+                    return temp;
                 }
                 catch (Exception ex)
                 {
@@ -37,39 +44,50 @@ namespace ERSWebApp.Controllers
         [Route("GetTeamSites")]
         public List<TeamSite> GetTeamSites([FromQuery]int id, [FromQuery]string startdate, [FromQuery]string enddate)
         {
+            string query = "SELECT SessionSite FROM SessionEmployeeTable WHERE SessionDate=@Date AND EmployeeId=@EmployeeId;";
             Team team = GetByIdStatic(id);
-            List<TeamSite> teamsites = new List<TeamSite>();
             List<string> dates = new List<string>();
+            List<TeamSite> teamsites = new List<TeamSite>(); 
             for (DateTime dt = DateTime.Parse(startdate); dt <= DateTime.Parse(enddate); dt = dt.AddDays(1))
             {
                 dates.Add(dt.ToString("yyyy-MM-dd"));
             }
-            foreach(string date in dates)
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
-                TeamSite temp = new TeamSite()
+                try
                 {
-                    Date = date,
-                    Day = DateTime.Parse(date).DayOfWeek.ToString(),
-                    SV1Name = team.SV1Name,
-                    SV1Site = SessionController.GetSite(date, team.SV1Id),
-                    DRI1Name = team.DRI1Name,
-                    DRI1Site = SessionController.GetSite(date, team.DRI1Id),
-                    DRI2Name = team.DRI2Name,
-                    DRI2Site = SessionController.GetSite(date, team.DRI2Id),
-                    RN1Name = team.RN1Name,
-                    RN1Site = SessionController.GetSite(date, team.RN1Id),
-                    RN2Name = team.RN2Name,
-                    RN2Site = SessionController.GetSite(date, team.RN2Id),
-                    RN3Name = team.RN3Name,
-                    RN3Site = SessionController.GetSite(date, team.RN3Id),
-                    CCA1Name = team.CCA1Name,
-                    CCA1Site = SessionController.GetSite(date, team.CCA1Id),
-                    CCA2Name = team.CCA2Name,
-                    CCA2Site = SessionController.GetSite(date, team.CCA2Id),
-                    CCA3Name = team.CCA3Name,
-                    CCA3Site = SessionController.GetSite(date, team.CCA3Id)
-                };
-                teamsites.Add(temp);
+                    conn.Open();
+                    foreach(string date in dates)
+                    {
+                        TeamSite teamsite = new TeamSite
+                        {
+                            Date = date,
+                            Day = DateTime.Parse(date).DayOfWeek.ToString(),
+                            Members = new List<SessionEmployee>()
+                        };
+                        foreach (TeamMember member in team.Members)
+                        {
+                            SessionEmployee employee = new SessionEmployee();
+                            employee.EmployeeName = member.EmployeeName;
+                            List<string> sites = conn.Query<string>(query, new { date, member.EmployeeId }).ToList();
+                            if (sites.Count < 1)
+                            {
+                                employee.SessionSite = AbsenceController.GetStaffStatus(member.EmployeeId, date);
+
+                            }
+                            else if (sites.Count > 0)
+                            {
+                                employee.SessionSite = string.Join(", ", sites);
+                            }
+                            teamsite.Members.Add(employee);
+                        }
+                        teamsites.Add(teamsite);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
             }
             return teamsites;
         }
@@ -86,16 +104,24 @@ namespace ERSWebApp.Controllers
             if (team != null)
             {
                 string query = "IF NOT EXISTS (SELECT * FROM TeamTable WHERE Name=@Name) " +
-                 "INSERT INTO TeamTable (Name, SV1Id, SV1Name, DRI1Id, DRI1Name, DRI2Id, DRI2Name, RN1Id, RN1Name, " +
-                "RN2Id, RN2Name, RN3Id, RN3Name, CCA1Id, CCA1Name, CCA2Id, CCA2Name, CCA3Id, CCA3Name) " +
-                "VALUES (@Name, @SV1Id, @SV1Name, @DRI1Id, @DRI1Name, @DRI2Id, @DRI2Name, @RN1Id, @RN1Name, " +
-                "@RN2Id, @RN2Name, @RN3Id, @RN3Name, @CCA1Id, @CCA1Name, @CCA2Id, @CCA2Name, @CCA3Id, @CCA3Name);";
+                 "INSERT INTO TeamTable (Name) VALUES (@Name);";
+                string queryId = "SELECT Id FROM TeamTable WHERE Name=@Name";
+                string queryName = "SELECT Name FROM EmployeeTable WHERE Id=@Id;";
+                string queryList = "INSERT INTO TeamMemberTable (TeamId, EmployeeId, EmployeeName, EmployeeRole) " +
+                    "VALUES(@TeamId, @EmployeeId, @EmployeeName, @EmployeeRole)";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
                     {
                         conn.Open();
-                        return conn.Execute(query, team);
+                        conn.Execute(query, team);
+                        team.Id = conn.QueryFirstOrDefault<int>(queryId, new { team.Name });
+                        foreach (TeamMember m in team.Members)
+                        {
+                            m.TeamId = team.Id;
+                            m.EmployeeName = conn.QueryFirstOrDefault<string>(queryName, new { Id = m.EmployeeId });
+                        }
+                        return conn.Execute(queryList, team.Members);
                     }
                     catch (Exception ex)
                     {
@@ -120,12 +146,15 @@ namespace ERSWebApp.Controllers
         public static Team GetByIdStatic(int id)
         {
             string query = "SELECT * FROM TeamTable WHERE Id=@Id;";
+            string queryList = "SELECT * FROM TeamMemberTable WHERE TeamId=@Id;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
                 {
                     conn.Open();
-                    return conn.QueryFirstOrDefault<Team>(query, new { id });
+                    Team temp = conn.QueryFirstOrDefault<Team>(query, new { id });
+                    temp.Members = conn.Query<TeamMember>(queryList, new { id }).ToList();
+                    return temp;
                 }
                 catch (Exception ex)
                 {
@@ -134,7 +163,7 @@ namespace ERSWebApp.Controllers
                 }
             }
         }
-        
+
         [HttpGet]
         [Route("GetTeamName")]
         [Produces("application/json")]
@@ -160,25 +189,31 @@ namespace ERSWebApp.Controllers
         [Route("Update")]
         public int Update()
         {
-            Team employee = new Team();
+            Team team = new Team();
             using (StreamReader sr = new StreamReader(Request.Body))
             {
-                employee = JsonConvert.DeserializeObject<Team>(sr.ReadToEnd());
+                team = JsonConvert.DeserializeObject<Team>(sr.ReadToEnd());
             }
-            if (employee != null)
+            if (team != null)
             {
-                string query = "UPDATE TeamTable " +
-                "SET SV1Id=@SV1Id, SV1Name=@SV1Name, DRI1Id=@DRI1Id, DRI1Name=@DRI1Name, " +
-                "DRI2Id=@DRI2Id, DRI2Name=@DRI2Name, RN1Id=@RN1Id, RN1Name=@RN1Name, " +
-                "RN2Id=@RN2Id, RN2Name=@RN2Name, RN3Id=@RN3Id, RN3Name=@RN3Name, " +
-                "CCA1Id=@CCA1Id, CCA1Name=@CCA1Name, CCA2Id=@CCA2Id, CCA2Name=@CCA2Name, " +
-                "CCA3Id=@CCA3Id, CCA3Name=@CCA3Name WHERE Name=@Name;";
+                string query = "DELETE From TeamMemberTable WHERE TeamId=@Id;";
+                string queryId = "SELECT Id FROM TeamTable WHERE Name=@Name";
+                string queryName = "SELECT Name FROM EmployeeTable WHERE Id=@Id;";
+                string queryList = "INSERT INTO TeamMemberTable (TeamId, EmployeeId, EmployeeName, EmployeeRole) " +
+                    "VALUES(@TeamId, @EmployeeId, @EmployeeName, @EmployeeRole)";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
                     {
                         conn.Open();
-                        return conn.Execute(query, employee);
+                        conn.Execute(query, new { team.Id });
+                        team.Id = conn.QueryFirstOrDefault<int>(queryId, new { team.Name });
+                        foreach (TeamMember m in team.Members)
+                        {
+                            m.TeamId = team.Id;
+                            m.EmployeeName = conn.QueryFirstOrDefault<string>(queryName, new { Id = m.EmployeeId });
+                        }
+                        return conn.Execute(queryList, team.Members);
                     }
                     catch (Exception ex)
                     {
@@ -200,12 +235,14 @@ namespace ERSWebApp.Controllers
             if (id > 0)
             {
                 string query = "DELETE FROM TeamTable WHERE Id=@Id;";
+                string queryList = "DELETE FROM TeamMemberTable WHERE TeamId=@Id";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
                     {
                         conn.Open();
-                        return conn.Execute(query, new { id });
+                        conn.Execute(query, new { id });
+                        return conn.Execute(queryList, new { id });
                     }
                     catch (Exception ex)
                     {
@@ -218,17 +255,6 @@ namespace ERSWebApp.Controllers
             {
                 return -1;
             }
-        }
-
-        private string GetTeamSite(string date, int id)
-        {
-            string site = SessionController.GetSite(date, id);
-            if (site == "")
-            {
-                site = AbsenceController.GetStaffStatus(id, date);
-                site = "";
-            }
-            return site;
         }
     }
 }

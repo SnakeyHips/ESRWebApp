@@ -34,33 +34,17 @@
 						</tr>
 					</template>
 					<template slot="expand" slot-scope="props">
-						<v-card flat="flat">
-							<v-layout full-width>
+						<v-card flat>
+							<v-layout full-width v-if="props.item.employees.length > 0">
 								<table>
 									<thead>
 										<tr>
-											<th>SV1</th>
-											<th>DRI1</th>
-											<th>DRI2</th>
-											<th>RN1</th>
-											<th>RN2</th>
-											<th>RN3</th>
-											<th>CCA1</th>
-											<th>CCA2</th>
-											<th>CCA3</th>
+											<th v-for="employee in props.item.employees">{{ employee.employeeRole }} </th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
-											<td>{{ props.item.sV1Name }}</td>
-											<td>{{ props.item.drI1Name }}</td>
-											<td>{{ props.item.drI2Name }}</td>
-											<td>{{ props.item.rN1Name }}</td>
-											<td>{{ props.item.rN2Name }}</td>
-											<td>{{ props.item.rN3Name }}</td>
-											<td>{{ props.item.ccA1Name }}</td>
-											<td>{{ props.item.ccA2Name }}</td>
-											<td>{{ props.item.ccA3Name }}</td>
+											<td v-for="employee in props.item.employees">{{ employee.employeeName }}</td>
 										</tr>
 									</tbody>
 								</table>
@@ -76,7 +60,7 @@
 				</v-data-table>
 			</v-card>
 		</v-flex>
-		<v-dialog v-model="notedialog" max-width="500">
+		<v-dialog v-model="notedialog" max-width="500" justify-end>
 			<v-card>
 				<v-card-title class="headline" primary-title>Session Note</v-card-title>
 				<v-card-text>{{ selected.note }}</v-card-text>
@@ -193,41 +177,9 @@
 			<v-card>
 				<v-card-title class="headline" primary-title>Employees</v-card-title>
 				<v-list dense>
-					<v-list-tile>
-						<v-list-tile-content>SV1:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.sV1Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>DRI1:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.drI1Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>DRI2:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.drI2Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>RN1:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.rN1Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>RN2:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.rN2Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>RN3:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.rN3Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>CCA1:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.ccA1Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>CCA2:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.ccA2Name }}</v-list-tile-content>
-					</v-list-tile>
-					<v-list-tile>
-						<v-list-tile-content>CCA3:</v-list-tile-content>
-						<v-list-tile-content class="align-end">{{ selected.ccA3Name }}</v-list-tile-content>
+					<v-list-tile v-for="employee in selected.employees" :key="employee.employeeId">
+						<v-list-tile-content>{{ employee.employeeRole }}:</v-list-tile-content>
+						<v-list-tile-content class="align-end">{{ employee.employeeName }}</v-list-tile-content>
 					</v-list-tile>
 				</v-list>
 				<v-card-actions>

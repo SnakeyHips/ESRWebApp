@@ -38,7 +38,7 @@ a {
 		height: 0;
 		visibility: hidden;
 	}
-	
+
 	aside[style] {
 		display: none !important;
 		width: 0px !important;

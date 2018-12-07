@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Team } from '../../models/team';
+import { TeamMember } from '../../models/teammember';
 
 @Component
 export default class FetchTeamComponent extends Vue {
@@ -13,19 +14,24 @@ export default class FetchTeamComponent extends Vue {
 	selected: number = 0;
 	headers: object[] = [
 		{ text: 'Name', value: 'name' },
-		{ text: 'SV1', value: 'sV1Name' },
-		{ text: 'DRI1', value: 'drI1Name' },
-		{ text: 'DRI2', value: 'drI2Name' },
-		{ text: 'RN1', value: 'rN1Name' },
-		{ text: 'RN2', value: 'rN2Name' },
-		{ text: 'RN3', value: 'rN3Name' },
-		{ text: 'CCA1', value: 'ccA1Name' },
-		{ text: 'CCA2', value: 'ccA2Name' },
-		{ text: 'CCA3', value: 'ccA3Name' },
+		{ text: 'SV', value: 'names' },
+		{ text: 'DRI', value: 'names' },
+		{ text: 'CCA', value: 'names' },
+		{ text: 'RN', value: 'names' }
 	];
 
 	mounted() {
 		this.loadTeams();
+	}
+
+	displayNames(members: TeamMember[], role: string) {
+		let names: string[] = [];
+		for (var i = 0; i < members.length; i++) {
+			if (members[i].employeeRole === role) {
+				names.push(members[i].employeeName);
+			}
+		}
+		return names.join(", ");
 	}
 
 	loadTeams() {

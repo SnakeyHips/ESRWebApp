@@ -2,21 +2,12 @@
 import { Component } from 'vue-property-decorator';
 import { Team } from '../../models/team';
 import { Employee } from '../../models/employee';
-import { VuetifyObject } from 'vuetify';
+import { TeamMember } from '../../models/teammember';
 
 @Component
 export default class CreateTeamComponent extends Vue {	
 	$refs!: {
-		form: HTMLFormElement,
-		sv1: VuetifyObject,
-		dri1: VuetifyObject,
-		dri2: VuetifyObject,
-		rn1: VuetifyObject,
-		rn2: VuetifyObject,
-		rn3: VuetifyObject,
-		cca1: VuetifyObject,
-		cca2: VuetifyObject,
-		cca3: VuetifyObject
+		form: HTMLFormElement
 	}
 
 	rules: object = {
@@ -28,24 +19,7 @@ export default class CreateTeamComponent extends Vue {
 	team: Team = {
 		id: 0,
 		name: "",
-		sV1Id: 0,
-		sV1Name: "",
-		drI1Id: 0,
-		drI1Name: "",
-		drI2Id: 0,
-		drI2Name: "",
-		rN1Id: 0,
-		rN1Name: "",
-		rN2Id: 0,
-		rN2Name: "",
-		rN3Id: 0,
-		rN3Name: "",
-		ccA1Id: 0,
-		ccA1Name: "",
-		ccA2Id: 0,
-		ccA2Name: "",
-		ccA3Id: 0,
-		ccA3Name: "",
+		members: []
 	}
 
 	loading: boolean = false;
@@ -54,16 +28,24 @@ export default class CreateTeamComponent extends Vue {
 	employees: Employee[] = [];
 	svs: Employee[] = [];
 	dris: Employee[] = [];
-	rns: Employee[] = [];
 	ccas: Employee[] = [];
+	rns: Employee[] = [];
+	teamsvs: TeamMember[] = [];
+	teamdris: TeamMember[] = [];
+	teamccas: TeamMember[] = [];
+	teamrns: TeamMember[] = [];
 
 	mounted() {
 		this.loading = true;
-		fetch('api/Employee/GetEmployees?date=' + new Date().toISOString().slice(0, 10))
+		fetch('api/Employee/GetTeamEmployees')
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
 				this.filterRoles();
+				this.teamsvs.push(this.createTeamMember("SV"));
+				this.teamdris.push(this.createTeamMember("DRI"));
+				this.teamccas.push(this.createTeamMember("CCA"));
+				this.teamrns.push(this.createTeamMember("RN"));
 				this.loading = false;
 			});
 	}
@@ -77,82 +59,141 @@ export default class CreateTeamComponent extends Vue {
 				case "DRI":
 					this.dris.push(this.employees[i]);
 					break;
-				case "RN":
-					this.rns.push(this.employees[i]);
-					break;
 				case "CCA":
 					this.ccas.push(this.employees[i]);
+					break;
+				case "RN":
+					this.rns.push(this.employees[i]);
 					break;
 			}
 		}
 	}
 
+	createTeamMember(role: string) {
+		var temp: TeamMember = {
+			id: 0,
+			teamId: 0,
+			employeeId: 0,
+			employeeName: "",
+			employeeRole: role
+		};
+		return temp;
+	}
+
+	addSV() {
+		if (this.teamsvs.length < 2) {
+			this.teamsvs.push(this.createTeamMember("SV"));
+		}
+	}
+
+	addDRI() {
+		if (this.teamdris.length < 2) {
+			this.teamdris.push(this.createTeamMember("DRI"));
+		}
+	}
+	addCCA() {
+		if (this.teamccas.length < 5) {
+			this.teamccas.push(this.createTeamMember("CCA"));
+		}
+	}
+
+	addRN() {
+		if (this.teamrns.length < 5) {
+			this.teamrns.push(this.createTeamMember("RN"));
+		}
+	}
+
+	removeSV() {
+		if (this.teamsvs.length > 1) {
+			this.teamsvs.pop();
+		}
+	}
+
+	removeDRI() {
+		if (this.teamdris.length > 1) {
+			this.teamdris.pop();
+		}
+	}
+
+	removeCCA() {
+		if (this.teamccas.length > 1) {
+			this.teamccas.pop();
+		}
+	}
+
+	removeRN() {
+		if (this.teamrns.length > 1) {
+			this.teamrns.pop();
+		}
+	}
+
 	//Check for duplicates selected
 	checkDuplicates() {
-		let duplicate: boolean = false;
-		if (this.team.drI1Id > 0) {
-			if (this.team.drI2Id > 0) {
-				if (this.team.drI1Id === this.team.drI2Id) {
-					this.errorMessage = "Duplicate driver 1 and 2 found!";
-					this.failed = true;
-					duplicate = true;
-				}
-			}
-		}
-		if (this.team.rN1Id > 0) {
-			if (this.team.rN2Id > 0) {
-				if (this.team.rN1Id === this.team.rN2Id) {
-					this.errorMessage = "Duplicate RN 1 and 2 found!";
-					this.failed = true;
-					duplicate = true;
-				}
-			}
-			if (this.team.rN3Id > 0) {
-				if (this.team.rN1Id === this.team.rN3Id) {
-					this.errorMessage = "Duplicate RN 1 and 3 found!";
-					this.failed = true;
-					duplicate = true;
-				}
-			}
-		}
-		if (this.team.rN2Id > 0) {
-			if (this.team.rN2Id === this.team.rN3Id) {
-				this.errorMessage = "Duplicate RN 2 and 3 found!";
+		this.failed = false;
+		var duplicate: boolean = false;
+		for (var i = 0; i < this.teamsvs.length - 1; i++) {
+			if (this.teamsvs[i + 1].employeeId == this.teamsvs[i].employeeId) {
 				this.failed = true;
+				this.errorMessage = "Duplicate SV found!";
 				duplicate = true;
+				break;
 			}
 		}
-		if (this.team.ccA1Id > 0) {
-			if (this.team.ccA2Id > 0) {
-				if (this.team.ccA1Id === this.team.ccA2Id) {
-					this.errorMessage = "Duplicate CCA 1 and 2 found!";
-					this.failed = true;
-					duplicate = true;
-				}
-			}
-			if (this.team.ccA3Id > 0) {
-				if (this.team.ccA1Id === this.team.ccA3Id) {
-					this.errorMessage = "Duplicate CCA 1 and 3 found!";
-					this.failed = true;
-					duplicate = true;
-				}
-			}
-		}
-		if (this.team.ccA2Id > 0) {
-			if (this.team.ccA2Id === this.team.ccA3Id) {
-				this.errorMessage = "Duplicate CCA 2 and 3 found!";
+		for (var i = 0; i < this.teamdris.length - 1; i++) {
+			if (this.teamdris[i + 1].employeeId == this.teamdris[i].employeeId) {
 				this.failed = true;
+				this.errorMessage = "Duplicate DRI found!";
 				duplicate = true;
+				break;
+			}
+		}
+		for (var i = 0; i < this.teamccas.length - 1; i++) {
+			if (this.teamccas[i + 1].employeeId == this.teamccas[i].employeeId) {
+				this.failed = true;
+				this.errorMessage = "Duplicate CCA found!";
+				duplicate = true;
+				break;
+			}
+		}
+		for (var i = 0; i < this.teamrns.length - 1; i++) {
+			if (this.teamrns[i + 1].employeeId == this.teamrns[i].employeeId) {
+				this.failed = true;
+				this.errorMessage = "Duplicate RN found!";
+				duplicate = true;
+				break;
 			}
 		}
 		return duplicate;
+	}
+
+	populateMembers() {
+		for (var i = 0; i < this.teamsvs.length; i++) {
+			if (this.teamsvs[i].employeeId > 0) {
+				this.team.members.push(this.teamsvs[i]);
+			}
+		}
+		for (var i = 0; i < this.teamdris.length; i++) {
+			if (this.teamdris[i].employeeId > 0) {
+				this.team.members.push(this.teamdris[i]);
+			}
+		}
+		for (var i = 0; i < this.teamccas.length; i++) {
+			if (this.teamccas[i].employeeId > 0) {
+				this.team.members.push(this.teamccas[i]);
+			}
+		}
+		for (var i = 0; i < this.teamrns.length; i++) {
+			if (this.teamrns[i].employeeId > 0) {
+				this.team.members.push(this.teamrns[i]);
+			}
+		}
 	}
 
 	createTeam() {
 		this.failed = false;
 		if (this.$refs.form.validate()) {
 			if (!this.checkDuplicates()) {
-				this.getNames();
+				this.populateMembers();
 				fetch('api/Team/Create', {
 					method: 'POST',
 					body: JSON.stringify(this.team)
@@ -172,51 +213,7 @@ export default class CreateTeamComponent extends Vue {
 
 	//Set name methods
 	getNames() {
-		try {
-			this.team.sV1Name = this.$refs.sv1.$data.selectedItems[0].name;
-		} catch{
-			this.team.sV1Name = "";
-		}
-		try {
-			this.team.drI1Name = this.$refs.dri1.$data.selectedItems[0].name;
-		} catch{
-			this.team.drI1Name = "";
-		}
-		try {
-			this.team.drI2Name = this.$refs.dri2.$data.selectedItems[0].name;
-		} catch{
-			this.team.drI2Name = "";
-		}
-		try {
-			this.team.rN1Name = this.$refs.rn1.$data.selectedItems[0].name;
-		} catch{
-			this.team.rN1Name = "";
-		}
-		try {
-			this.team.rN2Name = this.$refs.rn2.$data.selectedItems[0].name;
-		} catch{
-			this.team.rN2Name = "";
-		}
-		try {
-			this.team.rN3Name = this.$refs.rn3.$data.selectedItems[0].name;
-		} catch{
-			this.team.rN3Name = "";
-		}
-		try {
-			this.team.ccA1Name = this.$refs.cca1.$data.selectedItems[0].name;
-		} catch{
-			this.team.ccA1Name = "";
-		}
-		try {
-			this.team.ccA2Name = this.$refs.cca2.$data.selectedItems[0].name;
-		} catch{
-			this.team.ccA2Name = "";
-		}
-		try {
-			this.team.ccA3Name = this.$refs.cca3.$data.selectedItems[0].name;
-		} catch{
-			this.team.ccA3Name = "";
-		}
+		
 	}
 
 	clear() {

@@ -1,11 +1,11 @@
-<template>
+﻿<template>
 	<v-layout justify-center text-xs-center>
 		<v-flex lg4 md5 sm6 xs8>
 			<v-form ref="form" lazy-validation>
 				<h3>Create Site</h3>
-				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" box/>
-				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" box/>
-				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" box/>
+				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" box />
+				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" box />
+				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" box />
 				<v-btn color="accent" v-on:click="createSite">Submit</v-btn>
 				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
 				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>

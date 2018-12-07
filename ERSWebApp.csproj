@@ -7,28 +7,78 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
+    <None Remove="ClientApp\components\absence\createabsence.ts" />
+    <None Remove="ClientApp\components\absence\editabsence.ts" />
+    <None Remove="ClientApp\components\admin\createsite.ts" />
+    <None Remove="ClientApp\components\admin\createskill.ts" />
+    <None Remove="ClientApp\components\admin\createspecialdate.ts" />
+    <None Remove="ClientApp\components\admin\editsite.ts" />
+    <None Remove="ClientApp\components\admin\editskill.ts" />
+    <None Remove="ClientApp\components\admin\editspecialdate.ts" />
     <None Remove="ClientApp\components\employee\createemployee.ts" />
     <None Remove="ClientApp\components\employee\editemployee.ts" />
+    <None Remove="ClientApp\components\navmenu\navmenu.ts" />
     <None Remove="ClientApp\components\session\createsession.ts" />
     <None Remove="ClientApp\components\session\editsession.ts" />
     <None Remove="ClientApp\components\session\rostersession.ts" />
+    <None Remove="ClientApp\components\team\createteam.ts" />
+    <None Remove="ClientApp\components\team\editteam.ts" />
+    <None Remove="ClientApp\models\absence.ts" />
     <None Remove="ClientApp\models\employee.ts" />
     <None Remove="ClientApp\models\session.ts" />
+    <None Remove="ClientApp\models\sessionemployee.ts" />
+    <None Remove="ClientApp\models\site.ts" />
+    <None Remove="ClientApp\models\skill.ts" />
+    <None Remove="ClientApp\models\specialdate.ts" />
+    <None Remove="ClientApp\models\team.ts" />
+    <None Remove="ClientApp\models\teammember.ts" />
+    <None Remove="ClientApp\models\teamsite.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
+    <PackageReference Include="FastMember.Signed" Version="1.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.5" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\absence\createabsence.ts" />
+    <TypeScriptCompile Include="ClientApp\components\absence\editabsence.ts" />
+    <TypeScriptCompile Include="ClientApp\components\admin\createskill.ts" />
+    <TypeScriptCompile Include="ClientApp\components\admin\createsite.ts" />
+    <TypeScriptCompile Include="ClientApp\components\admin\createspecialdate.ts" />
+    <TypeScriptCompile Include="ClientApp\components\admin\editskill.ts" />
+    <TypeScriptCompile Include="ClientApp\components\admin\editsite.ts" />
+    <TypeScriptCompile Include="ClientApp\components\admin\editspecialdate.ts" />
     <TypeScriptCompile Include="ClientApp\components\employee\editemployee.ts" />
     <TypeScriptCompile Include="ClientApp\components\employee\createemployee.ts" />
+    <TypeScriptCompile Include="ClientApp\components\navmenu\navmenu.ts" />
     <TypeScriptCompile Include="ClientApp\components\session\editsession.ts" />
     <TypeScriptCompile Include="ClientApp\components\session\createsession.ts" />
-    <TypeScriptCompile Include="ClientApp\components\session\rostersession.ts" />
+    <TypeScriptCompile Include="ClientApp\components\roster\rostersession.ts" />
+    <TypeScriptCompile Include="ClientApp\components\team\createteam.ts" />
+    <TypeScriptCompile Include="ClientApp\components\team\editteam.ts" />
+    <TypeScriptCompile Include="ClientApp\models\absence.ts" />
+    <TypeScriptCompile Include="ClientApp\models\teammember.ts" />
+    <TypeScriptCompile Include="ClientApp\models\sessionemployee.ts" />
+    <TypeScriptCompile Include="ClientApp\models\skill.ts" />
+    <TypeScriptCompile Include="ClientApp\models\teamsite.ts" />
+    <TypeScriptCompile Include="ClientApp\models\team.ts" />
+    <TypeScriptCompile Include="ClientApp\models\specialdate.ts" />
+    <TypeScriptCompile Include="ClientApp\models\site.ts" />
     <TypeScriptCompile Include="ClientApp\models\employee.ts" />
     <TypeScriptCompile Include="ClientApp\models\session.ts" />
   </ItemGroup>

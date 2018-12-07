@@ -39,53 +39,9 @@ export default class FetchSessionComponent extends Vue {
 		estimate: 0,
 		holiday: 0,
 		note: "",
-		sV1Id: 0,
-		sV1Name: "",
-		sV1LOD: 0,
-		sV1UNS: 0,
-		sV1OT: 0,
-		drI1Id: 0,
-		drI1Name: "",
-		drI1LOD: 0,
-		drI1UNS: 0,
-		drI1OT: 0,
-		drI2Id: 0,
-		drI2Name: "",
-		drI2LOD: 0,
-		drI2UNS: 0,
-		drI2OT: 0,
-		rN1Id: 0,
-		rN1Name: "",
-		rN1LOD: 0,
-		rN1UNS: 0,
-		rN1OT: 0,
-		rN2Id: 0,
-		rN2Name: "",
-		rN2LOD: 0,
-		rN2UNS: 0,
-		rN2OT: 0,
-		rN3Id: 0,
-		rN3Name: "",
-		rN3LOD: 0,
-		rN3UNS: 0,
-		rN3OT: 0,
-		ccA1Id: 0,
-		ccA1Name: "",
-		ccA1LOD: 0,
-		ccA1UNS: 0,
-		ccA1OT: 0,
-		ccA2Id: 0,
-		ccA2Name: "",
-		ccA2LOD: 0,
-		ccA2UNS: 0,
-		ccA2OT: 0,
-		ccA3Id: 0,
-		ccA3Name: "",
-		ccA3LOD: 0,
-		ccA3UNS: 0,
-		ccA3OT: 0,
 		staffCount: 0,
-		state: 0
+		state: 0,
+		employees: []
 	}
 
 	mounted() {
@@ -125,9 +81,7 @@ export default class FetchSessionComponent extends Vue {
 	}
 
 	editSession(selected: Session) {
-		if (selected.sV1Id === 0 && selected.drI1Id === 0 && selected.drI2Id === 0 &&
-			selected.rN1Id === 0 && selected.rN2Id === 0 && selected.rN3Id === 0 &&
-			selected.ccA1Id === 0 && selected.ccA2Id === 0 && selected.ccA3Id === 0) {
+		if (selected.employees.length < 1) {
 			this.$router.push("/editsession/" + selected.id);
 		} else {
 			this.errorMessage = "Please unroster staff before editing session!";
@@ -146,9 +100,7 @@ export default class FetchSessionComponent extends Vue {
 	}
 
 	openDelete(selected: Session) {
-		if (selected.sV1Id === 0 && selected.drI1Id === 0 && selected.drI2Id === 0 &&
-			selected.rN1Id === 0 && selected.rN2Id === 0 && selected.rN3Id === 0 &&
-			selected.ccA1Id === 0 && selected.ccA2Id === 0 && selected.ccA3Id === 0) {
+		if (selected.employees.length < 1) {
 			this.selected = selected;
 			this.deletedialog = true;
 		} else {

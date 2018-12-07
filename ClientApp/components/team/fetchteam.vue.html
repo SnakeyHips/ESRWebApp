@@ -18,15 +18,10 @@
 					<template slot="items" slot-scope="props">
 						<tr @click="props.expanded = !props.expanded">
 							<td>{{ props.item.name }}</td>
-							<td>{{ props.item.sV1Name }}</td>
-							<td>{{ props.item.drI1Name }}</td>
-							<td>{{ props.item.drI2Name }}</td>
-							<td>{{ props.item.rN1Name }}</td>
-							<td>{{ props.item.rN2Name }}</td>
-							<td>{{ props.item.rN3Name }}</td>
-							<td>{{ props.item.ccA1Name }}</td>
-							<td>{{ props.item.ccA2Name }}</td>
-							<td>{{ props.item.ccA3Name }}</td>
+							<td>{{ displayNames(props.item.members, "SV") }}</td>
+							<td>{{ displayNames(props.item.members, "DRI") }}</td>
+							<td>{{ displayNames(props.item.members, "CCA") }}</td>
+							<td>{{ displayNames(props.item.members, "RN") }}</td>
 						</tr>
 					</template>
 					<template slot="expand" slot-scope="props">
@@ -90,42 +85,6 @@
 					</v-card-title>
 					<v-divider class="ma-0" />
 					<v-list dense>
-						<v-list-tile>
-							<v-list-tile-content>SV1:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.sV1Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>DRI1:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.drI1Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>DRI2:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.drI2Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>RN1:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.rN1Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>RN2:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.rN2Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>RN3:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.rN3Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>CCA1:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.ccA1Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>CCA2:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.ccA2Name }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>CCA3:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.ccA3Name }}</v-list-tile-content>
-						</v-list-tile>
 					</v-list>
 				</v-card>
 			</v-flex>

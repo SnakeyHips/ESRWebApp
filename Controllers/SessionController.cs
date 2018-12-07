@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -19,12 +19,18 @@ namespace ERSWebApp.Controllers
         public List<Session> GetSessions([FromQuery]string date)
         {
             string query = "SELECT * FROM SessionTable WHERE Date=@Date;";
+            string queryList = "SELECT * From SessionEmployeeTable WHERE SessionId=@Id";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
                 {
                     conn.Open();
-                    return conn.Query<Session>(query, new { date }).ToList();
+                    List<Session> temp =  conn.Query<Session>(query, new { date }).ToList();
+                    foreach(Session s in temp)
+                    {
+                        s.Employees = conn.Query<SessionEmployee>(queryList, new { s.Id }).ToList();
+                    }
+                    return temp;
                 }
                 catch (Exception ex)
                 {
@@ -39,12 +45,15 @@ namespace ERSWebApp.Controllers
         public Session GetById([FromQuery]int id)
         {
             string query = "SELECT * FROM SessionTable WHERE Id=@Id;";
+            string queryList = "SELECT * FROM SessionEmployeeTable WHERE SessionId=@Id";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
                 {
                     conn.Open();
-                    return conn.QueryFirstOrDefault<Session>(query, new { id });
+                    Session temp = conn.QueryFirstOrDefault<Session>(query, new { id });
+                    temp.Employees = conn.Query<SessionEmployee>(queryList, new { id }).ToList();
+                    return temp;
                 }
                 catch (Exception ex)
                 {
@@ -74,30 +83,6 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        public static string GetSite(string date, int staffid)
-        {
-            string site = "";
-            string query = "SELECT Site FROM SessionTable WHERE Date=@Date AND @StaffId IN" +
-                "(SV1Id, DRI1Id, DRI2Id, RN1Id, RN2Id, RN3Id, CCA1Id, CCA2Id, CCA3Id)";
-            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
-            {
-                try
-                {
-                    conn.Open();
-                    site = conn.QueryFirstOrDefault<string>(query, new { date, staffid });
-                    if(site == null)
-                    {
-                        site = AbsenceController.GetStaffStatus(staffid, date);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex);
-                }
-            }
-            return site;
-        }
-
         [HttpPost]
         [Route("Create")]
         public int Create()
@@ -112,15 +97,8 @@ namespace ERSWebApp.Controllers
             if (session != null)
             {
                 string query = "IF NOT EXISTS (SELECT * FROM SessionTable WHERE Date=@Date AND Site=@Site AND Time=@Time) " +
-                "INSERT INTO SessionTable (Date, Day, Type, Site, Time, LOD, Chairs, OCC, Estimate, Holiday, Note, SV1Id, SV1Name, " +
-                "SV1LOD, SV1UNS, SV1OT, DRI1Id, DRI1Name, DRI1LOD, DRI1UNS, DRI1OT, DRI2Id, DRI2Name, DRI2LOD, DRI2UNS, DRI2OT, RN1Id, RN1Name, " +
-                "RN1LOD, RN1UNS, RN1OT, RN2Id, RN2Name, RN2LOD, RN2UNS, RN2OT, RN3Id, RN3Name, RN3LOD, RN3UNS, RN3OT, CCA1Id, CCA1Name, CCA1LOD, " +
-                "CCA1UNS, CCA1OT, CCA2Id, CCA2Name, CCA2LOD, CCA2UNS, CCA2OT, CCA3Id, CCA3Name, CCA3LOD, CCA3UNS, CCA3OT, StaffCount, State) " +
-                "VALUES (@Date, @Day, @Type, @Site, @Time, @LOD, @Chairs, @OCC, @Estimate, @Holiday, @Note, @SV1Id, @SV1Name, @SV1LOD, " +
-                " @SV1UNS, @SV1OT, @DRI1Id, @DRI1Name, @DRI1LOD, @DRI1UNS, @DRI1OT, @DRI2Id, @DRI2Name, @DRI2LOD, @DRI2UNS, @DRI1OT, @RN1Id, @RN1Name, " +
-                "@RN1LOD, @RN1UNS, @RN1OT, @RN2Id, @RN2Name, @RN2LOD, @RN2UNS, @RN2OT, @RN3Id, @RN3Name, @RN3LOD, @RN3UNS, @RN3OT, @CCA1Id, @CCA1Name, " +
-                "@CCA1LOD, @CCA1UNS, @CCA1OT, @CCA2Id, @CCA2Name, @CCA2LOD, @CCA2UNS, @CCA2OT, @CCA3Id, @CCA3Name, @CCA3LOD, @CCA3UNS, @CCA3OT, " +
-                "@StaffCount, @State);";
+                "INSERT INTO SessionTable (Date, Day, Type, Site, Time, LOD, Chairs, OCC, Estimate, Holiday, Note, StaffCount, State) " +
+                "VALUES (@Date, @Day, @Type, @Site, @Time, @LOD, @Chairs, @OCC, @Estimate, @Holiday, @Note, @StaffCount, @State);";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
@@ -175,43 +153,6 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        public static int UpdateStaff(Session session)
-        {
-            if (session != null)
-            {
-                string query = "UPDATE SessionTable " +
-                    "SET LOD=@LOD, OCC=@OCC, Estimate=@Estimate, " +
-                    "SV1Id=@SV1Id, SV1Name=@SV1Name, SV1LOD=@SV1LOD, SV1UNS=@SV1UNS, SV1OT=@SV1OT, " +
-                    "DRI1Id=@DRI1Id, DRI1Name=@DRI1Name, DRI1LOD=@DRI1LOD, DRI1UNS=@DRI1UNS, DRI1OT=@DRI1OT, " +
-                    "DRI2Id=@DRI2Id, DRI2Name=@DRI2Name, DRI2LOD=@DRI2LOD, DRI2UNS=@DRI2UNS, DRI2OT=@DRI2OT, " +
-                    "RN1Id=@RN1Id, RN1Name=@RN1Name, RN1LOD=@RN1LOD, RN1UNS=@RN1UNS, RN1OT=@RN1OT, " +
-                    "RN2Id=@RN2Id, RN2Name=@RN2Name, RN2LOD=@RN2LOD, RN2UNS=@RN2UNS, RN2OT=@RN2OT, " +
-                    "RN3Id=@RN3Id, RN3Name=@RN3Name, RN3LOD=@RN3LOD, RN3UNS=@RN3UNS, RN3OT=@RN3OT, " +
-                    "CCA1Id=@CCA1Id, CCA1Name=@CCA1Name, CCA1LOD=@CCA1LOD, CCA1UNS=@CCA1UNS, CCA1OT=@CCA1OT, " +
-                    "CCA2Id=@CCA2Id, CCA2Name=@CCA2Name, CCA2LOD=@CCA2LOD, CCA2UNS=@CCA2UNS, CCA2OT=@CCA2OT, " +
-                    "CCA3Id=@CCA3Id, CCA3Name=@CCA3Name, CCA3LOD=@CCA3LOD, CCA3UNS=@CCA3UNS, CCA3OT=@CCA3OT, " +
-                    "StaffCount=@StaffCount, State=@State, Note=@Note " +
-                    "WHERE Id=@Id;";
-                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
-                {
-                    try
-                    {
-                        conn.Open();
-                        return conn.Execute(query, session);
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine(ex);
-                        return -1;
-                    }
-                }
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
         [HttpDelete]
         [Route("Delete")]
         public int Delete([FromQuery]int id)
@@ -236,26 +177,6 @@ namespace ERSWebApp.Controllers
             else
             {
                 return -1;
-            }
-        }
-
-        [HttpGet()]
-        [Route("GetEmployeeSessions")]
-        public List<Session> GetEmployeeSessions([FromQuery]int staffid, [FromQuery]string startdate, [FromQuery]string enddate)
-        {
-            string query = "SELECT * FROM SessionTable WHERE Date BETWEEN @StartDate AND @EndDate AND @StaffId IN" +
-                "(SV1Id, DRI1Id, DRI2Id, RN1Id, RN2Id, RN3Id, CCA1Id, CCA2Id, CCA3Id)";
-            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
-            {
-                try
-                {
-                    conn.Open();
-                    return conn.Query<Session>(query, new { startdate, enddate, staffid }).ToList();
-                }
-                catch
-                {
-                    return null;
-                }
             }
         }
 

@@ -1,18 +1,31 @@
-<template>
+﻿<template>
 	<v-layout justify-center text-xs-center>
 		<v-flex lg4 md5 sm6 xs8>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<h3>Create Team</h3>
-				<v-text-field v-model="team.name" label="Name" :rules="[rules.required]" box />
-				<v-select box ref="sv1" v-model="team.sV1Id" :items="svs" label="Supervisor" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="dri1" v-model="team.drI1Id" :items="dris" label="Driver 1" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="dri2" v-model="team.drI2Id" :items="dris" label="Driver2" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="rn1" v-model="team.rN1Id" :items="rns" label="RN1" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="rn2" v-model="team.rN2Id" :items="rns" label="RN2" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="rn3" v-model="team.rN3Id" :items="rns" label="RN3" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="cca1" v-model="team.ccA1Id" :items="ccas" label="CCA1" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="cca2" v-model="team.ccA2Id" :items="ccas" label="CCA2" item-text="name" item-value="id" :rules="[rules.required]" />
-				<v-select box ref="cca3" v-model="team.ccA3Id" :items="ccas" label="CCA3" item-text="name" item-value="id" :rules="[rules.required]" />
+				<div>
+					<v-text-field v-model="team.name" label="Name" :rules="[rules.required]" box />
+					<div v-for="sv in teamsvs" :key="sv.employeeId">
+						<v-select box v-model="sv.employeeId" :items="svs" label="Supervisor" item-text="name" item-value="id" :rules="[rules.required]" />
+					</div>
+					<v-btn flat icon color="accent" v-on:click="addSV" class="mb-4"><v-icon dark>add</v-icon></v-btn>
+					<v-btn flat icon color="accent" v-on:click="removeSV" class="mb-4"><v-icon>remove</v-icon></v-btn>
+					<div v-for="dri in teamdris" :key="dri.employeeId">
+						<v-select box v-model="dri.employeeId" :items="dris" label="Driver" item-text="name" item-value="id" :rules="[rules.required]" />
+					</div>
+					<v-btn flat icon color="accent" v-on:click="addDRI" class="mb-4"><v-icon dark>add</v-icon></v-btn>
+					<v-btn flat icon color="accent" v-on:click="removeDRI" class="mb-4"><v-icon>remove</v-icon></v-btn>
+					<div v-for="cca in teamccas" :key="cca.employeeId">
+						<v-select box v-model="cca.employeeId" :items="ccas" label="CCA" item-text="name" item-value="id" :rules="[rules.required]" />
+					</div>
+					<v-btn flat icon color="accent" v-on:click="addCCA" class="mb-4"><v-icon dark>add</v-icon></v-btn>
+					<v-btn flat icon color="accent" v-on:click="removeCCA" class="mb-4"><v-icon>remove</v-icon></v-btn>
+					<div v-for="rn in teamrns" :key="rn.employeeId">
+						<v-select box v-model="rn.employeeId" :items="rns" label="RN" item-text="name" item-value="id" :rules="[rules.required]" />
+					</div>
+					<v-btn flat icon color="accent" v-on:click="addRN" class="mb-4"><v-icon dark>add</v-icon></v-btn>
+					<v-btn flat icon color="accent" v-on:click="removeRN" class="mb-4"><v-icon>remove</v-icon></v-btn>
+				</div>
 				<v-btn color="accent" v-on:click="createTeam">Submit</v-btn>
 				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
 				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>

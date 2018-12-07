@@ -1,12 +1,12 @@
-<template>
+﻿<template>
 	<v-layout justify-center text-xs-center>
 		<v-flex lg4 md5 sm6 xs8>
 			<v-form ref="form" lazy-validation>
 				<h3>Create Special Date</h3>
-				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" box/>
+				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" box />
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
-					<v-text-field slot="activator" v-model="specialdate.date" label="Date" append-icon="event" :rules="[rules.required]" readonly box></v-text-field>
-					<v-date-picker v-model="dateFormatted" v-on:change="formatDate" first-day-of-week="1"></v-date-picker>
+					<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly :rules="[rules.required]" box></v-text-field>
+					<v-date-picker v-model="specialdate.date" v-on:change="formatDate" first-day-of-week="1"></v-date-picker>
 				</v-menu>
 				<v-btn color="accent" v-on:click="createSpecialDate">Submit</v-btn>
 				<v-btn color="accent" v-on:click="clear">Clear</v-btn>

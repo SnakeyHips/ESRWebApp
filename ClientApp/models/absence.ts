@@ -1,4 +1,4 @@
-export interface Absence {
+﻿export interface Absence {
 	id: number;
 	staffId: number;
 	staffName: string;

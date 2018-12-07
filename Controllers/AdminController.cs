@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -222,7 +222,7 @@ namespace ERSWebApp.Controllers
             }
             if (skill != null)
             {
-                string query = "IF NOT EXISTS (SELECT * FROM SkillTable WHERE Role=@Role Name=@Name) " +
+                string query = "IF NOT EXISTS (SELECT * FROM SkillTable WHERE Role=@Role AND Name=@Name) " +
                 "INSERT INTO SkillTable (Role, Name) VALUES (@Role, @Name);";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {

@@ -1,4 +1,4 @@
-namespace ERSWebApp
+﻿namespace ERSWebApp
 {
     public static class Connection
     {

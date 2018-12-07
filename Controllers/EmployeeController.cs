@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -25,6 +25,27 @@ namespace ERSWebApp.Controllers
                     conn.Open();
                     List<Employee> employees = conn.Query<Employee>(query).ToList();
                     GetStatuses(employees, AbsenceController.GetAbsencesStatic(date));
+                    return employees;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<Employee>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTeamEmployees")]
+        public List<Employee> GetTeamEmployees()
+        {
+            string query = "SELECT * FROM EmployeeTable;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    List<Employee> employees = conn.Query<Employee>(query).ToList();
                     return employees;
                 }
                 catch (Exception ex)
@@ -67,6 +88,7 @@ namespace ERSWebApp.Controllers
                 return -1;
             }
         }
+
         [HttpGet]
         [Route("GetById")]
         public Employee GetById([FromQuery]int id)
@@ -180,6 +202,32 @@ namespace ERSWebApp.Controllers
                 }
             }
             return available;
+        }
+
+        [HttpGet()]
+        [Route("GetEmployeeSessions")]
+        public List<Session> GetEmployeeSessions([FromQuery]int employeeid, [FromQuery]string startdate, [FromQuery]string enddate)
+        {
+            List<Session> sessions = new List<Session>();
+            string query = "SELECT SessionId FROM SessionEmployeeTable WHERE SessionDate BETWEEN @StartDate AND @EndDate AND EmployeeId=@EmployeeId;";
+            string querySession = "SELECT * FROM SessionTable WHERE Id=@SessionId";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    List<int> sessionids = conn.Query<int>(query, new { startdate, enddate, employeeid }).ToList();
+                    foreach(int sessionid in sessionids)
+                    {
+                        sessions.Add(conn.QueryFirstOrDefault<Session>(querySession, new { sessionid }));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
+            }
+            return sessions;
         }
 
         public static void GetStatuses(List<Employee> employees, List<Absence> absences)
