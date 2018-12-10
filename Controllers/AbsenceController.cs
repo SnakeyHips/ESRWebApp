@@ -192,13 +192,20 @@ namespace ERSWebApp.Controllers
                 {
                     conn.Open();
                     Absence temp = conn.QueryFirstOrDefault<Absence>(query, new { staffid, date });
-                    if(temp.PartDay == "Yes")
+                    if(temp != null)
                     {
-                        return temp.Type + " - Part";
+                        if (temp.PartDay == "Yes")
+                        {
+                            return temp.Type + " - Part";
+                        }
+                        else
+                        {
+                            return temp.Type;
+                        }
                     }
                     else
                     {
-                        return temp.Type;
+                        return "";
                     }
                 }
                 catch (Exception ex)
