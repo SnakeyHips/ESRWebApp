@@ -1,0 +1,169 @@
+<template>
+	<v-container grid-list-xl text-xs-center>
+		<h3>{{ after.day }} - {{ after.date }} - {{ after.site }}</h3>
+		<v-layout row wrap>
+			<v-flex lg2 sm4 xs6>
+				<v-text-field box v-model="after.time" label="Clinic Time" disabled />
+			</v-flex>
+			<v-flex lg2 sm4 xs6>
+				<v-text-field box v-model="after.type" label="Type" disabled />
+			</v-flex>
+			<v-flex lg2 sm4 xs6>
+				<v-text-field box v-model="after.chairs" label="Chairs" disabled />
+			</v-flex>
+			<v-flex lg2 sm4 xs6>
+				<v-text-field box v-model="after.lod" label="LOD" :rules="[rules.required, rules.decimal]" />
+			</v-flex>
+			<v-flex lg2 sm4 xs6>
+				<v-text-field box v-model="after.occ" label="OCC" :rules="[rules.required, rules.number]" />
+			</v-flex>
+			<v-flex lg2 sm4 xs6>
+				<v-text-field box v-model="after.estimate" label="Estimate" :rules="[rules.required, rules.number]" />
+			</v-flex>
+		</v-layout>
+		<v-text-field box v-model="after.note" label="Session Note"></v-text-field>
+		<v-layout>
+		</v-layout>
+		<v-form ref="form" lazy-validation v-if="!holiday">
+			<h3>Roster</h3>
+			<v-layout justify-center>
+				<v-flex md6 sm8 xs10>
+					<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam" />
+				</v-flex>
+			</v-layout>
+			<v-layout justify-center row wrap v-for="sv in sessionsvs" :key="sv.employeeId">
+				<v-flex md3 sm6 xs12>
+					<v-select box v-model="sv.employeeId" :items="svs" label="Supervisor" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="sv.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="sv.employeeUNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="sv.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addSV" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeSV" class="mb-4"><v-icon>remove</v-icon></v-btn>
+			<v-layout justify-center row wrap v-for="dri in sessiondris" :key="dri.employeeId">
+				<v-flex md3 sm6 xs12>
+					<v-select box v-model="dri.employeeId" :items="dris" label="Driver" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="dri.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="dri.employeeUNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="dri.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addDRI" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeDRI" class="mb-4"><v-icon>remove</v-icon></v-btn>
+			<v-layout justify-center row wrap v-for="cca in sessionccas" :key="cca.employeeId">
+				<v-flex md3 sm6 xs12>
+					<v-select box v-model="cca.employeeId" :items="ccas" label="CCA" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="cca.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="cca.employeeUNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="cca.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addCCA" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeCCA" class="mb-4"><v-icon>remove</v-icon></v-btn>
+			<v-layout justify-center row wrap v-for="rn in sessionrns" :key="rn.employeeId">
+				<v-flex md3 sm6 xs12>
+					<v-select box v-model="rn.employeeId" :items="rns" label="RN" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="rn.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="rn.employeeUNS" label="Unsocial" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex md3 sm6 xs12>
+					<v-text-field box v-model="rn.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addRN" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeRN" class="mb-4"><v-icon>remove</v-icon></v-btn>
+		</v-form>
+		<v-form ref="form" lazy-validation v-if="holiday">
+			<h3>Roster</h3>
+			<v-layout justify-center>
+				<v-flex md6 sm8 xs10>
+					<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam" />
+				</v-flex>
+			</v-layout>
+			<v-layout justify-center row wrap v-for="sv in sessionsvs" :key="sv.employeeId">
+				<v-flex sm4 xs12>
+					<v-select box v-model="sv.employeeId" :items="svs" label="Supervisor" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="sv.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="sv.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addSV" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeSV" class="mb-4"><v-icon>remove</v-icon></v-btn>
+			<v-layout justify-center row wrap v-for="dri in sessiondris" :key="dri.employeeId">
+				<v-flex sm4 xs12>
+					<v-select box v-model="dri.employeeId" :items="dris" label="Driver" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="dri.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="dri.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addDRI" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeDRI" class="mb-4"><v-icon>remove</v-icon></v-btn>
+			<v-layout justify-center row wrap v-for="cca in sessionccas" :key="cca.employeeId">
+				<v-flex sm4 xs12>
+					<v-select box v-model="cca.employeeId" :items="ccas" label="CCA" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="cca.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="cca.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addCCA" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeCCA" class="mb-4"><v-icon>remove</v-icon></v-btn>
+			<v-layout justify-center row wrap v-for="rn in sessionrns" :key="rn.employeeId">
+				<v-flex sm4 xs12>
+					<v-select box v-model="rn.employeeId" :items="rns" label="RN" item-text="name" item-value="id" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="rn.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+				<v-flex sm4 xs12>
+					<v-text-field box v-model="rn.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
+				</v-flex>
+			</v-layout>
+			<v-btn flat icon color="accent" v-on:click="addRN" class="mb-4"><v-icon>add</v-icon></v-btn>
+			<v-btn flat icon color="accent" v-on:click="removeRN" class="mb-4"><v-icon>remove</v-icon></v-btn>
+		</v-form>
+		<v-layout justify-center>
+			<v-btn color="accent" v-on:click="rosterSession" :disabled="loading">Submit</v-btn>
+			<v-btn color="accent" v-on:click="clear" :disabled="loading">Clear</v-btn>
+			<v-btn color="accent" v-on:click="cancel" :disabled="loading">Cancel</v-btn>
+		</v-layout>
+		<v-progress-circular v-if="loading" indeterminate />
+		<v-snackbar v-model="failed" color="error">{{ errorMessage }}<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+	</v-container>
+</template>
+
+<script src="./rostersession.ts"></script>
