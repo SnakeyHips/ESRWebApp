@@ -13,8 +13,8 @@ export default class FetchAbsenceComponent extends Vue {
 	failed: boolean = false;
 	dialog: boolean = false;
 	headers: object[] = [
-		{ text: 'Staff Id', value: 'staffId' },
-		{ text: 'Staff Name', value: 'staffName' },
+		{ text: 'Employee Id', value: 'employeeId' },
+		{ text: 'Employee Name', value: 'employeeName' },
 		{ text: 'Type', value: 'type' },
 		{ text: 'Start Date', value: 'startDate' },
 		{ text: 'End Date', value: 'endDate' },
@@ -24,8 +24,8 @@ export default class FetchAbsenceComponent extends Vue {
 
 	selected: Absence = {
 		id: 0,
-		staffId: 0,
-		staffName: "",
+		employeeId: 0,
+		employeeName: "",
 		type: "",
 		startDate: "",
 		endDate: "",

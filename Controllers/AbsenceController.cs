@@ -70,9 +70,9 @@ namespace ERSWebApp.Controllers
             }
             if (absence != null)
             {
-                string query = "IF NOT EXISTS (SELECT * FROM AbsenceTable WHERE StaffId=@StaffId AND StartDate=@StartDate) " +
-                "INSERT INTO AbsenceTable (StaffId, StaffName, Type, StartDate, EndDate, PartDay, Hours)" +
-                "VALUES (@StaffId, @StaffName, @Type, @StartDate, @EndDate, @PartDay, @Hours);";
+                string query = "IF NOT EXISTS (SELECT * FROM AbsenceTable WHERE EmployeeId=@EmployeeId AND StartDate=@StartDate) " +
+                "INSERT INTO AbsenceTable (EmployeeId, EmployeeName, Type, StartDate, EndDate, PartDay, Hours)" +
+                "VALUES (@EmployeeId, @EmployeeName, @Type, @StartDate, @EndDate, @PartDay, @Hours);";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
@@ -89,7 +89,7 @@ namespace ERSWebApp.Controllers
             }
             if(rows > 0)
             {
-                RosterController.UpdateAbsence(absence.StaffId, absence.Hours, RosterController.GetWeek(absence.StartDate));
+                RosterController.UpdateAbsence(absence.EmployeeId, absence.Hours, RosterController.GetWeek(absence.StartDate));
             }
             return rows;
         }
@@ -128,7 +128,7 @@ namespace ERSWebApp.Controllers
             if(rows > 0)
             {
                 double difference = after.Hours - before.Hours;
-                RosterController.UpdateAbsence(after.StaffId, difference, RosterController.GetWeek(after.StartDate));
+                RosterController.UpdateAbsence(after.EmployeeId, difference, RosterController.GetWeek(after.StartDate));
             }
             return rows;
         }
@@ -162,7 +162,7 @@ namespace ERSWebApp.Controllers
             }
             if (rows > 0)
             {
-                RosterController.UpdateAbsence(absence.StaffId, -absence.Hours, RosterController.GetWeek(absence.StartDate));
+                RosterController.UpdateAbsence(absence.EmployeeId, -absence.Hours, RosterController.GetWeek(absence.StartDate));
             }
             return rows;
         }
@@ -172,7 +172,7 @@ namespace ERSWebApp.Controllers
             string status = "Okay";
             foreach (Absence a in absences)
             {
-                if (a.StaffId == id
+                if (a.EmployeeId == id
                     && DateTime.Parse(a.StartDate).CompareTo(date) <= 0
                     && DateTime.Parse(a.EndDate).CompareTo(date) >= 0)
                 {
@@ -183,15 +183,15 @@ namespace ERSWebApp.Controllers
             return status;
         }
 
-        public static string GetStaffStatus(int staffid, string date)
+        public static string GetEmployeeStatus(int employeeid, string date)
         {
-            string query = "SELECT * FROM AbsenceTable WHERE StaffId=@StaffId AND @Date BETWEEN StartDate AND EndDate;";
+            string query = "SELECT * FROM AbsenceTable WHERE EmployeeId=@EmployeeId AND @Date BETWEEN StartDate AND EndDate;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
                 try
                 {
                     conn.Open();
-                    Absence temp = conn.QueryFirstOrDefault<Absence>(query, new { staffid, date });
+                    Absence temp = conn.QueryFirstOrDefault<Absence>(query, new { employeeid, date });
                     if(temp != null)
                     {
                         if (temp.PartDay == "Yes")

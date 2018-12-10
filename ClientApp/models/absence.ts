@@ -1,7 +1,7 @@
 ﻿export interface Absence {
 	id: number;
-	staffId: number;
-	staffName: string;
+	employeeId: number;
+	employeeName: string;
 	type: string;
 	startDate: string;
 	endDate: string;

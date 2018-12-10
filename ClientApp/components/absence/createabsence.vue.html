@@ -3,8 +3,8 @@
 		<v-flex lg4 md5 sm6 xs8>
 			<v-form ref="form" lazy-validation>
 				<h3>Create Absence</h3>
-				<v-text-field v-model="absence.staffId" label="Staff Id" :rules="[rules.required, rules.number]" append-icon="search" @click:append="search" maxlength="8" :disabled="iddisable" box />
-				<v-text-field v-model="absence.staffName" label="Staff Name" :loading="loading" :rules="[rules.required]" disabled box />
+				<v-text-field v-model="absence.employeeId" label="Staff Id" :rules="[rules.required, rules.number]" append-icon="search" @click:append="search" maxlength="8" :disabled="iddisable" box />
+				<v-text-field v-model="absence.employeeName" label="Staff Name" :loading="loading" :rules="[rules.required]" disabled box />
 				<v-select v-model="absence.type" :items="types" label="Type" :rules="[rules.required]" box />
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
 					<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" :rules="[rules.required]" readonly box />

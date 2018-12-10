@@ -237,7 +237,7 @@ namespace ERSWebApp.Controllers
                 string status = "Okay";
                 for (int j = 0; j < absences.Count; j++)
                 {
-                    if (absences[j].StaffId == employees[i].Id)
+                    if (absences[j].EmployeeId == employees[i].Id)
                     {
                         status = absences[j].Type;
                         if(absences[j].PartDay == "Yes")

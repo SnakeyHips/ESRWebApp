@@ -23,8 +23,8 @@
 					<v-progress-linear slot="progress" color="primary" indeterminate />
 					<template slot="items" slot-scope="props">
 						<tr @click="props.expanded = !props.expanded">
-							<td>{{ props.item.staffId }}</td>
-							<td>{{ props.item.staffName }}</td>
+							<td>{{ props.item.employeeId }}</td>
+							<td>{{ props.item.employeeName }}</td>
 							<td><font v-bind:style="{ color: typeColour(props.item.type) }">{{ props.item.type }}</font></td>
 							<td>{{ dateFormat(props.item.startDate) }}</td>
 							<td>{{ dateFormat(props.item.endDate) }}</td>
@@ -72,7 +72,7 @@
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
 				<v-card>
 					<v-card-title>
-						<h4>{{ props.item.staffId }} - {{ props.item.staffName }}</h4>
+						<h4>{{ props.item.employeeId }} - {{ props.item.employeeName }}</h4>
 						<v-spacer />
 						<v-menu left>
 							<v-btn slot="activator" icon class="ma-0">
@@ -94,8 +94,8 @@
 					<v-divider class="ma-0" />
 					<v-list dense>
 						<v-list-tile>
-							<v-list-tile-content>Staff Name:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.time }}</v-list-tile-content>
+							<v-list-tile-content>Employee Name:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.employeeName }}</v-list-tile-content>
 						</v-list-tile>
 						<v-list-tile>
 							<v-list-tile-content>Type:</v-list-tile-content>

@@ -44,7 +44,9 @@ namespace ERSWebApp.Controllers
         [Route("GetTeamSites")]
         public List<TeamSite> GetTeamSites([FromQuery]int id, [FromQuery]string startdate, [FromQuery]string enddate)
         {
-            string query = "SELECT SessionSite FROM SessionEmployeeTable WHERE SessionDate=@Date AND EmployeeId=@EmployeeId;";
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+            string query = "SELECT SessionSite FROM SessionEmployeeTable WHERE EmployeeId=@EmployeeId AND SessionDate=@Date;";
             Team team = GetByIdStatic(id);
             List<string> dates = new List<string>();
             List<TeamSite> teamsites = new List<TeamSite>(); 
@@ -73,7 +75,7 @@ namespace ERSWebApp.Controllers
                             sites = conn.Query<string>(query, new { date, member.EmployeeId }).ToList();
                             if (sites.Count < 1)
                             {
-                                employee.SessionSite = AbsenceController.GetStaffStatus(member.EmployeeId, date);
+                                employee.SessionSite = AbsenceController.GetEmployeeStatus(member.EmployeeId, date);
 
                             }
                             else if (sites.Count > 0)
@@ -90,6 +92,8 @@ namespace ERSWebApp.Controllers
                     System.Diagnostics.Debug.WriteLine(ex);
                 }
             }
+            stopwatch.Stop();
+            System.Diagnostics.Debug.WriteLine(stopwatch.ElapsedMilliseconds);
             return teamsites;
         }
 

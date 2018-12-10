@@ -16,8 +16,8 @@ export default class EditAbsenceComponent extends Vue {
 
 	before: Absence = {
 		id: 0,
-		staffId: 0,
-		staffName: "",
+		employeeId: 0,
+		employeeName: "",
 		type: "",
 		startDate: "",
 		endDate: "",
@@ -27,8 +27,8 @@ export default class EditAbsenceComponent extends Vue {
 
 	after: Absence = {
 		id: 0,
-		staffId: 0,
-		staffName: "",
+		employeeId: 0,
+		employeeName: "",
 		type: "",
 		startDate: "",
 		endDate: "",

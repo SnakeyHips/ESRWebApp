@@ -63,26 +63,6 @@ namespace ERSWebApp.Controllers
             }
         }
 
-        [HttpGet()]
-        [Route("GetStaff")]
-        public Session GetStaff([FromQuery]string date, [FromQuery]int staffid)
-        {
-            string query = "SELECT * FROM SessionTable WHERE Date=@Date AND @StaffId IN" +
-                "(SV1Id, DRI1Id, DRI2Id, RN1Id, RN2Id, RN3Id, CCA1Id, CCA2Id, CCA3Id)";
-            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
-            {
-                try
-                {
-                    conn.Open();
-                    return conn.QueryFirst<Session>(query, new { date, staffid });
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-        }
-
         [HttpPost]
         [Route("Create")]
         public int Create()

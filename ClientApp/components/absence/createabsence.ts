@@ -17,8 +17,8 @@ export default class CreateAbsenceComponent extends Vue {
 
 	absence: Absence = {
 		id: 0,
-		staffId: 0,
-		staffName: "",
+		employeeId: 0,
+		employeeName: "",
 		type: "",
 		startDate: "",
 		endDate: "",
@@ -58,11 +58,11 @@ export default class CreateAbsenceComponent extends Vue {
 
 	search() {
 		this.loading = true;
-		fetch('api/Employee/GetById?id=' + this.absence.staffId)
+		fetch('api/Employee/GetById?id=' + this.absence.employeeId)
 			.then(response => response.json() as Promise<Employee>)
 			.then(data => {
 				if (data.id > 0) {
-					this.absence.staffName = data.name;
+					this.absence.employeeName = data.name;
 					this.iddisable = true;
 					this.loading = false;
 				} else {
