@@ -32,7 +32,7 @@
 				</v-flex>
 			</v-layout>
 			<transition-group name="fade" mode="out-in">
-				<v-layout justify-center row wrap v-for="sv in sessionsvs" :key="sv.employeeId" class="testtransition">
+				<v-layout justify-center row wrap v-for="sv in sessionsvs" :key="sv.employeeId">
 					<v-flex md3 sm6 xs12>
 						<v-select box v-model="sv.employeeId" :items="svs" label="Supervisor" item-text="name" item-value="id" />
 					</v-flex>
