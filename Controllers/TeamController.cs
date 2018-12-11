@@ -44,8 +44,6 @@ namespace ERSWebApp.Controllers
         [Route("GetTeamSites")]
         public List<TeamSite> GetTeamSites([FromQuery]int id, [FromQuery]string startdate, [FromQuery]string enddate)
         {
-            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-            stopwatch.Start();
             string query = "SELECT SessionSite FROM SessionEmployeeTable WHERE EmployeeId=@EmployeeId AND SessionDate=@Date;";
             Team team = GetByIdStatic(id);
             List<string> dates = new List<string>();
@@ -92,8 +90,6 @@ namespace ERSWebApp.Controllers
                     System.Diagnostics.Debug.WriteLine(ex);
                 }
             }
-            stopwatch.Stop();
-            System.Diagnostics.Debug.WriteLine(stopwatch.ElapsedMilliseconds);
             return teamsites;
         }
 
