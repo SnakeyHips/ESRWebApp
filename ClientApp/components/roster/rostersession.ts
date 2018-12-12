@@ -1,4 +1,4 @@
-import Vue from 'vue';
+﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Session } from '../../models/session';
 import { Employee } from '../../models/employee';
@@ -14,9 +14,9 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	rules: object = {
-		required: value => !!value || 'Required',
-		number: value => /[0-9]/.test(value) || 'Value must be number e.g. "8" or "10"',
-		decimal: value => /^\d+(\.\d{1,2})?$/.test(value) || 'Value must be decimal e.g. "8.0" or "7.5"'
+		required: (value: string) => !!value || 'Required',
+		number: (value: string) => /^\d+(\d{1,2})?$/.test(value) || 'Value must be number e.g. "8" or "10"',
+		decimal: (value: string) => /^\d+(\.\d{1,2})?$/.test(value) || 'Value must be decimal e.g. "8.0" or "7.5"'
 	}
 
 	test: string = "";
