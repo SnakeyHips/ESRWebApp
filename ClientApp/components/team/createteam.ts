@@ -211,11 +211,6 @@ export default class CreateTeamComponent extends Vue {
 		}
 	}
 
-	//Set name methods
-	getNames() {
-		
-	}
-
 	clear() {
 		this.$refs.form.reset();
 	}
