@@ -7,7 +7,6 @@ using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Newtonsoft.Json;
-using System.Dynamic;
 
 namespace ERSWebApp.Controllers
 {
