@@ -14,8 +14,8 @@ export default class ViewEmployeeComponent extends Vue {
 	failed: boolean = false;
 	search: string = "";
 	headers: object[] = [
-		{ text: 'Day', value: 'day' },
 		{ text: 'Date', value: 'date' },
+		{ text: 'Day', value: 'day' },
 		{ text: 'Site', value: 'site' },
 		{ text: 'Time', value: 'time' },
 		{ text: 'Chairs', value: 'chairs' },
