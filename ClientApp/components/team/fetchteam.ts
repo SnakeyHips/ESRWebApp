@@ -14,10 +14,10 @@ export default class FetchTeamComponent extends Vue {
 	selected: number = 0;
 	headers: object[] = [
 		{ text: 'Name', value: 'name' },
-		{ text: 'SV', value: 'names' },
-		{ text: 'DRI', value: 'names' },
-		{ text: 'CCA', value: 'names' },
-		{ text: 'RN', value: 'names' }
+		{ text: 'SVs', value: 'names' },
+		{ text: 'DRIs', value: 'names' },
+		{ text: 'CCAs', value: 'names' },
+		{ text: 'RNs', value: 'names' }
 	];
 
 	mounted() {

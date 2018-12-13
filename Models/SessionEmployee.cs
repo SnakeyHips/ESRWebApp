@@ -1,4 +1,4 @@
-namespace ERSWebApp.Models
+﻿namespace ERSWebApp.Models
 {
     public class SessionEmployee
     {

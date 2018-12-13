@@ -212,12 +212,14 @@ export default class CreateTeamComponent extends Vue {
 	}
 
 	clear() {
-		this.teammanagers = [];
-		this.teammanagers.push(this.createTeamMember("Manager"));
-		this.teamsupervisors = [];
-		this.teamsupervisors.push(this.createTeamMember("Supervisor"));
-		this.teamagents = [];
-		this.teamagents.push(this.createTeamMember("Agent"));
+		this.teamsvs = [];
+		this.teamsvs.push(this.createTeamMember("SV"));
+		this.teamdris = [];
+		this.teamdris.push(this.createTeamMember("DRI"));
+		this.teamccas = [];
+		this.teamccas.push(this.createTeamMember("CCA"));
+		this.teamrns = [];
+		this.teamrns.push(this.createTeamMember("RN"));
 	}
 
 	cancel() {

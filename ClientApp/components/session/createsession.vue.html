@@ -1,8 +1,8 @@
 ﻿<template>
 	<v-layout justify-center text-xs-center>
-		<v-flex lg4 md5 sm6 xs8>
+		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation>
-				<h3>Create Session</h3>
+				<p class="title">Create Session</p>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
 					<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" :rules="[rules.required]" readonly box></v-text-field>
 					<v-date-picker v-model="session.date" v-on:change="formatDate" first-day-of-week="1"></v-date-picker>

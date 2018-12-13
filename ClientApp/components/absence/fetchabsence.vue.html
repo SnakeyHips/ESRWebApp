@@ -59,29 +59,27 @@
 		</v-flex>
 	</v-layout>
 	<v-layout v-else column>
-		<v-flex class="text-xs-center mb-4" xs12>
-			<h4>Absences</h4>
-			<v-divider />
-			<v-menu lazy transition="scale-transition" full-width>
-				<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
-				<v-date-picker v-model="selecteddate.date" v-on:change="loadAbsences" first-day-of-week="1" full-width />
-			</v-menu>
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box />
-		</v-flex>
+		<v-toolbar flat color="transparent">
+			<v-toolbar-title>Absences</v-toolbar-title>
+			<v-spacer></v-spacer>
+			<v-btn flat color="accent" v-on:click.native="createAbsence">Create</v-btn>
+		</v-toolbar>
+		<v-menu lazy transition="scale-transition" full-width>
+			<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" readonly box />
+			<v-date-picker v-model="selecteddate.date" v-on:change="loadAbsences" first-day-of-week="1" full-width />
+		</v-menu>
+		<v-text-field class="mb-4" v-model="search" append-icon="search" label="Search" single-line hide-details box />
 		<v-data-iterator :items="absences" :search="search" :loading="loading" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
 				<v-card>
 					<v-card-title>
-						<h4>{{ props.item.employeeId }} - {{ props.item.employeeName }}</h4>
+						<span class="subheading font-weight-bold">{{ props.item.employeeId }} - {{ props.item.employeeName }}</span>
 						<v-spacer />
 						<v-menu left>
 							<v-btn slot="activator" icon class="ma-0">
 								<v-icon>more_vert</v-icon>
 							</v-btn>
 							<v-list>
-								<v-list-tile v-on:click.native="createAbsence">
-									<v-list-tile-title>Create</v-list-tile-title>
-								</v-list-tile>
 								<v-list-tile v-on:click.native="editAbsence(props.item.id)">
 									<v-list-tile-title>Edit</v-list-tile-title>
 								</v-list-tile>

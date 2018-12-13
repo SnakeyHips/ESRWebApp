@@ -1,8 +1,8 @@
 ﻿<template>
 	<v-layout justify-center text-xs-center>
-		<v-flex lg4 md5 sm6 xs8>
+		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation>
-				<h3>Create Skill</h3>
+				<p class="title">Create Skill</p>
 				<v-select v-model="skill.role" :items="roles" label="Role" :rules="[rules.required]" box />
 				<v-text-field v-model="skill.name" label="Name" :rules="[rules.required]" box />
 				<v-btn color="accent" v-on:click="createSkill">Submit</v-btn>

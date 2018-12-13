@@ -36,62 +36,27 @@
 		</v-flex>
 	</v-layout>
 	<v-layout v-else column>
-		<v-flex class="text-xs-center mb-4" xs12>
-			<h4>{{ team.name }}</h4>
-			<v-divider />
-			<v-menu lazy transition="scale-transition" full-width>
-				<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
-				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1" full-width />
-			</v-menu>
-			<v-menu lazy transition="scale-transition" full-width>
-				<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
-				<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1" full-width />
-			</v-menu>
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box />
-		</v-flex>
+		<p class="title text-xs-center">{{ team.name }}</p>
+		<v-menu lazy transition="scale-transition" full-width>
+			<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
+			<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1" full-width />
+		</v-menu>
+		<v-menu lazy transition="scale-transition" full-width>
+			<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
+			<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1" full-width />
+		</v-menu>
+		<v-text-field class="mb-4" v-model="search" append-icon="search" label="Search" single-line hide-details box />
 		<v-data-iterator :items="teamsites" :search="search" :loading="loading" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
 				<v-card>
 					<v-card-title>
-						<h4>{{ props.item.date }} - {{ props.item.day }}</h4>
+						<span class="subheading font-weight-bold">{{ props.item.date }} - {{ props.item.day }}</span>
 					</v-card-title>
 					<v-divider class="ma-0" />
 					<v-list dense>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.sV1Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.sV1Site) }">{{ props.item.sV1Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.drI1Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.drI1Site) }">{{ props.item.drI1Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.drI2Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.drI2Site) }">{{ props.item.drI2Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.rN1Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.rN1Site) }">{{ props.item.rN1Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.rN2Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.rN2Site) }">{{ props.item.rN2Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.rN3Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.rN3Site) }">{{ props.item.rN3Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.ccA1Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.ccA1Site) }">{{ props.item.ccA1Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.ccA2Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.ccA2Site) }">{{ props.item.ccA2Site }}</font></v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>{{ props.item.ccA3Name }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(props.item.ccA3Site) }">{{ props.item.ccA3Site }}</font></v-list-tile-content>
+						<v-list-tile v-for="member in props.item.members">
+							<v-list-tile-content>{{ member.employeeName }}:</v-list-tile-content>
+							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(member.sessionSite) }">{{ member.sessionSite }}</font></v-list-tile-content>
 						</v-list-tile>
 					</v-list>
 				</v-card>

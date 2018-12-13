@@ -1,6 +1,6 @@
 ﻿<template>
-	<v-container grid-list-xl text-xs-center>
-		<h3>{{ after.day }} - {{ after.date }} - {{ after.site }}</h3>
+	<v-container grid-list-md text-xs-center>
+		<p class="title">{{ after.day }} - {{ after.date }} - {{ after.site }}</p>
 		<v-layout row wrap>
 			<v-flex lg2 sm4 xs6>
 				<v-text-field box v-model="after.time" label="Clinic Time" disabled />
@@ -21,18 +21,20 @@
 				<v-text-field box v-model="after.estimate" label="Estimate" :rules="[rules.required, rules.number]" />
 			</v-flex>
 		</v-layout>
-		<v-text-field box v-model="after.note" label="Session Note"></v-text-field>
-		<v-layout>
+		<v-layout justify-center>
+			<v-flex md6 sm8 xs12>
+				<v-text-field box v-model="after.note" label="Session Note"></v-text-field>
+			</v-flex>
 		</v-layout>
 		<v-form ref="form" lazy-validation v-if="!holiday">
-			<h3>Roster</h3>
+			<p class="title">Roster</p>
 			<v-layout justify-center>
-				<v-flex md6 sm8 xs10>
+				<v-flex md6 sm8 xs12>
 					<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam" />
 				</v-flex>
 			</v-layout>
 			<transition-group name="fade" mode="out-in">
-				<v-layout justify-center row wrap v-for="sv in sessionsvs" :key="sv.employeeId">
+				<v-layout justify-center row wrap v-for="(sv, i) in sessionsvs" :key="sv.employeeRole+i">
 					<v-flex md3 sm6 xs12>
 						<v-select box v-model="sv.employeeId" :items="svs" label="Supervisor" item-text="name" item-value="id" />
 					</v-flex>
@@ -54,7 +56,7 @@
 				<v-icon>remove</v-icon>
 			</v-btn>
 			<transition-group name="fade" mode="out-in">
-				<v-layout justify-center row wrap v-for="dri in sessiondris" :key="dri.employeeId">
+				<v-layout justify-center row wrap v-for="(dri, i) in sessiondris" :key="dri.employeeRole+i">
 					<v-flex md3 sm6 xs12>
 						<v-select box v-model="dri.employeeId" :items="dris" label="Driver" item-text="name" item-value="id" />
 					</v-flex>
@@ -76,7 +78,7 @@
 				<v-icon>remove</v-icon>
 			</v-btn>
 			<transition-group name="fade" mode="out-in">
-				<v-layout justify-center row wrap v-for="cca in sessionccas" :key="cca.employeeId">
+				<v-layout justify-center row wrap v-for="(cca, i) in sessionccas" :key="cca.employeeRole+i">
 					<v-flex md3 sm6 xs12>
 						<v-select box v-model="cca.employeeId" :items="ccas" label="CCA" item-text="name" item-value="id" />
 					</v-flex>
@@ -98,7 +100,7 @@
 				<v-icon>remove</v-icon>
 			</v-btn>
 			<transition-group name="fade" mode="out-in">
-				<v-layout justify-center row wrap v-for="rn in sessionrns" :key="rn.employeeId">
+				<v-layout justify-center row wrap v-for="(rn, i) in sessionrns" :key="rn.employeeRole+i">
 					<v-flex md3 sm6 xs12>
 						<v-select box v-model="rn.employeeId" :items="rns" label="RN" item-text="name" item-value="id" />
 					</v-flex>
@@ -121,7 +123,7 @@
 			</v-btn>
 		</v-form>
 		<v-form ref="form" lazy-validation v-if="holiday">
-			<h3>Roster</h3>
+			<p class="display-1">Roster</p>
 			<v-layout justify-center>
 				<v-flex md6 sm8 xs10>
 					<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:change="setTeam" />

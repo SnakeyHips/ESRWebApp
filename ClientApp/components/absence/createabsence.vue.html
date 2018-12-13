@@ -1,8 +1,8 @@
 ﻿<template>
 	<v-layout justify-center text-xs-center>
-		<v-flex lg4 md5 sm6 xs8>
+		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation>
-				<h3>Create Absence</h3>
+				<p class="title">Create Absence</p>
 				<v-text-field v-model="absence.employeeId" label="Staff Id" :rules="[rules.required, rules.number]" append-icon="search" @click:append="search" maxlength="8" :disabled="iddisable" box />
 				<v-text-field v-model="absence.employeeName" label="Staff Name" :loading="loading" :rules="[rules.required]" disabled box />
 				<v-select v-model="absence.type" :items="types" label="Type" :rules="[rules.required]" box />

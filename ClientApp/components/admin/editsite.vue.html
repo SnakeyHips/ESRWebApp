@@ -1,8 +1,8 @@
 ﻿<template>
 	<v-layout justify-center text-xs-center>
-		<v-flex lg4 md5 sm6 xs8>
+		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation v-if="!loading">
-				<h3>Edit Site</h3>
+				<p class="title">Edit Site</p>
 				<v-text-field v-model="site.name" label="Name" :rules="[rules.required]" box disabled />
 				<v-select v-model="site.type" :items="types" label="Type" :rules="[rules.required]" box />
 				<v-text-field v-model="site.times" label="Times" :rules="[rules.required]" box />

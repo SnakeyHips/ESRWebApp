@@ -40,24 +40,21 @@
 		</v-flex>
 	</v-layout>
 	<v-layout v-else column>
-		<v-flex class="text-xs-center mb-4" xs12>
-			<h4>{{ employee.id }} - {{ employee.name }}</h4>
-			<v-divider />
-			<v-menu lazy transition="scale-transition" full-width>
-				<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
-				<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1" full-width />
-			</v-menu>
-			<v-menu lazy transition="scale-transition" full-width>
-				<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
-				<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1" full-width />
-			</v-menu>
-			<v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details box />
-		</v-flex>
+		<p class="title text-xs-center">{{ employee.id }} - {{ employee.name }}</p>
+		<v-menu lazy transition="scale-transition" full-width>
+			<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" readonly box />
+			<v-date-picker v-model="startdate" v-on:change="loadSessions" first-day-of-week="1" full-width />
+		</v-menu>
+		<v-menu lazy transition="scale-transition" full-width>
+			<v-text-field slot="activator" v-model="endDateFormatted" label="End date" append-icon="event" readonly box />
+			<v-date-picker v-model="enddate" v-on:change="loadSessions" first-day-of-week="1" full-width />
+		</v-menu>
+		<v-text-field class="mb-4" v-model="search" append-icon="search" label="Search" single-line hide-details box />
 		<v-data-iterator :items="sessions" :search="search" :loading="loading" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
 				<v-card>
 					<v-card-title>
-						<h4>{{ props.item.date }} - {{ props.item.day }}</h4>
+						<span class="subheading font-weight-bold">{{ props.item.date }} - {{ props.item.day }}</span>
 					</v-card-title>
 					<v-divider class="ma-0" />
 					<v-list dense>

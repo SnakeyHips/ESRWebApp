@@ -1,4 +1,4 @@
-export interface SessionEmployee {
+﻿export interface SessionEmployee {
 	id: number;
 	sessionId: number;
 	sessionDate: string;

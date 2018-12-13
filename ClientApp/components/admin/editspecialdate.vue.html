@@ -1,8 +1,8 @@
 ﻿<template>
 	<v-layout justify-center text-xs-center>
-		<v-flex lg4 md5 sm6 xs8>
+		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation v-if="!loading">
-				<h3>Edit Special Date</h3>
+				<p class="title">Edit Special Date</p>
 				<v-text-field v-model="specialdate.name" label="Name" :rules="[rules.required]" disabled box/>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
 					<v-text-field slot="activator" v-model="dateFormatted" label="Date" append-icon="event" :rules="[rules.required]" readonly box></v-text-field>
