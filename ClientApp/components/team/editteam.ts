@@ -37,7 +37,7 @@ export default class EditTeamComponent extends Vue {
 
 	mounted() {
 		this.loading = true;
-		fetch('api/Employee/GetTeamEmployees')
+		fetch('api/Employee/GetEmployees')
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
