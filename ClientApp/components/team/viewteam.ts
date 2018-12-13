@@ -48,7 +48,6 @@ export default class ViewTeamComponent extends Vue {
 				fetch('api/Team/GetTeamSites?id=' + this.$route.params.id + '&startdate=' + this.startdate + '&enddate=' + this.enddate)
 					.then(response => response.json() as Promise<TeamSite[]>)
 					.then(data => {
-						console.log(JSON.stringify(data));
 						this.failed = false;
 						this.teamsites = data;
 						this.loading = false;
