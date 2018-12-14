@@ -92,8 +92,8 @@ namespace ERSWebApp.Controllers
                             e.LowRateUHours += t.LowRateUHours;
                             e.HighRateUHours += t.HighRateUHours;
                             e.OvertimeHours += t.OvertimeHours;
-                            e.NegHours += e.NegHours;
-                            e.COHours += e.COHours;
+                            e.NegHours += t.NegHours;
+                            e.COHours += t.COHours;
                             break;
                         }
                     }
