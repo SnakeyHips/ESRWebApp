@@ -384,6 +384,11 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	clear() {
+		this.team = {
+			id: 0,
+			name: "",
+			members: []
+		}
 		this.sessionsvs = [];
 		this.sessionsvs.push(this.createSessionEmployee("SV"));
 		this.sessiondris = [];
