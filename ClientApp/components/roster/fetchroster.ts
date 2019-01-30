@@ -39,7 +39,6 @@ export default class FetchRosterComponent extends Vue {
 
 	loadRoster() {
 		this.loading = true;
-		console.log(JSON.stringify(this.selectedWeeks));
 		fetch('api/Roster/GetRoster', {
 			method: 'POST',
 			body: JSON.stringify(this.selectedWeeks)
