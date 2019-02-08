@@ -439,5 +439,157 @@ namespace ERSWebApp.Controllers
                 return -1;
             }
         }
+
+        [HttpGet]
+        [Route("GetRoles")]
+        public List<Role> GetRoles()
+        {
+            string query = "SELECT * FROM RoleTable;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<Role>(query).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<Role>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetRoleNames")]
+        public List<string> GetRoleNames()
+        {
+            string query = "SELECT Name FROM RoleTable;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<string>(query).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<string>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetRoleById")]
+        public Role GetRoleById([FromQuery]int id)
+        {
+            string query = "SELECT * FROM RoleTable WHERE Id=@Id;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<Role>(query, new { id });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateRole")]
+        public int CreateRole()
+        {
+            Role site = new Role();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                site = JsonConvert.DeserializeObject<Role>(sr.ReadToEnd());
+            }
+            if (site != null)
+            {
+                string query = "IF NOT EXISTS (SELECT * FROM RoleTable WHERE Name=@Name) " +
+                "INSERT INTO RoleTable (Name) VALUES (@Name);";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, site);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateRole")]
+        public int UpdateRole()
+        {
+            Role site = new Role();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                site = JsonConvert.DeserializeObject<Role>(sr.ReadToEnd());
+            }
+            if (site != null)
+            {
+                string query = "UPDATE RoleTable SET Name=@Name WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, site);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteRole")]
+        public int DeleteRole([FromQuery]int id)
+        {
+            if (id > 0)
+            {
+                string query = "DELETE FROM RoleTable WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, new { id });
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
     }
 }

@@ -33,11 +33,22 @@ export default class CreateEmployeeComponent extends Vue {
 		status: ""
 	}
 
+	loading: boolean = false;
 	failed: boolean = false;
 	workpattern: string[] = [];
 	skills: string[] = [];
-	roles: string[] = ["SV", "DRI", "RN", "CCA"];
+	roles: string[] = [];
 	days: string[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+	mounted() {
+		this.loading = true;
+		fetch('api/Admin/GetRoleNames')
+			.then(response => response.json() as Promise<string[]>)
+			.then(data => {
+				this.roles = data;
+				this.loading = false;
+			});
+	}
 
 	createEmployee() {
 		this.failed = false;

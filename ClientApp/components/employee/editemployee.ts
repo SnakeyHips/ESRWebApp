@@ -37,7 +37,7 @@ export default class EditEmployeeComponent extends Vue {
 	failed: boolean = false;
 	skills: string[] = [];
 	workpattern: string[] = [];
-	roles: string[] = ["SV", "DRI", "RN", "CCA"];
+	roles: string[] = [];
 	days: string[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 
@@ -48,6 +48,7 @@ export default class EditEmployeeComponent extends Vue {
 			.then(data => {
 				this.employee = data;
 				this.workpattern = this.employee.workPattern.split(",");
+				this.loadRoles();
 				this.loadSkills();
 				this.loading = false;
 			});
@@ -71,6 +72,14 @@ export default class EditEmployeeComponent extends Vue {
 					this.$router.push('/fetchemployee');
 				}
 			})
+	}
+
+	loadRoles() {
+		fetch('api/Admin/GetRoleNames')
+			.then(response => response.json() as Promise<string[]>)
+			.then(data => {
+				this.roles = data;
+			});
 	}
 
 	loadSkills() {

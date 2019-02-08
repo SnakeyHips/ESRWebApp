@@ -20,8 +20,19 @@ export default class CreateSkillComponent extends Vue {
 		name: ""
 	}
 
+	loading: boolean = false;
 	failed: boolean = false;
-	roles: string[] = ["SV", "DRI", "RN", "CCA"];
+	roles: string[] = [];
+
+	mounted() {
+		this.loading = true;
+		fetch('api/Admin/GetRoleNames')
+			.then(response => response.json() as Promise<string[]>)
+			.then(data => {
+				this.roles = data;
+				this.loading = false;
+			});
+	}
 
 	createSkill() {
 		this.failed = false;

@@ -1,9 +1,9 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
-import { Skill } from '../../models/skill';
+import { Role } from '../../models/role';
 
 @Component
-export default class EditSkillComponent extends Vue {
+export default class EditRoleComponent extends Vue {
 	$refs!: {
 		form: HTMLFormElement
 	}
@@ -14,41 +14,30 @@ export default class EditSkillComponent extends Vue {
 		decimal: (value: string) => /^\d+(\.\d{1,2})?$/.test(value) || 'Value must be decimal e.g. "8.0" or "7.5"'
 	}
 
-	skill: Skill = {
+	role: Role = {
 		id: 0,
-		role: "",
-		name: ""
+		name: "",
 	}
 
 	loading: boolean = false;
 	failed: boolean = false;
-	roles: string[] = [];
 
 	mounted() {
 		this.loading = true;
-		fetch('api/Admin/GetSkillById?id=' + this.$route.params.id)
-			.then(respone => respone.json() as Promise<Skill>)
+		fetch('api/Admin/GetRoleById?id=' + this.$route.params.id)
+			.then(respone => respone.json() as Promise<Role>)
 			.then(data => {
-				this.skill = data;
-				this.loadRoles();
+				this.role = data;
 				this.loading = false;
 			});
 	}
 
-	loadRoles() {
-		fetch('api/Admin/GetRoleNames')
-			.then(response => response.json() as Promise<string[]>)
-			.then(data => {
-				this.roles = data;
-			});
-	}
-
-	editSkill() {
+	editRole() {
 		this.failed = false;
 		if (this.$refs.form.validate()) {
-			fetch('api/Admin/UpdateSkill', {
+			fetch('api/Admin/UpdateRole', {
 				method: 'PUT',
-				body: JSON.stringify(this.skill)
+				body: JSON.stringify(this.role)
 			})
 				.then(response => response.json() as Promise<number>)
 				.then(data => {
