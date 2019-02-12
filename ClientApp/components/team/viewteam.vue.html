@@ -56,7 +56,7 @@
 					<v-list dense>
 						<v-list-tile v-for="(member, i) in props.item.members" :key="member.employeeRole+i">
 							<v-list-tile-content>{{ member.employeeName }}:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: siteColour(member.sessionSite) }">{{ member.sessionSite }}</font></v-list-tile-content>
+							<v-list-tile-content class="align-end"><font :style="{ color: siteColour(member.sessionSite) }">{{ member.sessionSite }}</font></v-list-tile-content>
 						</v-list-tile>
 					</v-list>
 				</v-card>

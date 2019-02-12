@@ -1,6 +1,7 @@
 ﻿import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Absence } from '../../models/absence';
+import { AbsenceType } from '../../models/absencetype';
 
 @Component
 export default class EditAbsenceComponent extends Vue {
@@ -40,7 +41,7 @@ export default class EditAbsenceComponent extends Vue {
 	endDateFormatted = "";
 	loading: boolean = false;
 	failed: boolean = false;
-	types: string[] = ["Day Off", "Annual Leave", "Sick Leave", "Special Leave", "Training"];
+	absencetypes: AbsenceType[] = [];
 	partDays: string[] = ["Yes", "No"];
 
 	mounted() {
@@ -52,7 +53,16 @@ export default class EditAbsenceComponent extends Vue {
 				this.after = data;
 				this.formatStartDate();
 				this.formatEndDate();
+				this.loadAbsenceTypes();
 				this.loading = false;
+			});
+	}
+
+	loadAbsenceTypes() {
+		fetch('api/Admin/GetAbsenceTypes')
+			.then(response => response.json() as Promise<AbsenceType[]>)
+			.then(data => {
+				this.absencetypes = data;
 			});
 	}
 

@@ -123,7 +123,7 @@
 						</v-list-tile>
 						<v-list-tile>
 							<v-list-tile-content>Status:</v-list-tile-content>
-							<v-list-tile-content class="align-end"><font v-bind:style="{ color: statusColour(props.item.status) }">{{ props.item.status }}</font></v-list-tile-content>
+							<v-list-tile-content class="align-end"><font :style="{ color: statusColour(props.item.status) }">{{ props.item.status }}</font></v-list-tile-content>
 						</v-list-tile>
 					</v-list>
 				</v-card>

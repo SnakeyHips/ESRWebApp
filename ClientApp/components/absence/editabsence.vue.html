@@ -3,9 +3,19 @@
 		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<p class="title">Edit Absence</p>
-				<v-text-field v-model="after.employeeId" label="Staff Id" :rules="[rules.required, rules.number]" maxlength="8" disabled box />
-				<v-text-field v-model="after.employeeName" label="Staff Name" :rules="[rules.required]" disabled box />
-				<v-select v-model="after.type" :items="types" label="Type" :rules="[rules.required]" box />
+				<v-text-field label="Employee" disabled box >
+					<template slot="label">
+						{{ after.employeeId }} - {{ after.employeeName }}
+					</template>
+				</v-text-field>
+				<v-select v-model="after.type" :items="absencetypes" label="Type" :rules="[rules.required]" item-value="name" box>
+					<template slot="selection" slot-scope="data">
+						<span :style="{'color': data.item.colour}">{{ data.item.name }} </span>
+					</template>
+					<template slot="item" slot-scope="data">
+						<span :style="{'color': data.item.colour}">{{ data.item.name }} </span>
+					</template>
+				</v-select>
 				<v-menu lazy transition="scale-transition" full-width min-width="290px">
 					<v-text-field slot="activator" v-model="startDateFormatted" label="Start date" append-icon="event" :rules="[rules.required]" readonly disabled box />
 					<v-date-picker v-model="after.startDate" v-on:change="formatStartDate" first-day-of-week="1" />

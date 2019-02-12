@@ -392,7 +392,7 @@
 			<v-btn flat color="accent" v-on:click.native="createAbsenceType">Create</v-btn>
 		</v-toolbar>
 		<v-text-field class="mb-4" v-model="searchAbsenceType" append-icon="search" label="Search" single-line hide-details box />
-		<v-data-iterator :items="sites" :search="searchAbsenceType" :loading="loadingAbsenceType" row wrap>
+		<v-data-iterator :items="absencetypes" :search="searchAbsenceType" :loading="loadingAbsenceType" row wrap>
 			<v-flex slot="item" slot-scope="props" class="mb-4" xs12>
 				<v-card>
 					<v-card-title>
@@ -416,7 +416,7 @@
 					<v-list dense>
 						<v-list-tile>
 							<v-list-tile-content>Colour:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ props.item.colour }}</v-list-tile-content>
+							<v-list-tile-content class="align-end" :style="{ 'color': props.item.colour }">{{ props.item.colour }}</v-list-tile-content>
 						</v-list-tile>
 					</v-list>
 				</v-card>
