@@ -18,6 +18,7 @@ export default class ViewEmployeeComponent extends Vue {
 		{ text: 'Day', value: 'day' },
 		{ text: 'Site', value: 'site' },
 		{ text: 'Time', value: 'time' },
+		{ text: 'Template', value: 'template' },
 		{ text: 'Chairs', value: 'chairs' },
 		{ text: 'OCC', value: 'occ' },
 		{ text: 'Estimate', value: 'estimate' },

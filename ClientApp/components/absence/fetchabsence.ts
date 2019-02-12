@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Absence } from '../../models/absence';
 import { SelectedDate } from '../../models/selecteddate';
+import { AbsenceType } from '../../models/absencetype';
 
 @Component
 export default class FetchAbsenceComponent extends Vue {
@@ -12,6 +13,7 @@ export default class FetchAbsenceComponent extends Vue {
 	search: string = "";
 	failed: boolean = false;
 	dialog: boolean = false;
+	absencetypes: AbsenceType[] = [];
 	headers: object[] = [
 		{ text: 'Employee Id', value: 'employeeId' },
 		{ text: 'Employee Name', value: 'employeeName' },
@@ -35,6 +37,7 @@ export default class FetchAbsenceComponent extends Vue {
 
 	mounted() {
 		this.loadAbsences();
+		this.loadAbsenceTypes();
 	}
 
 	loadAbsences() {
@@ -48,18 +51,19 @@ export default class FetchAbsenceComponent extends Vue {
 			});
 	}
 
+	loadAbsenceTypes() {
+		fetch('api/Admin/GetAbsenceTypes')
+			.then(response => response.json() as Promise<AbsenceType[]>)
+			.then(data => {
+				this.absencetypes = data;
+			});
+	}
+
 	typeColour(type: string) {
-		switch (type) {
-			case "Day Off":
-				return "LightGray";
-			case "Annual Leave":
-				return "Plum";
-			case "Sick Leave":
-				return "LightSeaGreen";
-			case "Special Leave":
-				return "LightCoral";
-			case "Training":
-				return "CornflowerBlue";
+		for (var i = 0; i < this.absencetypes.length; i++) {
+			if (this.absencetypes[i].name === type) {
+				return this.absencetypes[i].colour;
+			}
 		}
 	}
 

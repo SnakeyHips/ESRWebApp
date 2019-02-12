@@ -27,6 +27,7 @@ export default class EditSessionComponent extends Vue {
 		estimate: 0,
 		holiday: 0,
 		note: "",
+		template: "",
 		staffCount: 0,
 		state: 0,
 		employees: []
@@ -35,9 +36,11 @@ export default class EditSessionComponent extends Vue {
 	dateFormatted = "";
 	loading: boolean = false;
 	failed: boolean = false;
+	templates: string[] = [];
 
 	mounted() {
 		this.loading = true;
+		this.loadTemplates();
 		fetch('api/Session/GetById?id=' + this.$route.params.id)
 			.then(respone => respone.json() as Promise<Session>)
 			.then(data => {
@@ -63,6 +66,14 @@ export default class EditSessionComponent extends Vue {
 					}
 				})
 		}
+	}
+
+	loadTemplates() {
+		fetch('api/Admin/GetTemplateNames')
+			.then(response => response.json() as Promise<string[]>)
+			.then(data => {
+				this.templates = data;
+			})
 	}
 
 	cancel() {

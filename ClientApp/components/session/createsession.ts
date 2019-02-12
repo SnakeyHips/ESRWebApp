@@ -30,6 +30,7 @@ export default class CreateSessionComponent extends Vue {
 		estimate: 0,
 		holiday: 0,
 		note: "",
+		template: "",
 		staffCount: 0,
 		state: 0,
 		employees: []
@@ -39,7 +40,12 @@ export default class CreateSessionComponent extends Vue {
 	types: string[] = ["Community", "MDC"];
 	sites: Site[] = [];
 	times: string[] = [];
+	templates: string[] = [];
 	failed: boolean = false;
+
+	mounted() {
+		this.loadTemplates();
+	}
 
 	createSession() {
 		this.failed = false;
@@ -74,6 +80,14 @@ export default class CreateSessionComponent extends Vue {
 				this.times = this.sites[i].times.split('/');
 			}
 		}
+	}
+
+	loadTemplates() {
+		fetch('api/Admin/GetTemplateNames')
+			.then(response => response.json() as Promise<string[]>)
+			.then(data => {
+				this.templates = data;
+			})
 	}
 
 	formatDate() {

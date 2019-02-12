@@ -32,10 +32,14 @@ const routes = [
 	{ path: '/editspecialdate/:id', component: require('./components/admin/editspecialdate.vue.html').default },
 	{ path: '/createrole', component: require('./components/admin/createrole.vue.html').default },
 	{ path: '/editrole/:id', component: require('./components/admin/editrole.vue.html').default },
+	{ path: '/createtemplate', component: require('./components/admin/createtemplate.vue.html').default },
+	{ path: '/edittemplate/:id', component: require('./components/admin/edittemplate.vue.html').default },
 	{ path: '/createskill', component: require('./components/admin/createskill.vue.html').default },
 	{ path: '/editskill/:id', component: require('./components/admin/editskill.vue.html').default },
 	{ path: '/createsite', component: require('./components/admin/createsite.vue.html').default },
 	{ path: '/editsite/:id', component: require('./components/admin/editsite.vue.html').default },
+	{ path: '/createabsencetype', component: require('./components/admin/createabsencetype.vue.html').default },
+	{ path: '/editabsencetype/:id', component: require('./components/admin/editabsencetype.vue.html').default },
 ];
 
 new Vue({

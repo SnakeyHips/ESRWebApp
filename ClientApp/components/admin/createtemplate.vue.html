@@ -1,0 +1,31 @@
+﻿<template>
+	<v-layout justify-center text-xs-center>
+		<v-flex lg4 md6 sm8 xs12>
+			<v-form ref="form" lazy-validation v-if="!loading">
+				<p class="title">Create Template</p>
+				<v-text-field v-model="template.name" label="Name" :rules="[rules.required]" box />
+				<transition-group name="fade" mode="out-in">
+					<v-layout justify-center text-xs-center v-for="(role, i) in templateRoles" :key="`role-${i}`">
+						<v-select box v-model="templateRoles[i]" :items="roles" label="Role" />
+					</v-layout>
+				</transition-group>
+				<v-layout justify-center>
+					<v-btn flat icon color="accent" v-on:click="addRole" class="mb-4">
+						<v-icon>add</v-icon>
+					</v-btn>
+					<v-btn flat icon color="accent" v-on:click="removeRole" class="mb-4">
+						<v-icon>remove</v-icon>
+					</v-btn>
+				</v-layout>
+
+				<v-btn color="accent" v-on:click="createTemplate">Submit</v-btn>
+				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
+				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>
+				<v-snackbar v-model="failed" color="error">Failed to create template!<v-btn dark flat @click="failed = false">Close</v-btn></v-snackbar>
+			</v-form>
+			<v-progress-circular v-else color="primary" indeterminate />
+		</v-flex>
+	</v-layout>
+</template>
+
+<script src="./createtemplate.ts"></script>

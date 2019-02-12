@@ -7,6 +7,7 @@ export interface Session {
 	type: string;
 	site: string;
 	time: string;
+	template: string;
 	lod: number;
 	chairs: number;
 	occ: number;

@@ -31,7 +31,7 @@
 							<td>{{ props.item.number }}</td>
 							<td>{{ props.item.contractHours }}</td>
 							<td>{{ props.item.workPattern }}</td>
-							<td><font v-bind:style="{ color: statusColour(props.item.status) }">{{ props.item.status }}</font></td>
+							<td><font :style="{ color: statusColour(props.item.status) }">{{ props.item.status }}</font></td>
 						</tr>
 					</template>
 					<template slot="expand" slot-scope="props">

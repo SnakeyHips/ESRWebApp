@@ -25,7 +25,7 @@
 						<tr @click="props.expanded = !props.expanded">
 							<td>{{ props.item.employeeId }}</td>
 							<td>{{ props.item.employeeName }}</td>
-							<td><font v-bind:style="{ color: typeColour(props.item.type) }">{{ props.item.type }}</font></td>
+							<td><font :style="{ color: typeColour(props.item.type) }">{{ props.item.type }}</font></td>
 							<td>{{ dateFormat(props.item.startDate) }}</td>
 							<td>{{ dateFormat(props.item.endDate) }}</td>
 							<td>{{ props.item.partDay }}</td>

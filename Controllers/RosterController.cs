@@ -434,6 +434,14 @@ namespace ERSWebApp.Controllers
                     before = sessions[0];
                     after = sessions[1];
                 }
+                // Remove any blank employees
+                for(int i = after.Employees.Count-1; i >= 0; i--)
+                {
+                    if (after.Employees[i].EmployeeId < 1)
+                    {
+                        after.Employees.RemoveAt(i);
+                    }
+                }
                 switch (after.Holiday)
                 {
                     case 0:
@@ -446,44 +454,26 @@ namespace ERSWebApp.Controllers
                         UpdateRosterHighRate(before, after);
                         break;
                 }
-                //check if state complete
-                if (after.Chairs < 9)
+                // Check if state complete by comparing StaffCount with Template
+                List<string> templateRoles = AdminController.GetTemplateByNameStatic(after.Template).Split(",").ToList();
+                // First remove and roles which shouldn't be included such as RN
+                for (int j = templateRoles.Count - 1; j >= 0; j--)
                 {
-                    if (after.Chairs < 6 && after.Type.Equals("MDC"))
+                    if (templateRoles[j].Equals("RN"))
                     {
-                        if (after.StaffCount < 3)
-                        {
-                            after.State = 0;
-                        }
-                        else
-                        {
-                            after.State = 1;
-                        }
+                        templateRoles.RemoveAt(j);
                     }
-                    else
-                    {
-                        if (after.StaffCount < 5)
-                        {
-                            after.State = 0;
-                        }
-                        else
-                        {
-                            after.State = 1;
-                        }
-                    }
+                }
+                // Then check if StaffCount is more than/equal to left over roles
+                if(after.StaffCount >= templateRoles.Count)
+                {
+                    after.State = 1;
                 }
                 else
                 {
-                    if (after.StaffCount < 6)
-                    {
-                        after.State = 0;
-                    }
-                    else
-                    {
-                        after.State = 1;
-                    }
+                    after.State = 0;
                 }
-                //Update SessionEmployee data
+                // Update SessionEmployee data
                 int rows = 0;
                 if (after != null)
                 {

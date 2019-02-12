@@ -504,12 +504,12 @@ namespace ERSWebApp.Controllers
         [Route("CreateRole")]
         public int CreateRole()
         {
-            Role site = new Role();
+            Role role = new Role();
             using (StreamReader sr = new StreamReader(Request.Body))
             {
-                site = JsonConvert.DeserializeObject<Role>(sr.ReadToEnd());
+                role = JsonConvert.DeserializeObject<Role>(sr.ReadToEnd());
             }
-            if (site != null)
+            if (role != null)
             {
                 string query = "IF NOT EXISTS (SELECT * FROM RoleTable WHERE Name=@Name) " +
                 "INSERT INTO RoleTable (Name) VALUES (@Name);";
@@ -518,7 +518,7 @@ namespace ERSWebApp.Controllers
                     try
                     {
                         conn.Open();
-                        return conn.Execute(query, site);
+                        return conn.Execute(query, role);
                     }
                     catch (Exception ex)
                     {
@@ -537,20 +537,21 @@ namespace ERSWebApp.Controllers
         [Route("UpdateRole")]
         public int UpdateRole()
         {
-            Role site = new Role();
+            Role role = new Role();
             using (StreamReader sr = new StreamReader(Request.Body))
             {
-                site = JsonConvert.DeserializeObject<Role>(sr.ReadToEnd());
+                role = JsonConvert.DeserializeObject<Role>(sr.ReadToEnd());
             }
-            if (site != null)
+            if (role != null)
             {
-                string query = "UPDATE RoleTable SET Name=@Name WHERE Id=@Id;";
+                string query = "IF NOT EXISTS (SELECT * FROM RoleTable WHERE Name=@Name) " +
+                    "UPDATE RoleTable SET Name=@Name WHERE Id=@Id;";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
                     {
                         conn.Open();
-                        return conn.Execute(query, site);
+                        return conn.Execute(query, role);
                     }
                     catch (Exception ex)
                     {
@@ -572,6 +573,318 @@ namespace ERSWebApp.Controllers
             if (id > 0)
             {
                 string query = "DELETE FROM RoleTable WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, new { id });
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTemplates")]
+        public List<Template> GetTemplates()
+        {
+            string query = "SELECT * FROM TemplateTable;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<Template>(query).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<Template>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTemplateNames")]
+        public List<string> GetTemplateNames()
+        {
+            string query = "SELECT Name FROM TemplateTable;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<string>(query).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<string>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTemplateById")]
+        public Template GetTemplateById([FromQuery]int id)
+        {
+            string query = "SELECT * FROM TemplateTable WHERE Id=@Id;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<Template>(query, new { id });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetTemplateByName")]
+        [Produces("application/json")]
+        public string GetTemplateByName(string name)
+        {
+            return GetTemplateByNameStatic(name);
+        }
+
+
+
+        public static string GetTemplateByNameStatic(string name)
+        {
+            string query = "SELECT Roles FROM TemplateTable WHERE Name=@Name;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<string>(query, new { name });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateTemplate")]
+        public int CreateTemplate()
+        {
+            Template template = new Template();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                template = JsonConvert.DeserializeObject<Template>(sr.ReadToEnd());
+            }
+            if (template != null)
+            {
+                string query = "IF NOT EXISTS (SELECT * FROM TemplateTable WHERE Name=@Name) " +
+                "INSERT INTO TemplateTable (Name, Roles) VALUES (@Name, @Roles);";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, template);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateTemplate")]
+        public int UpdateTemplate()
+        {
+            Template template = new Template();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                template = JsonConvert.DeserializeObject<Template>(sr.ReadToEnd());
+            }
+            if (template != null)
+            {
+                string query = "UPDATE TemplateTable SET Roles=@Roles WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, template);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteTemplate")]
+        public int DeleteTemplate([FromQuery]int id)
+        {
+            if (id > 0)
+            {
+                string query = "DELETE FROM TemplateTable WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, new { id });
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAbsenceTypes")]
+        public List<AbsenceType> GetAbsenceTypes()
+        {
+            string query = "SELECT * FROM AbsenceTypeTable;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.Query<AbsenceType>(query).ToList();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return new List<AbsenceType>();
+                }
+            }
+        }
+
+        [HttpGet]
+        [Route("GetAbsenceTypeById")]
+        public AbsenceType GetAbsenceTypeById([FromQuery]int id)
+        {
+            string query = "SELECT * FROM AbsenceTypeTable WHERE Id=@Id;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    return conn.QueryFirstOrDefault<AbsenceType>(query, new { id });
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateAbsenceType")]
+        public int CreateAbsenceType()
+        {
+            AbsenceType absencetype = new AbsenceType();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                absencetype = JsonConvert.DeserializeObject<AbsenceType>(sr.ReadToEnd());
+            }
+            if (absencetype != null)
+            {
+                string query = "IF NOT EXISTS (SELECT * FROM AbsenceTypeTable WHERE Name=@Name) " +
+                "INSERT INTO AbsenceTypeTable (Name, Colour) VALUES (@Name, @Colour);";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, absencetype);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateAbsenceType")]
+        public int UpdateAbsenceType()
+        {
+            AbsenceType absencetype = new AbsenceType();
+            using (StreamReader sr = new StreamReader(Request.Body))
+            {
+                absencetype = JsonConvert.DeserializeObject<AbsenceType>(sr.ReadToEnd());
+            }
+            if (absencetype != null)
+            {
+                string query = "UPDATE AbsenceTypeTable SET Colour=@Colour WHERE Id=@Id;";
+                using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        return conn.Execute(query, absencetype);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex);
+                        return -1;
+                    }
+                }
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteAbsenceType")]
+        public int DeleteAbsenceType([FromQuery]int id)
+        {
+            if (id > 0)
+            {
+                string query = "DELETE FROM AbsenceTypeTable WHERE Id=@Id;";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try

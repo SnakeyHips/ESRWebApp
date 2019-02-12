@@ -2,6 +2,7 @@
 import { Component } from 'vue-property-decorator';
 import { Absence } from '../../models/absence';
 import { Employee } from '../../models/employee';
+import { AbsenceType } from '../../models/absencetype';
 
 @Component
 export default class CreateAbsenceComponent extends Vue {	
@@ -32,8 +33,39 @@ export default class CreateAbsenceComponent extends Vue {
 	loading: boolean = false;
 	failed: boolean = false;
 	errormessage: string = "";
-	types: string[] = ["Day Off", "Annual Leave", "Sick Leave", "Special Leave", "Training"];
+	absencetypes: AbsenceType[] = [];
+	employees: Employee[] = [];
 	partDays: string[] = ["Yes", "No"];
+
+	mounted() {
+		this.loading = true;
+		this.loadAbsenceTypes();
+		this.loadEmployees();
+		this.loading = false;
+	}
+
+	loadEmployees() {
+		fetch('api/Employee/GetEmployees')
+			.then(response => response.json() as Promise<Employee[]>)
+			.then(data => {
+				this.employees = data;
+			});
+	}
+
+	loadAbsenceTypes() {
+		fetch('api/Admin/GetAbsenceTypes')
+			.then(response => response.json() as Promise<AbsenceType[]>)
+			.then(data => {
+				this.absencetypes = data;
+			});
+	}
+
+	customFilter(item: Employee, queryText: string, itemText: string) {
+		// Search via the Employee Id/Name rather than itemText as yields better results
+		const idText = item.id.toString().toLowerCase();
+		const nameText = item.name.toLowerCase();
+		return idText.indexOf(queryText.toLowerCase()) > -1 || nameText.indexOf(queryText.toLowerCase()) > -1;
+	}
 
 	createAbsence() {
 		this.failed = false;
@@ -56,24 +88,6 @@ export default class CreateAbsenceComponent extends Vue {
 				this.failed = true;
 			}
 		}
-	}
-
-	search() {
-		this.failed = false;
-		this.loading = true;
-		fetch('api/Employee/GetById?id=' + this.absence.employeeId)
-			.then(response => response.json() as Promise<Employee>)
-			.then(data => {
-				if (data.id > 0) {
-					this.absence.employeeName = data.name;
-					this.iddisable = true;
-					this.loading = false;
-				} else {
-					this.errormessage = "Couldn't find Employee by that Id!";
-					this.failed = true;
-					this.loading = false;
-				}
-			})
 	}
 
 	formatStartDate() {

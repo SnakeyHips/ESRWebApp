@@ -19,6 +19,7 @@ export default class FetchSessionComponent extends Vue {
 		{ text: 'Site', value: 'site' },
 		{ text: 'Time', value: 'time' },
 		{ text: 'Type', value: 'type' },
+		{ text: 'Template', value: 'template' },
 		{ text: 'LOD', value: 'lod' },
 		{ text: 'Chairs', value: 'chairs' },
 		{ text: 'OCC', value: 'occ' },
@@ -39,6 +40,7 @@ export default class FetchSessionComponent extends Vue {
 		estimate: 0,
 		holiday: 0,
 		note: "",
+		template: "",
 		staffCount: 0,
 		state: 0,
 		employees: []
@@ -60,11 +62,8 @@ export default class FetchSessionComponent extends Vue {
 	}
 
 	stateColour(state: number) {
-		switch (state) {
-			case 0:
-				return 'gray';
-			case 2:
-				return 'red';
+		if (state < 1) {
+			return 'grey';
 		}
 	}
 

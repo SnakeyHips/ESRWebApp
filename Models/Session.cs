@@ -10,6 +10,7 @@ namespace ERSWebApp.Models
         public string Type { get; set; }
         public string Site { get; set; }
         public string Time { get; set; }
+        public string Template { get; set; }
         public double LOD { get; set; }
         public int Chairs { get; set; }
         public int OCC { get; set; }

@@ -70,6 +70,8 @@ namespace ERSWebApp.Controllers
             }
             if (absence != null)
             {
+                // Have to get Employee's name first
+                absence.EmployeeName = EmployeeController.GetByIdStatic(absence.EmployeeId).Name;
                 string query = "IF NOT EXISTS (SELECT * FROM AbsenceTable WHERE EmployeeId=@EmployeeId AND StartDate=@StartDate) " +
                 "INSERT INTO AbsenceTable (EmployeeId, EmployeeName, Type, StartDate, EndDate, PartDay, Hours)" +
                 "VALUES (@EmployeeId, @EmployeeName, @Type, @StartDate, @EndDate, @PartDay, @Hours);";

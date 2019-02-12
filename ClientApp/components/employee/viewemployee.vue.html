@@ -30,6 +30,7 @@
 						<td>{{ props.item.day }}</td>
 						<td>{{ props.item.site }}</td>
 						<td>{{ props.item.time }}</td>
+						<td>{{ props.item.template }}</td>
 						<td>{{ props.item.chairs }}</td>
 						<td>{{ props.item.occ }}</td>
 						<td>{{ props.item.estimate }}</td>
@@ -65,6 +66,10 @@
 						<v-list-tile>
 							<v-list-tile-content>Time:</v-list-tile-content>
 							<v-list-tile-content class="align-end">{{ props.item.time }}</v-list-tile-content>
+						</v-list-tile>
+						<v-list-tile>
+							<v-list-tile-content>Template:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.template }}</v-list-tile-content>
 						</v-list-tile>
 						<v-list-tile>
 							<v-list-tile-content>Chairs:</v-list-tile-content>

@@ -5,6 +5,7 @@ import { Employee } from '../../models/employee';
 import { Team } from '../../models/team';
 import { SessionEmployee } from '../../models/sessionemployee';
 import { TeamMember } from '../../models/teammember';
+import { Template } from '../../models/template';
 
 @Component
 export default class RosterSessionComponent extends Vue {
@@ -24,6 +25,9 @@ export default class RosterSessionComponent extends Vue {
 	errorMessage: string = "";
 	loading: boolean = false;
 	holiday: boolean = false;
+	roles: string[] = [];
+	employees: Employee[] = [];
+	teams: Team[] = [];
 
 	before: Session = {
 		id: 0,
@@ -38,6 +42,7 @@ export default class RosterSessionComponent extends Vue {
 		estimate: 0,
 		holiday: 0,
 		note: "",
+		template: "",
 		staffCount: 0,
 		state: 0,
 		employees: []
@@ -56,6 +61,7 @@ export default class RosterSessionComponent extends Vue {
 		estimate: 0,
 		holiday: 0,
 		note: "",
+		template: "",
 		staffCount: 0,
 		state: 0,
 		employees: []
@@ -67,21 +73,12 @@ export default class RosterSessionComponent extends Vue {
 		members: []
 	}
 
-	employees: Employee[] = [];
-	teams: Team[] = [];
-	svs: Employee[] = [];
-	dris: Employee[] = [];
-	rns: Employee[] = [];
-	ccas: Employee[] = [];
-	sessionsvs: SessionEmployee[] = [];
-	sessiondris: SessionEmployee[] = [];
-	sessionccas: SessionEmployee[] = [];
-	sessionrns: SessionEmployee[] = [];
+
 
 	mounted() {
 		this.loading = true;
 		//Get session first
-		fetch('api/Session/GetById?id=' + this.$route.params.id)
+		fetch('api/Session/GetByIdRoster?id=' + this.$route.params.id)
 			.then(respone => respone.json() as Promise<Session>)
 			.then(data => {
 				this.before = JSON.parse(JSON.stringify(data));
@@ -89,8 +86,8 @@ export default class RosterSessionComponent extends Vue {
 				if (this.after.holiday > 0) {
 					this.holiday = true;
 				}
-				this.filterSessionRoles();
 				//then get available and teams
+				this.loadRoles();
 				this.loadAvailable();
 				this.loadTeams();
 				this.loading = false;
@@ -129,51 +126,38 @@ export default class RosterSessionComponent extends Vue {
 		return temp;
 	}
 
-	addSV() {
-		if (this.sessionsvs.length < 2) {
-			this.sessionsvs.push(this.createSessionEmployee("SV"));
+	addEmployee() {
+		if (this.after.employees.length < 20) {
+			this.after.employees.push(this.createSessionEmployee(''));
 		}
 	}
 
-	addDRI() {
-		if (this.sessiondris.length < 2) {
-			this.sessiondris.push(this.createSessionEmployee("DRI"));
-		}
-	}
-	addCCA() {
-		if (this.sessionccas.length < 5) {
-			this.sessionccas.push(this.createSessionEmployee("CCA"));
+	removeEmployee() {
+		if (this.after.employees.length > 1) {
+			this.after.employees.pop();
 		}
 	}
 
-	addRN() {
-		if (this.sessionrns.length < 5) {
-			this.sessionrns.push(this.createSessionEmployee("RN"));
-		}
+	loadRoles() {
+		fetch('api/Admin/GetRoleNames')
+			.then(response => response.json() as Promise<string[]>)
+			.then(data => {
+				this.roles = data;
+			})
 	}
 
-	removeSV() {
-		if (this.sessionsvs.length > 1) {
-			this.sessionsvs.pop();
-		}
-	}
-
-	removeDRI() {
-		if (this.sessiondris.length > 1) {
-			this.sessiondris.pop();
-		}
-	}
-
-	removeCCA() {
-		if (this.sessionccas.length > 1) {
-			this.sessionccas.pop();
-		}
-	}
-
-	removeRN() {
-		if (this.sessionrns.length > 1) {
-			this.sessionrns.pop();
-		}
+	loadTemplate() {
+		this.loading = true;
+		this.after.employees = [];
+		fetch('api/Admin/GetTemplateByName?name=' + this.after.template)
+			.then(response => response.json() as Promise<string>)
+			.then(data => {
+				let templateRoles: string[] = data.split(',');
+				for (var i = 0; i < templateRoles.length; i++) {
+					this.after.employees.push(this.createSessionEmployee(templateRoles[i]));
+				}
+				this.loading = false;
+			});
 	}
 
 	loadAvailable() {
@@ -181,7 +165,6 @@ export default class RosterSessionComponent extends Vue {
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
-				this.filterRoles();
 			});
 	}
 
@@ -193,94 +176,21 @@ export default class RosterSessionComponent extends Vue {
 			});
 	}
 
-	filterRoles() {
-		for (var i = 0; i < this.employees.length; i++) {
-			switch (this.employees[i].role) {
-				case "SV":
-					this.svs.push(this.employees[i]);
-					break;
-				case "DRI":
-					this.dris.push(this.employees[i]);
-					break;
-				case "CCA":
-					this.ccas.push(this.employees[i]);
-					break;
-				case "RN":
-					this.rns.push(this.employees[i]);
-					break;
-			}
-		}
-	}
-
-	filterSessionRoles() {
-		for (var i = 0; i < this.after.employees.length; i++) {
-			switch (this.after.employees[i].employeeRole) {
-				case "SV":
-					this.sessionsvs.push(this.after.employees[i]);
-					break;
-				case "DRI":
-					this.sessiondris.push(this.after.employees[i]);
-					break;
-				case "CCA":
-					this.sessionccas.push(this.after.employees[i]);
-					break;
-				case "RN":
-					this.sessionrns.push(this.after.employees[i]);
-					break;
-			}
-		}
-		if (this.sessionsvs.length < 1) {
-			this.sessionsvs.push(this.createSessionEmployee("SV"));
-		}
-		if (this.sessiondris.length < 1) {
-			this.sessiondris.push(this.createSessionEmployee("DRI"));
-		}
-		if (this.sessionccas.length < 1) {
-			this.sessionccas.push(this.createSessionEmployee("CCA"));
-		}
-		if (this.sessionrns.length < 1) {
-			this.sessionrns.push(this.createSessionEmployee("RN"));
-		}
-	}
-
-	setTeam() {
-		this.sessionsvs = [];
-		this.sessiondris = [];
-		this.sessionccas = [];
-		this.sessionrns = [];
+	populateTeam() {
+		// Replaces Template with Team
+		this.after.employees = [];
 		for (var i = 0; i < this.team.members.length; i++) {
 			if (this.searchTeam(this.team.members[i].employeeId)) {
-				switch (this.team.members[i].employeeRole) {
-					case "SV":
-						this.sessionsvs.push(this.convertSessionEmployee(this.team.members[i]));
-						break;
-					case "DRI":
-						this.sessiondris.push(this.convertSessionEmployee(this.team.members[i]));
-						break;
-					case "CCA":
-						this.sessionccas.push(this.convertSessionEmployee(this.team.members[i]));
-						break;
-					case "RN":
-						this.sessionrns.push(this.convertSessionEmployee(this.team.members[i]));
-						break;
-				}
-			} else {
-				switch (this.team.members[i].employeeRole) {
-					case "SV":
-						this.sessionsvs.push(this.createSessionEmployee("SV"));
-						break;
-					case "DRI":
-						this.sessiondris.push(this.createSessionEmployee("DRI"));
-						break;
-					case "CCA":
-						this.sessionccas.push(this.createSessionEmployee("CCA"));
-						break;
-					case "RN":
-						this.sessionrns.push(this.createSessionEmployee("RN"));
-						break;
-				}
+				this.after.employees.push(this.convertSessionEmployee(this.team.members[i]));
 			}
 		}
+	}
+
+	customFilter(item: Employee, queryText: string, itemText: string) {
+		// Search via the Employee Id/Name rather than itemText as yields better results
+		const idText = item.id.toString().toLowerCase();
+		const nameText = item.name.toLowerCase();
+		return idText.indexOf(queryText.toLowerCase()) > -1 || nameText.indexOf(queryText.toLowerCase()) > -1;
 	}
 
 	searchTeam(id: number) {
@@ -297,70 +207,30 @@ export default class RosterSessionComponent extends Vue {
 	checkDuplicates() {
 		this.failed = false;
 		var duplicate: boolean = false;
-		for (var i = 0; i < this.sessionsvs.length - 1; i++) {
-			if (this.sessionsvs[i + 1].employeeId == this.sessionsvs[i].employeeId) {
-				this.failed = true;
-				this.errorMessage = "Duplicate SV found!";
-				duplicate = true;
-				break;
-			}
-		}
-		for (var i = 0; i < this.sessiondris.length - 1; i++) {
-			if (this.sessiondris[i + 1].employeeId == this.sessiondris[i].employeeId) {
-				this.failed = true;
-				this.errorMessage = "Duplicate DRI found!";
-				duplicate = true;
-				break;
-			}
-		}
-		for (var i = 0; i < this.sessionccas.length - 1; i++) {
-			if (this.sessionccas[i + 1].employeeId == this.sessionccas[i].employeeId) {
-				this.failed = true;
-				this.errorMessage = "Duplicate CCA found!";
-				duplicate = true;
-				break;
-			}
-		}
-		for (var i = 0; i < this.sessionrns.length - 1; i++) {
-			if (this.sessionrns[i + 1].employeeId == this.sessionrns[i].employeeId) {
-				this.failed = true;
-				this.errorMessage = "Duplicate RN found!";
-				duplicate = true;
-				break;
+		for (var i = 0; i < this.after.employees.length; i++) {
+			if (this.after.employees[i].employeeId > 0) {
+				for (var j = 0; j < this.after.employees.length; j++) {
+					if (this.after.employees[j].employeeId > 0) {
+						if (this.after.employees[i] != this.after.employees[j]) {
+							if (this.after.employees[i].employeeId === this.after.employees[j].employeeId) {
+								this.failed = true;
+								this.errorMessage = "Duplicate employee rostered!";
+								duplicate = true;
+								break;
+							}
+						}
+					}
+				}
 			}
 		}
 		return duplicate;
 	}
 
-	populateEmployees() {
-		this.after.employees = [];
-		for (var i = 0; i < this.sessionsvs.length; i++) {
-			if (this.sessionsvs[i].employeeId > 0) {
-				this.after.employees.push(this.sessionsvs[i]);
-			}
-		}
-		for (var i = 0; i < this.sessiondris.length; i++) {
-			if (this.sessiondris[i].employeeId > 0) {
-				this.after.employees.push(this.sessiondris[i]);
-			}
-		}
-		for (var i = 0; i < this.sessionccas.length; i++) {
-			if (this.sessionccas[i].employeeId > 0) {
-				this.after.employees.push(this.sessionccas[i]);
-			}
-		}
-		for (var i = 0; i < this.sessionrns.length; i++) {
-			if (this.sessionrns[i].employeeId > 0) {
-				this.after.employees.push(this.sessionrns[i]);
-			}
-		}
-	}
-
 	rosterSession() {
 		this.failed = false;
 		this.loading = true;
+		// Then check for duplicates
 		if (!this.checkDuplicates()) {
-			this.populateEmployees();
 			let sessions: Session[] = [];
 			sessions.push(this.before);
 			sessions.push(this.after);
@@ -388,15 +258,8 @@ export default class RosterSessionComponent extends Vue {
 			id: 0,
 			name: "",
 			members: []
-		}
-		this.sessionsvs = [];
-		this.sessionsvs.push(this.createSessionEmployee("SV"));
-		this.sessiondris = [];
-		this.sessiondris.push(this.createSessionEmployee("DRI"));
-		this.sessionccas = [];
-		this.sessionccas.push(this.createSessionEmployee("CCA"));
-		this.sessionrns = [];
-		this.sessionrns.push(this.createSessionEmployee("RN"));
+		}	
+		this.loadTemplate();
 	}
 
 	cancel() {

@@ -3,36 +3,28 @@
 		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<p class="title">Edit Team</p>
+				<v-text-field v-model="team.name" label="Name" :rules="[rules.required]" box />
+				<transition-group name="fade" mode="out-in">
+					<v-layout justify-space-between row wrap v-for="(member, i) in members" :key="`employee-${i}`">
+						<v-flex sm5 xs12>
+							<v-select box v-model="member.employeeRole" :items="roles" label="Role" />
+						</v-flex>
+						<v-flex sm5 xs12>
+							<v-autocomplete box v-model="member.employeeId" :items="employees" label="Member"
+											item-value="id" :filter="customFilter">
+								<template slot="selection" slot-scope="data">
+									{{ data.item.id }} - {{ data.item.name }}
+								</template>
+								<template slot="item" slot-scope="data">
+									{{ data.item.id }} - {{ data.item.name }}
+								</template>
+							</v-autocomplete>
+						</v-flex>
+					</v-layout>
+				</transition-group>
 				<div>
-					<v-text-field v-model="team.name" label="Name" :rules="[rules.required]" box />
-					<transition-group name="fade" mode="out-in">
-						<v-layout v-for="(sv, i) in teamsvs" :key="sv.employeeRole+i">
-							<v-select box v-model="sv.employeeId" :items="svs" label="Supervisor" item-text="name" item-value="id" :rules="[rules.required]" />
-						</v-layout>
-					</transition-group>
-					<v-btn flat icon color="accent" v-on:click="addSV" class="mb-4"><v-icon dark>add</v-icon></v-btn>
-					<v-btn flat icon color="accent" v-on:click="removeSV" class="mb-4"><v-icon>remove</v-icon></v-btn>
-					<transition-group name="fade" mode="out-in">
-						<v-layout v-for="(dri, i) in teamdris" :key="dri.employeeRole+i">
-							<v-select box v-model="dri.employeeId" :items="dris" label="Driver" item-text="name" item-value="id" :rules="[rules.required]" />
-						</v-layout>
-					</transition-group>
-					<v-btn flat icon color="accent" v-on:click="addDRI" class="mb-4"><v-icon dark>add</v-icon></v-btn>
-					<v-btn flat icon color="accent" v-on:click="removeDRI" class="mb-4"><v-icon>remove</v-icon></v-btn>
-					<transition-group name="fade" mode="out-in">
-						<v-layout v-for="(cca, i) in teamccas" :key="cca.employeeRole+i">
-							<v-select box v-model="cca.employeeId" :items="ccas" label="CCA" item-text="name" item-value="id" :rules="[rules.required]" />
-						</v-layout>
-					</transition-group>
-					<v-btn flat icon color="accent" v-on:click="addCCA" class="mb-4"><v-icon dark>add</v-icon></v-btn>
-					<v-btn flat icon color="accent" v-on:click="removeCCA" class="mb-4"><v-icon>remove</v-icon></v-btn>
-					<transition-group name="fade" mode="out-in">
-						<v-layout v-for="(rn, i) in teamrns" :key="rn.employeeRole+i">
-							<v-select box v-model="rn.employeeId" :items="rns" label="RN" item-text="name" item-value="id" :rules="[rules.required]" />
-						</v-layout>
-					</transition-group>
-					<v-btn flat icon color="accent" v-on:click="addRN" class="mb-4"><v-icon dark>add</v-icon></v-btn>
-					<v-btn flat icon color="accent" v-on:click="removeRN" class="mb-4"><v-icon>remove</v-icon></v-btn>
+					<v-btn flat icon color="accent" v-on:click="addMember" class="mb-4"><v-icon dark>add</v-icon></v-btn>
+					<v-btn flat icon color="accent" v-on:click="removeMember" class="mb-4"><v-icon>remove</v-icon></v-btn>
 				</div>
 				<v-btn color="accent" v-on:click="editTeam">Submit</v-btn>
 				<v-btn color="accent" v-on:click="clear">Clear</v-btn>

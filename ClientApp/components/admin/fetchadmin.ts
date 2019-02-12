@@ -4,21 +4,29 @@ import { SpecialDate } from '../../models/specialdate';
 import { Role } from '../../models/role';
 import { Skill } from '../../models/skill';
 import { Site } from '../../models/site';
+import { Template } from '../../models/template';
+import { AbsenceType } from '../../models/absencetype';
 
 @Component
 export default class FetchAbsenceComponent extends Vue {
 	specialdates: SpecialDate[] = [];
 	roles: Role[] = [];
+	templates: Template[] = [];
 	skills: Skill[] = [];
 	sites: Site[] = [];
+	absencetypes: AbsenceType[] = [];
 	loadingSpecialDate: boolean = false;
 	loadingRole: boolean = false;
+	loadingTemplate: boolean = false;
 	loadingSkill: boolean = false;
 	loadingSite: boolean = false;
+	loadingAbsenceType: boolean = false;
 	searchSpecialDate: string = "";
 	searchRole: string = "";
+	searchTemplate: string = "";
 	searchSkill: string = "";
 	searchSite: string = "";
+	searchAbsenceType: string = "";
 	failed: boolean = false;
 	errorMessage: string = "";
 	dialog: boolean = false;
@@ -26,8 +34,10 @@ export default class FetchAbsenceComponent extends Vue {
 	selectedSwitch: number = 0;
 	selectedSpecialDate: number = 0;
 	selectedRole: number = 0;
+	selectedTemplate: number = 0;
 	selectedSkill: number = 0;
 	selectedSite: number = 0;
+	selectedAbsenceType: number = 0;
 
 	headersSpecialDate: object[] = [
 		{ text: 'Name', value: 'name' },
@@ -36,6 +46,11 @@ export default class FetchAbsenceComponent extends Vue {
 
 	headersRole: object[] = [
 		{ text: 'Name', value: 'name' }
+	];
+
+	headersTemplate: object[] = [
+		{ text: 'Name', value: 'name' },
+		{ text: 'Roles', value: 'roles' }
 	];
 
 	headersSkill: object[] = [
@@ -49,11 +64,18 @@ export default class FetchAbsenceComponent extends Vue {
 		{ text: 'Times', value: 'times' }
 	];
 
+	headersAbsenceType: object[] = [
+		{ text: 'Name', value: 'name' },
+		{ text: 'Colour', value: 'colour' },
+	];
+
 	mounted() {
 		this.loadSpecialDates();
 		this.loadRoles();
+		this.loadTemplates();
 		this.loadSkills();
 		this.loadSites();
+		this.loadAbsenceTypes();
 	}
 
 	loadSpecialDates() {
@@ -73,6 +95,16 @@ export default class FetchAbsenceComponent extends Vue {
 			.then(data => {
 				this.roles = data;
 				this.loadingRole = false;
+			});
+	}
+
+	loadTemplates() {
+		this.loadingTemplate = true;
+		fetch('api/Admin/GetTemplates')
+			.then(response => response.json() as Promise<Template[]>)
+			.then(data => {
+				this.templates = data;
+				this.loadingTemplate = false;
 			});
 	}
 
@@ -96,12 +128,26 @@ export default class FetchAbsenceComponent extends Vue {
 			});
 	}
 
+	loadAbsenceTypes() {
+		this.loadingAbsenceType = true;
+		fetch('api/Admin/GetAbsenceTypes')
+			.then(response => response.json() as Promise<AbsenceType[]>)
+			.then(data => {
+				this.absencetypes = data;
+				this.loadingAbsenceType = false;
+			});
+	}
+
 	createSpecialDate() {
 		this.$router.push("/createspecialdate");
 	}
 
 	createRole() {
 		this.$router.push("/createrole");
+	}
+
+	createTemplate() {
+		this.$router.push("/createtemplate");
 	}
 
 	createSkill() {
@@ -112,6 +158,10 @@ export default class FetchAbsenceComponent extends Vue {
 		this.$router.push("/createsite");
 	}
 
+	createAbsenceType() {
+		this.$router.push("/createabsencetype");
+	}
+
 	editSpecialDate(id: number) {
 		this.$router.push("/editspecialdate/" + id);
 	}
@@ -120,12 +170,20 @@ export default class FetchAbsenceComponent extends Vue {
 		this.$router.push("/editrole/" + id);
 	}
 
+	editTemplate(id: number) {
+		this.$router.push("/edittemplate/" + id);
+	}
+
 	editSkill(id: number) {
 		this.$router.push("/editskill/" + id);
 	}
 
 	editSite(id: number) {
 		this.$router.push("/editsite/" + id);
+	}
+
+	editAbsenceType(id: number) {
+		this.$router.push("/editabsencetype/" + id);
 	}
 
 	openSpecialDateDelete(selected: number) {
@@ -142,17 +200,31 @@ export default class FetchAbsenceComponent extends Vue {
 		this.dialog = true;
 	}
 
+	openTemplateDelete(selected: number) {
+		this.selectedTemplate = selected;
+		this.selectedSwitch = 2;
+		this.dialogMessage = "Are you sure you want to delete this template?";
+		this.dialog = true;
+	}
+
 	openSkillDelete(selected: number) {
 		this.selectedSkill = selected;
-		this.selectedSwitch = 2;
+		this.selectedSwitch = 3;
 		this.dialogMessage = "Are you sure you want to delete this skill?";
 		this.dialog = true;
 	}
 
 	openSiteDelete(selected: number) {
 		this.selectedSite = selected;
-		this.selectedSwitch = 3;
+		this.selectedSwitch = 4;
 		this.dialogMessage = "Are you sure you want to delete this site?";
+		this.dialog = true;
+	}
+
+	openAbsenceTypeDelete(selected: number) {
+		this.selectedAbsenceType = selected;
+		this.selectedSwitch = 5;
+		this.dialogMessage = "Are you sure you want to delete this absence type?";
 		this.dialog = true;
 	}
 
@@ -165,10 +237,16 @@ export default class FetchAbsenceComponent extends Vue {
 				this.deleteRole();
 				break;
 			case 2:
+				this.deleteTemplate();
+				break;
+			case 3:
 				this.deleteSkill();
 				break;
-			case 2:
+			case 4:
 				this.deleteSite();
+				break;
+			case 5:
+				this.deleteAbsenceType();
 				break;
 		}
 	}
@@ -207,6 +285,23 @@ export default class FetchAbsenceComponent extends Vue {
 			})
 	}
 
+	deleteTemplate() {
+		this.failed = false;
+		this.dialog = false;
+		fetch('api/Admin/DeleteTemplate?id=' + this.selectedTemplate, {
+			method: 'DELETE'
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.errorMessage = "Failed to delete template!";
+					this.failed = true;
+				} else {
+					this.loadTemplates();
+				}
+			})
+	}
+
 	deleteSkill() {
 		this.failed = false;
 		this.dialog = false;
@@ -237,6 +332,23 @@ export default class FetchAbsenceComponent extends Vue {
 					this.failed = true;
 				} else {
 					this.loadSites();
+				}
+			})
+	}
+
+	deleteAbsenceType() {
+		this.failed = false;
+		this.dialog = false;
+		fetch('api/Admin/DeleteAbsenceType?id=' + this.selectedAbsenceType, {
+			method: 'DELETE'
+		})
+			.then(response => response.json() as Promise<number>)
+			.then(data => {
+				if (data < 1) {
+					this.errorMessage = "Failed to delete absence type!";
+					this.failed = true;
+				} else {
+					this.loadAbsenceTypes();
 				}
 			})
 	}

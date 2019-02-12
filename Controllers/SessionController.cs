@@ -63,6 +63,59 @@ namespace ERSWebApp.Controllers
             }
         }
 
+        [HttpGet()]
+        [Route("GetByIdRoster")]
+        public Session GetByIdRoster([FromQuery]int id)
+        {
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+            string query = "SELECT * FROM SessionTable WHERE Id=@Id;";
+            string queryList = "SELECT * FROM SessionEmployeeTable WHERE SessionId=@Id";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    Session temp = conn.QueryFirstOrDefault<Session>(query, new { id });
+                    temp.Employees = conn.Query<SessionEmployee>(queryList, new { id }).ToList();
+                    List<string> templateRoles = AdminController.GetTemplateByNameStatic(temp.Template).Split(",").ToList();
+                    // First check if any Template roles are already fulfilled
+                    for(int i = 0; i < temp.Employees.Count; i++)
+                    {
+                        for (int j = templateRoles.Count-1; j >= 0; j--)
+                        {
+                            if (temp.Employees[i].EmployeeRole.Equals(templateRoles[j]))
+                            {
+                                templateRoles[j] = "Matched";
+                            }
+                        }
+                    }
+                    // If not, add in blank SessionEmployee to fill role
+                    for(int i = 0; i < templateRoles.Count; i++)
+                    {
+                        if (templateRoles[i] != "Matched")
+                        {
+                            temp.Employees.Add(new SessionEmployee {
+                                SessionId = temp.Id,
+                                SessionDate = temp.Date,
+                                SessionSite = temp.Site,
+                                EmployeeRole = templateRoles[i],
+                                EmployeeLOD = temp.LOD,
+                            });
+                        }
+                    }
+                    stopwatch.Stop();
+                    System.Diagnostics.Debug.WriteLine(stopwatch.ElapsedMilliseconds);
+                    return temp;
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return null;
+                }
+            }
+        }
+
         [HttpPost]
         [Route("Create")]
         public int Create()
@@ -77,8 +130,8 @@ namespace ERSWebApp.Controllers
             if (session != null)
             {
                 string query = "IF NOT EXISTS (SELECT * FROM SessionTable WHERE Date=@Date AND Site=@Site AND Time=@Time) " +
-                "INSERT INTO SessionTable (Date, Day, Type, Site, Time, LOD, Chairs, OCC, Estimate, Holiday, Note, StaffCount, State) " +
-                "VALUES (@Date, @Day, @Type, @Site, @Time, @LOD, @Chairs, @OCC, @Estimate, @Holiday, @Note, @StaffCount, @State);";
+                "INSERT INTO SessionTable (Date, Day, Type, Site, Time, Template, LOD, Chairs, OCC, Estimate, Holiday, Note, StaffCount, State) " +
+                "VALUES (@Date, @Day, @Type, @Site, @Time, @Template, @LOD, @Chairs, @OCC, @Estimate, @Holiday, @Note, @StaffCount, @State);";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
@@ -111,7 +164,7 @@ namespace ERSWebApp.Controllers
             if (session != null)
             {
                 string query = " UPDATE SessionTable" +
-                    " SET Time=@Time, Type=@Type, Site=@Site, LOD=@LOD, Chairs=@Chairs, OCC=@OCC, Estimate=@Estimate" +
+                    " SET Time=@Time, Type=@Type, Site=@Site, Template=@Template, LOD=@LOD, Chairs=@Chairs, OCC=@OCC, Estimate=@Estimate" +
                     " WHERE Id=@Id;";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {

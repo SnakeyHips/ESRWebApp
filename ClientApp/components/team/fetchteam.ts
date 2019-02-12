@@ -64,7 +64,7 @@ export default class FetchTeamComponent extends Vue {
 	deleteTeam() {
 		this.failed = false;
 		this.dialog = false;
-		fetch('api/Team/Team?id=' + this.selected, {
+		fetch('api/Team/Delete?id=' + this.selected, {
 			method: 'DELETE'
 		})
 			.then(response => response.json() as Promise<number>)

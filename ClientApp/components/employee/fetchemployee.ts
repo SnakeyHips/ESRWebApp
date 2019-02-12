@@ -2,12 +2,14 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { Employee } from '../../models/employee';
 import { SelectedDate } from '../../models/selecteddate';
+import { AbsenceType } from '../../models/absencetype';
 
 @Component
 export default class FetchEmployeeComponent extends Vue {
 	@Prop(SelectedDate) selecteddate!: SelectedDate;
 	dateFormatted: string = new Date(this.selecteddate.date).toLocaleDateString();
 	employees: Employee[] = [];
+	absencetypes: AbsenceType[] = [];
 	date: string = "";
 	loading: boolean = false;
 	search: string = "";
@@ -28,6 +30,7 @@ export default class FetchEmployeeComponent extends Vue {
 
 	mounted() {
 		this.loadEmployees();
+		this.loadAbsenceTypes();
 	}
 
 	loadEmployees() {
@@ -41,28 +44,19 @@ export default class FetchEmployeeComponent extends Vue {
 			});
 	}
 
+	loadAbsenceTypes() {
+		fetch('api/Admin/GetAbsenceTypes')
+			.then(response => response.json() as Promise<AbsenceType[]>)
+			.then(data => {
+				this.absencetypes = data;
+			});
+	}
+
 	statusColour(type: string) {
-		switch (type) {
-			case "Day Off":
-				return "LightGray";
-			case "Day Off - Part":
-				return "LightGray";
-			case "Annual Leave":
-				return "Plum";
-			case "Annual Leave - Part":
-				return "Plum";
-			case "Sick Leave":
-				return "LightSeaGreen";
-			case "Sick Leave - Part":
-				return "LightSeaGreen";
-			case "Special Leave":
-				return "LightCoral";
-			case "Special Leave - Part":
-				return "LightCoral";
-			case "Training":
-				return "CornflowerBlue";
-			case "Training - Part":
-				return "CornflowerBlue";
+		for (var i = 0; i < this.absencetypes.length; i++) {
+			if (type.includes(this.absencetypes[i].name)) {
+				return this.absencetypes[i].colour;
+			}
 		}
 	}
 
