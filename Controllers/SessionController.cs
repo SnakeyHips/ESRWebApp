@@ -67,8 +67,6 @@ namespace ERSWebApp.Controllers
         [Route("GetByIdRoster")]
         public Session GetByIdRoster([FromQuery]int id)
         {
-            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-            stopwatch.Start();
             string query = "SELECT * FROM SessionTable WHERE Id=@Id;";
             string queryList = "SELECT * FROM SessionEmployeeTable WHERE SessionId=@Id";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
@@ -104,8 +102,6 @@ namespace ERSWebApp.Controllers
                             });
                         }
                     }
-                    stopwatch.Stop();
-                    System.Diagnostics.Debug.WriteLine(stopwatch.ElapsedMilliseconds);
                     return temp;
                 }
                 catch (Exception ex)

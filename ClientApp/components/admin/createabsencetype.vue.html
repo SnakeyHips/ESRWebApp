@@ -4,14 +4,14 @@
 			<v-form ref="form" lazy-validation>
 				<p class="title">Create Absence Type</p>
 				<v-text-field v-model="absencetype.name" label="Name" :rules="[rules.required]" box />
-				<v-select v-model="absencetype.colour" label="Colour" :items="colours" :rules="[rules.required]" box>
+				<v-autocomplete v-model="absencetype.colour" label="Colour" :items="colours" :rules="[rules.required]" box>
 					<template slot="selection" slot-scope="data">
 						<span :style="{'color': data.item}">{{ data.item }} </span>
 					</template>
 					<template slot="item" slot-scope="data">
 						<span :style="{'color': data.item}">{{ data.item }} </span>
 					</template>
-				</v-select>
+				</v-autocomplete>
 				<v-btn color="accent" v-on:click="createAbsenceType">Submit</v-btn>
 				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
 				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>

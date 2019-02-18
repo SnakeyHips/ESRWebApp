@@ -22,7 +22,7 @@
 					<v-progress-linear slot="progress" color="primary" indeterminate />
 					<template slot="items" slot-scope="props">
 						<td>{{ props.item.id }}</td>
-						<td>{{ props.item.name }}</td>
+						<td><font v-bind:style="{ color: stateColour(props.item) }">{{ props.item.name }}</font></td>
 						<td>{{ props.item.contractHours }}</td>
 						<td>{{ props.item.appointedHours }}</td>
 						<td>{{ props.item.absenceHours }}</td>

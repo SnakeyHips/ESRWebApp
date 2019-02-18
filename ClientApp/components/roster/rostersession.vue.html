@@ -46,10 +46,10 @@
 							<v-autocomplete box v-model="employee.employeeId" :items="employees" label="Employee"
 											item-value="id" :filter="customFilter">
 								<template slot="selection" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }}
+									{{ data.item.id }} - {{ data.item.name }} - {{ data.item.skill }}
 								</template>
 								<template slot="item" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }}
+									{{ data.item.id }} - {{ data.item.name }}  - {{ data.item.skill }}
 								</template>
 							</v-autocomplete>
 						</v-flex>
@@ -75,7 +75,7 @@
 				</v-btn>
 			</v-form>
 			<v-form ref="form" lazy-validation v-if="holiday">
-				<p class="display-1">Roster</p>
+				<p class="display-1">Roster - {{ after.template }}</p>
 				<v-layout justify-center>
 					<v-flex md6 sm8 xs10>
 						<v-select box v-model="team" :items="teams" label="Team" item-text="name" return-object v-on:input="populateTeam" />
@@ -90,10 +90,10 @@
 							<v-autocomplete box v-model="employee.employeeId" :items="employees" label="Employee"
 											item-value="id" :filter="customFilter">
 								<template slot="selection" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }}
+									{{ data.item.id }} - {{ data.item.name }} - {{ data.item.skill }}
 								</template>
 								<template slot="item" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }}
+									{{ data.item.id }} - {{ data.item.name }} - {{ data.item.skill }}
 								</template>
 							</v-autocomplete>
 						</v-flex>

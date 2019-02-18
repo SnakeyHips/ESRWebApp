@@ -22,7 +22,8 @@ export default class EditAbsenceTypeComponent extends Vue {
 
 	loading: boolean = false;
 	failed: boolean = false;
-	colours: string[] = ["Red", "Pink", "Purple", "Indigo", "Blue", "Teal", "Green", "Orange"];
+	colours: string[] = ["Maroon", "Red", "Orange", "Yellow", "Olive", "Green", "Purple", "Fuchsia", "Lime",
+		"Teal", "Aqua", "Blue", "Navy", "Gray", "Silver"];
 
 	mounted() {
 		this.loading = true;

@@ -5,7 +5,6 @@ import { Employee } from '../../models/employee';
 import { Team } from '../../models/team';
 import { SessionEmployee } from '../../models/sessionemployee';
 import { TeamMember } from '../../models/teammember';
-import { Template } from '../../models/template';
 
 @Component
 export default class RosterSessionComponent extends Vue {
@@ -86,7 +85,7 @@ export default class RosterSessionComponent extends Vue {
 				if (this.after.holiday > 0) {
 					this.holiday = true;
 				}
-				//then get available and teams
+				//then get relevant data for rostering
 				this.loadRoles();
 				this.loadAvailable();
 				this.loadTeams();
@@ -190,7 +189,8 @@ export default class RosterSessionComponent extends Vue {
 		// Search via the Employee Id/Name rather than itemText as yields better results
 		const idText = item.id.toString().toLowerCase();
 		const nameText = item.name.toLowerCase();
-		return idText.indexOf(queryText.toLowerCase()) > -1 || nameText.indexOf(queryText.toLowerCase()) > -1;
+		const skillText = item.skill.toLowerCase();
+		return idText.indexOf(queryText.toLowerCase()) > -1 || nameText.indexOf(queryText.toLowerCase()) > -1 || skillText.indexOf(queryText.toLowerCase()) > -1;
 	}
 
 	searchTeam(id: number) {

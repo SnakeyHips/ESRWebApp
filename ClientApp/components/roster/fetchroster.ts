@@ -37,6 +37,14 @@ export default class FetchRosterComponent extends Vue {
 			})
 	}
 
+	stateColour(employee: Employee) {
+		if (employee.negHours > 0) {
+			return 'red';
+		} else if (employee.coHours > 0) {
+			return 'purple';
+		}
+	}
+
 	loadRoster() {
 		this.loading = true;
 		fetch('api/Roster/GetRoster', {

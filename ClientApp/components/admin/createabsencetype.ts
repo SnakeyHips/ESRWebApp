@@ -21,7 +21,8 @@ export default class CreateAbsenceTypeComponent extends Vue {
 	}
 
 	failed: boolean = false;
-	colours: string[] = ["Red", "Pink", "Purple", "Indigo", "Blue", "Teal", "Green", "Orange"];
+	colours: string[] = ["Maroon", "Red", "Orange", "Yellow", "Olive", "Green", "Purple", "Fuchsia", "Lime",
+												"Teal", "Aqua", "Blue", "Navy", "Gray", "Silver"];
 
 	createAbsenceType() {
 		this.failed = false;
