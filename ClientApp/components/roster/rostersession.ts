@@ -190,7 +190,9 @@ export default class RosterSessionComponent extends Vue {
 		const idText = item.id.toString().toLowerCase();
 		const nameText = item.name.toLowerCase();
 		const skillText = item.skill.toLowerCase();
-		return idText.indexOf(queryText.toLowerCase()) > -1 || nameText.indexOf(queryText.toLowerCase()) > -1 || skillText.indexOf(queryText.toLowerCase()) > -1;
+		return idText.indexOf(queryText.toLowerCase()) > -1 ||
+			nameText.indexOf(queryText.toLowerCase()) > -1 ||
+			skillText.indexOf(queryText.toLowerCase()) > -1;
 	}
 
 	searchTeam(id: number) {

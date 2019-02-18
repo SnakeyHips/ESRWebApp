@@ -444,6 +444,11 @@ namespace ERSWebApp.Controllers
         [Route("GetRoles")]
         public List<Role> GetRoles()
         {
+            return GetRolesStatic();
+        }
+
+        public static List<Role> GetRolesStatic()
+        {
             string query = "SELECT * FROM RoleTable;";
             using (SqlConnection conn = new SqlConnection(Connection.ConnString))
             {
@@ -512,7 +517,7 @@ namespace ERSWebApp.Controllers
             if (role != null)
             {
                 string query = "IF NOT EXISTS (SELECT * FROM RoleTable WHERE Name=@Name) " +
-                "INSERT INTO RoleTable (Name) VALUES (@Name);";
+                "INSERT INTO RoleTable (Name, Count) VALUES (@Name, @Count);";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try
@@ -544,8 +549,7 @@ namespace ERSWebApp.Controllers
             }
             if (role != null)
             {
-                string query = "IF NOT EXISTS (SELECT * FROM RoleTable WHERE Name=@Name) " +
-                    "UPDATE RoleTable SET Name=@Name WHERE Id=@Id;";
+                string query = "UPDATE RoleTable SET Name=@Name, Count=@Count WHERE Id=@Id;";
                 using (SqlConnection conn = new SqlConnection(Connection.ConnString))
                 {
                     try

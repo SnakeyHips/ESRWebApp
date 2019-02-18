@@ -17,10 +17,12 @@ export default class EditRoleComponent extends Vue {
 	role: Role = {
 		id: 0,
 		name: "",
+		count: true,
 	}
 
 	loading: boolean = false;
 	failed: boolean = false;
+	choices: boolean[] = [true, false];
 
 	mounted() {
 		this.loading = true;

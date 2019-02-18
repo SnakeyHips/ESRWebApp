@@ -17,9 +17,11 @@ export default class CreateRoleComponent extends Vue {
 	role: Role = {
 		id: 0,
 		name: "",
+		count: true,
 	}
 
 	failed: boolean = false;
+	choices: boolean[] = [true, false];
 
 	createRole() {
 		this.failed = false;

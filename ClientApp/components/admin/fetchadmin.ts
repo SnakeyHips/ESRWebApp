@@ -45,7 +45,8 @@ export default class FetchAbsenceComponent extends Vue {
 	];
 
 	headersRole: object[] = [
-		{ text: 'Name', value: 'name' }
+		{ text: 'Name', value: 'name' },
+		{ text: 'Count', value: 'count' }
 	];
 
 	headersTemplate: object[] = [

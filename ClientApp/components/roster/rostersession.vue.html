@@ -39,10 +39,7 @@
 				</v-layout>
 				<transition-group name="fade" mode="out-in">
 					<v-layout justify-center row wrap v-for="(employee, i) in after.employees" :key="`employee-${i}`">
-						<v-flex md3 sm6 xs12>
-							<v-select box v-model="employee.employeeRole" :items="roles" label="Role" />
-						</v-flex>
-						<v-flex md3 sm6 xs12>
+						<v-flex md4 sm6 xs12>
 							<v-autocomplete box v-model="employee.employeeId" :items="employees" label="Employee"
 											item-value="id" :filter="customFilter">
 								<template slot="selection" slot-scope="data">
@@ -52,6 +49,9 @@
 									{{ data.item.id }} - {{ data.item.name }}  - {{ data.item.skill }}
 								</template>
 							</v-autocomplete>
+						</v-flex>
+						<v-flex md2 sm6 xs12>
+							<v-select box v-model="employee.employeeRole" :items="roles" label="Role" />
 						</v-flex>
 						<v-flex md2 sm4 xs12>
 							<v-text-field box v-model="employee.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
@@ -83,10 +83,7 @@
 				</v-layout>
 				<transition-group name="fade" mode="out-in">
 					<v-layout justify-center row wrap v-for="(employee, i) in after.employees" :key="`employee-${i}`">
-						<v-flex md3 sm6 xs12>
-							<v-select box v-model="employee.employeeRole" :items="roles" label="Role" />
-						</v-flex>
-						<v-flex md3 sm6 xs12>
+						<v-flex md6 sm6 xs12>
 							<v-autocomplete box v-model="employee.employeeId" :items="employees" label="Employee"
 											item-value="id" :filter="customFilter">
 								<template slot="selection" slot-scope="data">
@@ -97,10 +94,13 @@
 								</template>
 							</v-autocomplete>
 						</v-flex>
-						<v-flex md3 sm6 xs12>
+						<v-flex md2 sm6 xs12>
+							<v-select box v-model="employee.employeeRole" :items="roles" label="Role" />
+						</v-flex>
+						<v-flex md2 sm6 xs12>
 							<v-text-field box v-model="employee.employeeLOD" label="LOD" :rules="[rules.decimal]" maxlength="5" />
 						</v-flex>
-						<v-flex md3 sm6 xs12>
+						<v-flex md2 sm6 xs12>
 							<v-text-field box v-model="employee.employeeOT" label="OT" :rules="[rules.decimal]" maxlength="5" />
 						</v-flex>
 					</v-layout>

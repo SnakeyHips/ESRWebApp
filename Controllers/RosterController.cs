@@ -455,13 +455,13 @@ namespace ERSWebApp.Controllers
                         break;
                 }
                 // Check if state complete by comparing StaffCount with Template
-                List<string> templateRoles = AdminController.GetTemplateByNameStatic(after.Template).Split(",").ToList();
+                List<Role> templateRoles = AdminController.GetRolesStatic();
                 // First remove and roles which shouldn't be included such as RN
-                for (int j = templateRoles.Count - 1; j >= 0; j--)
+                for (int i = templateRoles.Count - 1; i >= 0; i--)
                 {
-                    if (templateRoles[j].Equals("RN"))
+                    if (!templateRoles[i].Count)
                     {
-                        templateRoles.RemoveAt(j);
+                        templateRoles.RemoveAt(i);
                     }
                 }
                 // Then check if StaffCount is more than/equal to left over roles

@@ -50,6 +50,7 @@
 					<template slot="items" slot-scope="props">
 						<tr @click="props.expanded = !props.expanded">
 							<td>{{ props.item.name }}</td>
+							<td>{{ props.item.count }}</td>
 						</tr>
 					</template>
 					<template slot="expand" slot-scope="props">
@@ -271,11 +272,17 @@
 						</v-menu>
 					</v-card-title>
 					<v-divider class="ma-0" />
+					<v-list dense>
+						<v-list-tile>
+							<v-list-tile-content>Count:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ props.item.count }}</v-list-tile-content>
+						</v-list-tile>
+					</v-list>
 				</v-card>
 			</v-flex>
 		</v-data-iterator>
 		<v-toolbar flat color="transparent" class="mt-4">
-			<v-toolbar-title>Roles</v-toolbar-title>
+			<v-toolbar-title>Templates</v-toolbar-title>
 			<v-spacer></v-spacer>
 			<v-btn flat color="accent" v-on:click.native="createTemplate">Create</v-btn>
 		</v-toolbar>
