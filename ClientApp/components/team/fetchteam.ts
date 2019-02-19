@@ -17,6 +17,7 @@ export default class FetchTeamComponent extends Vue {
 	];
 
 	mounted() {
+		this.loadRoles();
 		this.loadTeams();
 	}
 
@@ -36,7 +37,7 @@ export default class FetchTeamComponent extends Vue {
 			.then(response => response.json() as Promise<Team[]>)
 			.then(data => {
 				this.teams = data;
-				this.loadRoles();
+				this.loading = false;
 			});
 	}
 
@@ -47,7 +48,6 @@ export default class FetchTeamComponent extends Vue {
 				for (var i = 0; i < data.length; i++) {
 					this.headers.push({ text: data[i], value: data[i] });
 				}
-				this.loading = false;
 			})
 	}
 
