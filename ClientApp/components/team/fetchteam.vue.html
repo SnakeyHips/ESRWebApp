@@ -18,10 +18,7 @@
 					<template slot="items" slot-scope="props">
 						<tr @click="props.expanded = !props.expanded">
 							<td>{{ props.item.name }}</td>
-							<td>{{ displayNames(props.item.members, "SV") }}</td>
-							<td>{{ displayNames(props.item.members, "DRI") }}</td>
-							<td>{{ displayNames(props.item.members, "CCA") }}</td>
-							<td>{{ displayNames(props.item.members, "RN") }}</td>
+							<td v-for="(role, i) in roles" :key="role+i">{{ displayNames(props.item.members, role) }}</td>
 						</tr>
 					</template>
 					<template slot="expand" slot-scope="props">
@@ -83,21 +80,9 @@
 					</v-card-title>
 					<v-divider class="ma-0" />
 					<v-list dense>
-						<v-list-tile>
-							<v-list-tile-content>SVs:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ displayNames(props.item.members, "SV") }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>DRIs:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ displayNames(props.item.members, "DRI") }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>CCAs:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ displayNames(props.item.members, "CCA") }}</v-list-tile-content>
-						</v-list-tile>
-						<v-list-tile>
-							<v-list-tile-content>RNs:</v-list-tile-content>
-							<v-list-tile-content class="align-end">{{ displayNames(props.item.members, "RN") }}</v-list-tile-content>
+						<v-list-tile v-for="(role, i) in roles" :key="role+i">
+							<v-list-tile-content>{{ role }}:</v-list-tile-content>
+							<v-list-tile-content class="align-end">{{ displayNames(props.item.members, role) }}</v-list-tile-content>
 						</v-list-tile>
 					</v-list>
 				</v-card>
