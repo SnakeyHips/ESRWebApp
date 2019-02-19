@@ -4,7 +4,7 @@
 			<v-form ref="form" lazy-validation>
 				<p class="title">Create Role</p>
 				<v-text-field v-model="role.name" label="Name" :rules="[rules.required]" box />
-				<v-select v-model="role.count" :items="choices" label="Counts towards Staff Count" :rule="[rules.required]" box />
+				<v-select v-model="role.count" :items="choices" label="Staff count" :rule="[rules.required]" box />
 				<v-btn color="accent" v-on:click="createRole">Submit</v-btn>
 				<v-btn color="accent" v-on:click="clear">Clear</v-btn>
 				<v-btn color="accent" v-on:click="cancel">Cancel</v-btn>

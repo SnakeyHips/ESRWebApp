@@ -3,7 +3,7 @@
 		<v-flex lg4 md6 sm8 xs12>
 			<v-form ref="form" lazy-validation v-if="!loading">
 				<p class="title">Edit Template</p>
-				<v-text-field v-model="template.name" label="Name" :rules="[rules.required]" box />
+				<v-text-field v-model="template.name" label="Name" :rules="[rules.required]" box disabled />
 				<transition-group name="fade" mode="out-in">
 					<v-layout justify-center text-xs-center v-for="(role, i) in templateRoles" :key="`role-${i}`">
 						<v-select box v-model="templateRoles[i]" :items="roles" label="Role" />

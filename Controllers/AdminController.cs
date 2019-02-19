@@ -201,7 +201,9 @@ namespace ERSWebApp.Controllers
                 try
                 {
                     conn.Open();
-                    return conn.Query<string>(query, new { role }).ToList();
+                    List<string> skills = new List<string> { " " };
+                    skills.AddRange(conn.Query<string>(query, new { role }).ToList());
+                    return skills;
                 }
                 catch (Exception ex)
                 {

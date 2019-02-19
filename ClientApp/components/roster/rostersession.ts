@@ -126,7 +126,7 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	addEmployee() {
-		if (this.after.employees.length < 20) {
+		if (this.after.employees.length < 31) {
 			this.after.employees.push(this.createSessionEmployee(''));
 		}
 	}
@@ -173,6 +173,14 @@ export default class RosterSessionComponent extends Vue {
 			.then(data => {
 				this.teams = data;
 			});
+	}
+
+	employeeString(employee: Employee) {
+		if (employee.skill != " ") {
+			return employee.id + " - " + employee.name + " - " + employee.skill;
+		} else {
+			return employee.id + " - " + employee.name;
+		}
 	}
 
 	populateTeam() {

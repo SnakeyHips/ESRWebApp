@@ -60,7 +60,7 @@ export default class CreateTemplateComponent extends Vue {
 	}
 
 	addRole() {
-		if (this.templateRoles.length < 20) {
+		if (this.templateRoles.length < 31) {
 			this.templateRoles.push('');
 		}
 	}

@@ -43,10 +43,10 @@
 							<v-autocomplete box v-model="employee.employeeId" :items="employees" label="Employee"
 											item-value="id" :filter="customFilter">
 								<template slot="selection" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }} - {{ data.item.skill }}
+									{{ employeeString(data.item) }}
 								</template>
 								<template slot="item" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }}  - {{ data.item.skill }}
+									{{ employeeString(data.item) }}
 								</template>
 							</v-autocomplete>
 						</v-flex>
@@ -87,10 +87,10 @@
 							<v-autocomplete box v-model="employee.employeeId" :items="employees" label="Employee"
 											item-value="id" :filter="customFilter">
 								<template slot="selection" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }} - {{ data.item.skill }}
+									{{ employeeString(data.item) }}
 								</template>
 								<template slot="item" slot-scope="data">
-									{{ data.item.id }} - {{ data.item.name }} - {{ data.item.skill }}
+									{{ employeeString(data.item) }}
 								</template>
 							</v-autocomplete>
 						</v-flex>
