@@ -85,6 +85,7 @@ export default class CreateAbsenceComponent extends Vue {
 						}
 					})
 			} else {
+				this.errormessage = "Please enter valid dates!"
 				this.failed = true;
 			}
 		}
