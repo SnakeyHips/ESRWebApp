@@ -29,7 +29,7 @@ module.exports = (env) => {
 						}
 					]
 				},
-				{ test: /\.css$/, use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' }) },
+				{ test: /\.css$/, use: ['style-loader', 'css-loader'] },
 				{ test: /\.(png|woff|woff2|eot|ttf|svg)$/, use: 'url-loader?limit=25000' }
 			]
 		},
