@@ -12,6 +12,7 @@ export default class FetchTeamComponent extends Vue {
 	failed: boolean = false;
 	dialog: boolean = false;
 	selected: number = 0;
+	roles: string[] = [];
 	headers: object[] = [
 		{ text: 'Name', value: 'name' }
 	];
@@ -45,8 +46,9 @@ export default class FetchTeamComponent extends Vue {
 		fetch('api/Admin/GetRoleNames')
 			.then(response => response.json() as Promise<string[]>)
 			.then(data => {
+				this.roles = data;
 				for (var i = 0; i < data.length; i++) {
-					this.headers.push({ text: data[i], value: data[i] });
+					this.headers.push({ text: this.roles[i], value: this.roles[i] });
 				}
 			})
 	}
