@@ -1,6 +1,6 @@
 USE master;    
 CREATE DATABASE ERSWebAppDB  
-ON (NAME = ERSWebAppDB, FILENAME = 'C:\Source\ERSWebApp\ERSWebAppDB.mdf');
+ON (NAME = ERSWebAppDB, FILENAME = 'C:\Source\ERSWebApp\ERSWebApp\ERSWebAppDB.mdf');
 
 CREATE TABLE [dbo].[AbsenceTable] (
     [Id]           INT           IDENTITY (1, 1) NOT NULL,
@@ -11,6 +11,13 @@ CREATE TABLE [dbo].[AbsenceTable] (
     [EndDate]      NVARCHAR (50) NOT NULL,
     [PartDay]      NVARCHAR (50) NOT NULL,
     [Hours]        FLOAT (53)    NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+CREATE TABLE [dbo].[AbsenceTypeTable] (
+    [Id]     INT           IDENTITY (1, 1) NOT NULL,
+    [Name]   NVARCHAR (50) NOT NULL,
+    [Colour] NVARCHAR (50) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
@@ -25,6 +32,14 @@ CREATE TABLE [dbo].[EmployeeTable] (
     [WorkPattern]   NVARCHAR (MAX) NOT NULL,
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+CREATE TABLE [dbo].[RoleTable] (
+    [Id]    INT           IDENTITY (1, 1) NOT NULL,
+    [Name]  NVARCHAR (50) NOT NULL,
+    [Count] BIT           NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
 
 CREATE TABLE [dbo].[RosterTable] (
     [Id]             INT            IDENTITY (1, 1) NOT NULL,
@@ -110,7 +125,9 @@ CREATE TABLE [dbo].[TeamTable] (
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-
-
-
-
+CREATE TABLE [dbo].[TemplateTable] (
+    [Id]    INT            IDENTITY (1, 1) NOT NULL,
+    [Name]  NVARCHAR (50)  NOT NULL,
+    [Roles] NVARCHAR (MAX) NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
