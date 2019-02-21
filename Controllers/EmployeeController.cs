@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -181,22 +181,25 @@ namespace ERSWebApp.Controllers
 
         [HttpGet]
         [Route("GetAvailable")]
-        public List<Employee> GetAvailable([FromQuery]string date, [FromQuery]string day)
+        public List<Employee> GetAvailable([FromQuery]string date, [FromQuery]string day, [FromQuery] int sessionid)
         {
             List<Employee> available = new List<Employee>();
             foreach (Employee e in GetEmployees(date))
             {
                 if (e.WorkPattern.Contains(day.Substring(0, 3)))
                 {
-                    if (e.Status == "Okay")
+                    if (CheckEmployeeSession(e.Id, sessionid, date))
                     {
-                        available.Add(e);
-                    }
-                    else
-                    {
-                        if (e.Status.Contains("Part"))
+                        if (e.Status == "Okay")
                         {
                             available.Add(e);
+                        }
+                        else
+                        {
+                            if (e.Status.Contains("Part"))
+                            {
+                                available.Add(e);
+                            }
                         }
                     }
                 }
@@ -228,6 +231,32 @@ namespace ERSWebApp.Controllers
                 }
             }
             return sessions;
+        }
+
+        public static bool CheckEmployeeSession(int employeeid, int sessionid, string date)
+        {
+            string query = "SELECT SessionId FROM SessionEmployeeTable WHERE SessionDate=@Date AND EmployeeId=@EmployeeId;";
+            using (SqlConnection conn = new SqlConnection(Connection.ConnString))
+            {
+                try
+                {
+                    conn.Open();
+                    int id = conn.QueryFirstOrDefault<int>(query, new { employeeid, date });
+                    if (id < 1 || id == sessionid)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    return false;
+                }
+            }
         }
 
         public static void GetStatuses(List<Employee> employees, List<Absence> absences)
