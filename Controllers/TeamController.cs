@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -68,16 +68,15 @@ namespace ERSWebApp.Controllers
                         {
                             SessionEmployee employee = new SessionEmployee();
                             employee.EmployeeName = member.EmployeeName;
-                            List<string> sites = new List<string>();
-                            sites = conn.Query<string>(query, new { date, member.EmployeeId }).ToList();
-                            if (sites.Count < 1)
+                            string site = conn.QueryFirstOrDefault<string>(query, new { date, member.EmployeeId });
+                            if (site == null)
                             {
                                 employee.SessionSite = AbsenceController.GetEmployeeStatus(member.EmployeeId, date);
 
                             }
-                            else if (sites.Count > 0)
+                            else
                             {
-                                employee.SessionSite = string.Join(", ", sites);
+                                employee.SessionSite = site;
                             }
                             teamsite.Members.Add(employee);
                         }
