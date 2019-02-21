@@ -1,4 +1,4 @@
-﻿import Vue from 'vue';
+import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 import { Session } from '../../models/session';
 import { Employee } from '../../models/employee';
@@ -160,7 +160,7 @@ export default class RosterSessionComponent extends Vue {
 	}
 
 	loadAvailable() {
-		fetch('api/Employee/GetAvailable?date=' + this.before.date + "&day=" + this.before.day)
+		fetch('api/Employee/GetAvailable?date=' + this.before.date + "&day=" + this.before.day + "&sessionid=" + this.before.id)
 			.then(response => response.json() as Promise<Employee[]>)
 			.then(data => {
 				this.employees = data;
